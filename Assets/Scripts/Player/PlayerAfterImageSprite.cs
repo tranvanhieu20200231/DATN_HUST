@@ -11,7 +11,7 @@ public class PlayerAfterImageSprine : MonoBehaviour
     [SerializeField]
     private float alphaSet = 1f;
     [SerializeField]
-    private float alphaMultiplier = 0.98f;
+    private float alphaMultiplier = 1.0f;
 
     private Transform player;
 
