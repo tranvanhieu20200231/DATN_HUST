@@ -47,9 +47,9 @@ public class CombatDummyController : MonoBehaviour
         brokenBotGO.SetActive(false);
     }
 
-    private void Damage(float[] attackDetails)
+    private void Damage(AttackDetails attackDetails)
     {
-        currentHealth -= attackDetails[0];
+        currentHealth -= attackDetails.damageAmount;
         playerFacingDirection = pc.GetFacingDirection();
 
         Instantiate(hitParicle, aliveGO.transform.position, Quaternion.Euler(0.0f, 0.0f, Random.Range(0.0f, 360.0f)));
