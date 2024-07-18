@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cbd4f0997c21c1f4faba9d1f787ea84c, type: 3}
-  m_Name: E1_StunStateData
+  m_Script: {fileID: 11500000, guid: 418068234edf313438d1fab6a9310da1, type: 3}
+  m_Name: E2_RangedAttackStateData
   m_EditorClassIdentifier: 
-  stunTime: 3
-  stunKnockbackTime: 0.2
-  stunKnockbackSpeed: 8
-  stunKnockbackAngle: {x: 1, y: 1}
+  projectile: {fileID: 2572578570504221898, guid: 857da8ec94288ad45aff4bce8297f0d9, type: 3}
+  projectileDamage: 10
+  projectileSpeed: 12
+  projectileTravelDistance: 8

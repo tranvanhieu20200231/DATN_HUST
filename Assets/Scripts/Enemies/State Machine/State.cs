@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class State
@@ -7,7 +5,7 @@ public class State
     protected FiniteStateMachine stateMachine;
     protected Entity entity;
 
-    protected float startTime;
+    public float startTime { get; protected set; }
 
     protected string animBoolName;
 

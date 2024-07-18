@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Entity : MonoBehaviour
@@ -8,10 +6,10 @@ public class Entity : MonoBehaviour
 
     public D_Entity entityData;
 
-    public int facingDirection {  get; private set; }
+    public int facingDirection { get; private set; }
     public int lastDamageDirection { get; private set; }
-    public Rigidbody2D rb {  get; private set; }
-    public Animator anim {  get; private set; }
+    public Rigidbody2D rb { get; private set; }
+    public Animator anim { get; private set; }
     public GameObject aliveGO { get; private set; }
     public AnimationToStatemachine atsm { get; private set; }
 
@@ -42,7 +40,7 @@ public class Entity : MonoBehaviour
         aliveGO = transform.Find("Alive").gameObject;
         rb = aliveGO.GetComponent<Rigidbody2D>();
         anim = aliveGO.GetComponent<Animator>();
-        atsm = aliveGO.GetComponent <AnimationToStatemachine>();
+        atsm = aliveGO.GetComponent<AnimationToStatemachine>();
 
         stateMachine = new FiniteStateMachine();
     }
@@ -50,6 +48,8 @@ public class Entity : MonoBehaviour
     public virtual void Update()
     {
         stateMachine.currentState.LogicUpdate();
+
+        anim.SetFloat("yVelocity", rb.velocity.y);
 
         if (Time.time >= lastDamageTime + entityData.stunRecoveryTime)
         {
