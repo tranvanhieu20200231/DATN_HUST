@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ChargeState : State
@@ -22,8 +20,8 @@ public class ChargeState : State
         base.DoChecks();
 
         isPlayerInMinAgroRange = entity.CheckPlayerInMinAgroRange();
-        isDectectingLedge = entity.CheckLedge();
-        isDectectingWall = entity.CheckWall();
+        isDectectingLedge = core.CollisionSenses.LedgeVertical;
+        isDectectingWall = core.CollisionSenses.WallFront;
 
         performCloseRangeAction = entity.CheckPlayerInCloseRangeAction();
     }
@@ -33,7 +31,8 @@ public class ChargeState : State
         base.Enter();
 
         isChargeTimeOver = false;
-        entity.SetVelocity(stateData.chargeSpeed);
+
+        core.Movement.SetVelocityX(stateData.chargeSpeed * core.Movement.FacingDirection);
     }
 
     public override void Exit()
@@ -45,7 +44,7 @@ public class ChargeState : State
     {
         base.LogicUpdate();
 
-        if(Time.time >= startTime + stateData.chargeTime)
+        if (Time.time >= startTime + stateData.chargeTime)
         {
             isChargeTimeOver = true;
         }

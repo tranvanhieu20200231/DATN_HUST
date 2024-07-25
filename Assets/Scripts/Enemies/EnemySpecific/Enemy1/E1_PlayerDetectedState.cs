@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class E1_PlayerDetectedState : PlayerDetectedState
 {
     private Enemy1 enemy;
@@ -39,7 +35,7 @@ public class E1_PlayerDetectedState : PlayerDetectedState
         }
         else if (!isDetectingLedge)
         {
-            entity.Flip();
+            core.Movement.Flip();
             stateMachine.ChangeState(enemy.moveState);
         }
     }

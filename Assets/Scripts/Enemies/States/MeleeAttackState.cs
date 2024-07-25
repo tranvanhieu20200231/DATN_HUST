@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MeleeAttackState : AttackState
@@ -23,7 +21,7 @@ public class MeleeAttackState : AttackState
         base.Enter();
 
         attackDetails.damageAmount = stateData.attackDamage;
-        attackDetails.position = entity.aliveGO.transform.position;
+        attackDetails.position = entity.transform.position;
     }
 
     public override void Exit()

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerDetectedState : State
@@ -23,7 +21,7 @@ public class PlayerDetectedState : State
 
         isPlayerInMinAgroRange = entity.CheckPlayerInMinAgroRange();
         isPlayerInMaxAgroRange = entity.CheckPlayerInMaxAgroRange();
-        isDetectingLedge = entity.CheckLedge();
+        isDetectingLedge = core.CollisionSenses.LedgeVertical;
         performCloseRangeAction = entity.CheckPlayerInCloseRangeAction();
     }
 
@@ -32,7 +30,7 @@ public class PlayerDetectedState : State
         base.Enter();
 
         performLongRangeAction = false;
-        entity.SetVelocity(0.0f);
+        core.Movement.SetVelocityX(0.0f);
     }
 
     public override void Exit()

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class IdleState : State
@@ -28,7 +26,7 @@ public class IdleState : State
     {
         base.Enter();
 
-        entity.SetVelocity(0.0f);
+        core.Movement.SetVelocityX(0.0f);
         isIdleTimeOver = false;
         SetRandomIdleTime();
     }
@@ -39,7 +37,7 @@ public class IdleState : State
 
         if (flipAfterIdle)
         {
-            entity.Flip();
+            core.Movement.Flip();
         }
     }
 
@@ -58,8 +56,8 @@ public class IdleState : State
         base.PhysicsUpdate();
     }
 
-    public void SerFlipAfterIdle(bool flip) 
-    { 
+    public void SerFlipAfterIdle(bool flip)
+    {
         flipAfterIdle = flip;
     }
 

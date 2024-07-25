@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class MoveState : State
 {
     protected D_MoveState stateData;
@@ -19,15 +15,15 @@ public class MoveState : State
     {
         base.DoChecks();
 
-        isDetectingWall = entity.CheckWall();
-        isDetectingLedge = entity.CheckLedge();
+        isDetectingWall = core.CollisionSenses.WallFront;
+        isDetectingLedge = core.CollisionSenses.LedgeVertical;
         isPlayerInMinAgroRange = entity.CheckPlayerInMinAgroRange();
     }
 
     public override void Enter()
     {
         base.Enter();
-        entity.SetVelocity(stateData.movementSpeed);
+        core.Movement.SetVelocityX(stateData.movementSpeed * core.Movement.FacingDirection);
     }
 
     public override void Exit()

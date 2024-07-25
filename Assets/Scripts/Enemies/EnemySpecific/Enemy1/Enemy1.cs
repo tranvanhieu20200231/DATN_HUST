@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy1 : Entity
@@ -33,9 +31,9 @@ public class Enemy1 : Entity
     [SerializeField]
     private Transform meleeAttackPosition;
 
-    public override void Start()
+    public override void Awake()
     {
-        base.Start();
+        base.Awake();
 
         moveState = new E1_MoveState(stateMachine, this, "move", moveStateData, this);
         idleState = new E1_IdleState(stateMachine, this, "idle", idleStateData, this);
@@ -45,7 +43,10 @@ public class Enemy1 : Entity
         meleeAttackState = new E1_MeleeAttackState(stateMachine, this, "meleeAttack", meleeAttackPosition, meleeAttackStateData, this);
         stunState = new E1_StunState(stateMachine, this, "stun", stunStateData, this);
         deadState = new E1_DeadState(stateMachine, this, "dead", deadStateData, this);
+    }
 
+    private void Start()
+    {
         stateMachine.Initialize(moveState);
     }
 
