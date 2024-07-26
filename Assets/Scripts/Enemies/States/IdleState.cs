@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class IdleState : State
 {
+    private Movement Movement => movement ? movement : core.GetCoreComponent<Movement>(ref movement);
+    private Movement movement;
+
     protected D_IdleState stateData;
 
     protected bool flipAfterIdle;
@@ -26,7 +29,7 @@ public class IdleState : State
     {
         base.Enter();
 
-        core.Movement.SetVelocityX(0.0f);
+        Movement?.SetVelocityX(0.0f);
         isIdleTimeOver = false;
         SetRandomIdleTime();
     }
@@ -37,13 +40,15 @@ public class IdleState : State
 
         if (flipAfterIdle)
         {
-            core.Movement.Flip();
+            Movement?.Flip();
         }
     }
 
     public override void LogicUpdate()
     {
         base.LogicUpdate();
+
+        Movement?.SetVelocityX(0.0f);
 
         if (Time.time >= startTime + idleTime)
         {

@@ -56,28 +56,28 @@ public class Enemy2 : Entity
         stateMachine.Initialize(moveState);
     }
 
-    public override void Damage(AttackDetails attackDetails)
-    {
-        base.Damage(attackDetails);
+    //public override void Damage(AttackDetails attackDetails)
+    //{
+    //    base.Damage(attackDetails);
 
-        if (isDead)
-        {
-            stateMachine.ChangeState(deadState);
-        }
-        else if (isStunned && stateMachine.currentState != stunState)
-        {
-            stateMachine.ChangeState(stunState);
-        }
-        else if (CheckPlayerInMinAgroRange())
-        {
-            stateMachine.ChangeState(rangedAttackState);
-        }
-        else if (!CheckPlayerInMinAgroRange())
-        {
-            lookForPlayerState.SetTurnImmediately(true);
-            stateMachine.ChangeState(lookForPlayerState);
-        }
-    }
+    //    if (isDead)
+    //    {
+    //        stateMachine.ChangeState(deadState);
+    //    }
+    //    else if (isStunned && stateMachine.currentState != stunState)
+    //    {
+    //        stateMachine.ChangeState(stunState);
+    //    }
+    //    else if (CheckPlayerInMinAgroRange())
+    //    {
+    //        stateMachine.ChangeState(rangedAttackState);
+    //    }
+    //    else if (!CheckPlayerInMinAgroRange())
+    //    {
+    //        lookForPlayerState.SetTurnImmediately(true);
+    //        stateMachine.ChangeState(lookForPlayerState);
+    //    }
+    //}
 
     public override void OnDrawGizmos()
     {

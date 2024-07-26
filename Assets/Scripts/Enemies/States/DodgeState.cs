@@ -2,6 +2,11 @@ using UnityEngine;
 
 public class DodgeState : State
 {
+    private Movement Movement => movement ? movement : core.GetCoreComponent<Movement>(ref movement);
+    private Movement movement;
+    private CollisionSenses CollisionSenses => collisionSenses ? collisionSenses : core.GetCoreComponent<CollisionSenses>(ref collisionSenses);
+    private CollisionSenses collisionSenses;
+
     protected D_DodgeState stateData;
 
     protected bool performCloseRangeAction;
@@ -20,7 +25,11 @@ public class DodgeState : State
 
         performCloseRangeAction = entity.CheckPlayerInCloseRangeAction();
         isPlayerInMaxAgroRange = entity.CheckPlayerInMaxAgroRange();
-        isGrounded = core.CollisionSenses.Ground;
+
+        if (CollisionSenses)
+        {
+            isGrounded = CollisionSenses.Ground;
+        }
     }
 
     public override void Enter()
@@ -29,7 +38,7 @@ public class DodgeState : State
 
         isDodgeOver = false;
 
-        core.Movement.SetVelocity(stateData.dodgeSpeed, stateData.dodgeAngle, -core.Movement.FacingDirection);
+        Movement?.SetVelocity(stateData.dodgeSpeed, stateData.dodgeAngle, -Movement.FacingDirection);
     }
 
     public override void Exit()

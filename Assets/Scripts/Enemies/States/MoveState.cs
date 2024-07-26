@@ -1,5 +1,10 @@
 public class MoveState : State
 {
+    private Movement Movement => movement ? movement : core.GetCoreComponent<Movement>(ref movement);
+    private Movement movement;
+    private CollisionSenses CollisionSenses => collisionSenses ? collisionSenses : core.GetCoreComponent<CollisionSenses>(ref collisionSenses);
+    private CollisionSenses collisionSenses;
+
     protected D_MoveState stateData;
 
     protected bool isDetectingWall;
@@ -15,15 +20,19 @@ public class MoveState : State
     {
         base.DoChecks();
 
-        isDetectingWall = core.CollisionSenses.WallFront;
-        isDetectingLedge = core.CollisionSenses.LedgeVertical;
+        if (CollisionSenses)
+        {
+            isDetectingWall = CollisionSenses.WallFront;
+            isDetectingLedge = CollisionSenses.LedgeVertical;
+        }
+
         isPlayerInMinAgroRange = entity.CheckPlayerInMinAgroRange();
     }
 
     public override void Enter()
     {
         base.Enter();
-        core.Movement.SetVelocityX(stateData.movementSpeed * core.Movement.FacingDirection);
+        Movement?.SetVelocityX(stateData.movementSpeed * Movement.FacingDirection);
     }
 
     public override void Exit()
@@ -34,6 +43,7 @@ public class MoveState : State
     public override void LogicUpdate()
     {
         base.LogicUpdate();
+        Movement?.SetVelocityX(stateData.movementSpeed * Movement.FacingDirection);
     }
 
     public override void PhysicsUpdate()

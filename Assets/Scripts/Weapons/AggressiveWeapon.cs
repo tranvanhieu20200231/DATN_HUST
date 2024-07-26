@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class AggressiveWeapon : Weapon
 {
+    private Movement Movement => movement ? movement : core.GetCoreComponent<Movement>(ref movement);
+    private Movement movement;
+
     protected SO_AggressiveWeaponData aggressiveWeaponData;
 
-    private List<IDamageable> detectedDamageable = new List<IDamageable>();
+    private List<IDamageable> detectedDamageables = new List<IDamageable>();
+    private List<IKnockbackable> detectedKnockbackables = new List<IKnockbackable>();
 
     protected override void Awake()
     {
@@ -33,9 +37,14 @@ public class AggressiveWeapon : Weapon
     {
         WeaponAttackDetails details = aggressiveWeaponData.AttackDetails[attackCounter];
 
-        foreach (var item in detectedDamageable.ToList())
+        foreach (var item in detectedDamageables.ToList())
         {
             item.Damage(details.damageAmount);
+        }
+
+        foreach (var item in detectedKnockbackables.ToList())
+        {
+            item.Knockback(details.knockbackAngle, details.knockbackStrength, Movement.FacingDirection);
         }
     }
 
@@ -45,7 +54,14 @@ public class AggressiveWeapon : Weapon
 
         if (damageable != null)
         {
-            detectedDamageable.Add(damageable);
+            detectedDamageables.Add(damageable);
+        }
+
+        IKnockbackable knockbackable = collision.GetComponent<IKnockbackable>();
+
+        if (knockbackable != null)
+        {
+            detectedKnockbackables.Add(knockbackable);
         }
     }
 
@@ -55,7 +71,14 @@ public class AggressiveWeapon : Weapon
 
         if (damageable != null)
         {
-            detectedDamageable.Remove(damageable);
+            detectedDamageables.Remove(damageable);
+        }
+
+        IKnockbackable knockbackable = collision.GetComponent<IKnockbackable>();
+
+        if (knockbackable != null)
+        {
+            detectedKnockbackables.Remove(knockbackable);
         }
     }
 }

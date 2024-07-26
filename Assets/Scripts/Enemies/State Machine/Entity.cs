@@ -2,6 +2,11 @@ using UnityEngine;
 
 public class Entity : MonoBehaviour
 {
+    private Movement Movement => movement ? movement : Core.GetCoreComponent<Movement>(ref movement);
+    private Movement movement;
+    private CollisionSenses CollisionSenses => collisionSenses ? collisionSenses : Core.GetCoreComponent<CollisionSenses>(ref collisionSenses);
+    private CollisionSenses collisionSenses;
+
     public FiniteStateMachine stateMachine;
 
     public D_Entity entityData;
@@ -42,7 +47,7 @@ public class Entity : MonoBehaviour
 
         stateMachine.currentState.LogicUpdate();
 
-        anim.SetFloat("yVelocity", Core.Movement.RB.velocity.y);
+        anim.SetFloat("yVelocity", Movement.RB.velocity.y);
 
         if (Time.time >= lastDamageTime + entityData.stunRecoveryTime)
         {
@@ -72,8 +77,8 @@ public class Entity : MonoBehaviour
 
     public virtual void DamageHop(float velocity)
     {
-        velocityWorkspace.Set(Core.Movement.RB.velocity.x, velocity);
-        Core.Movement.RB.velocity = velocityWorkspace;
+        velocityWorkspace.Set(Movement.RB.velocity.x, velocity);
+        Movement.RB.velocity = velocityWorkspace;
     }
 
     public virtual void ResetStunResistance()
@@ -82,43 +87,43 @@ public class Entity : MonoBehaviour
         currentStunResistance = entityData.stunResistance;
     }
 
-    public virtual void Damage(AttackDetails attackDetails)
-    {
-        lastDamageTime = Time.time;
+    //public virtual void Damage(AttackDetails attackDetails)
+    //{
+    //    lastDamageTime = Time.time;
 
-        currentHealth -= attackDetails.damageAmount;
-        currentStunResistance -= attackDetails.stunDamageAmount;
+    //    currentHealth -= attackDetails.damageAmount;
+    //    currentStunResistance -= attackDetails.stunDamageAmount;
 
-        DamageHop(entityData.damageHopSpeed);
+    //    DamageHop(entityData.damageHopSpeed);
 
-        Instantiate(entityData.hitParticle, transform.position, Quaternion.Euler(0.0f, 0.0f, Random.Range(0.0f, 360.0f)));
+    //    Instantiate(entityData.hitParticle, transform.position, Quaternion.Euler(0.0f, 0.0f, Random.Range(0.0f, 360.0f)));
 
-        if (attackDetails.position.x > transform.position.x)
-        {
-            lastDamageDirection = -1;
-        }
-        else
-        {
-            lastDamageDirection = 1;
-        }
+    //    if (attackDetails.position.x > transform.position.x)
+    //    {
+    //        lastDamageDirection = -1;
+    //    }
+    //    else
+    //    {
+    //        lastDamageDirection = 1;
+    //    }
 
-        if (currentStunResistance <= 0)
-        {
-            isStunned = true;
-        }
+    //    if (currentStunResistance <= 0)
+    //    {
+    //        isStunned = true;
+    //    }
 
-        if (currentHealth <= 0)
-        {
-            isDead = true;
-        }
-    }
+    //    if (currentHealth <= 0)
+    //    {
+    //        isDead = true;
+    //    }
+    //}
 
     public virtual void OnDrawGizmos()
     {
         if (Core != null)
         {
-            Gizmos.DrawLine(Core.CollisionSenses.WallCheck.position, Core.CollisionSenses.WallCheck.position + (Vector3)(Vector2.right * Core.Movement.FacingDirection * entityData.wallCheckDistance));
-            Gizmos.DrawLine(Core.CollisionSenses.LedgeCheckVertical.position, Core.CollisionSenses.LedgeCheckVertical.position + (Vector3)(Vector2.down * entityData.ledgeCheckDistance));
+            Gizmos.DrawLine(CollisionSenses.WallCheck.position, CollisionSenses.WallCheck.position + (Vector3)(Vector2.right * Movement?.FacingDirection * entityData.wallCheckDistance));
+            Gizmos.DrawLine(CollisionSenses.LedgeCheckVertical.position, CollisionSenses.LedgeCheckVertical.position + (Vector3)(Vector2.down * entityData.ledgeCheckDistance));
 
             Gizmos.DrawWireSphere(playerCheck.position + (Vector3)(Vector2.right * entityData.closeRangeActionDistance), 0.2f);
             Gizmos.DrawWireSphere(playerCheck.position + (Vector3)(Vector2.right * entityData.minAgroDistance), 0.2f);

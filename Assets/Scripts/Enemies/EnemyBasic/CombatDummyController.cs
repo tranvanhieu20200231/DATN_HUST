@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CombatDummyController : MonoBehaviour
@@ -47,46 +45,46 @@ public class CombatDummyController : MonoBehaviour
         brokenBotGO.SetActive(false);
     }
 
-    private void Damage(AttackDetails attackDetails)
-    {
-        currentHealth -= attackDetails.damageAmount;
-        playerFacingDirection = pc.GetFacingDirection();
+    //private void Damage(AttackDetails attackDetails)
+    //{
+    //    currentHealth -= attackDetails.damageAmount;
+    //    playerFacingDirection = pc.GetFacingDirection();
 
-        Instantiate(hitParicle, aliveGO.transform.position, Quaternion.Euler(0.0f, 0.0f, Random.Range(0.0f, 360.0f)));
+    //    Instantiate(hitParicle, aliveGO.transform.position, Quaternion.Euler(0.0f, 0.0f, Random.Range(0.0f, 360.0f)));
 
-        if (playerFacingDirection == 1)
-        {
-            playerOnLeft = true;
-        }
-        else
-        {
-            playerOnLeft = false;
-        }
+    //    if (playerFacingDirection == 1)
+    //    {
+    //        playerOnLeft = true;
+    //    }
+    //    else
+    //    {
+    //        playerOnLeft = false;
+    //    }
 
-        aliveAnim.SetBool("playerOnLeft", playerOnLeft);
-        aliveAnim.SetTrigger("Damage");
+    //    aliveAnim.SetBool("playerOnLeft", playerOnLeft);
+    //    aliveAnim.SetTrigger("Damage");
 
-        if (applyKnockback && currentHealth > 0.0f)
-        {
-            Knockback();
-        }
+    //    if (applyKnockback && currentHealth > 0.0f)
+    //    {
+    //        Knockback();
+    //    }
 
-        if (currentHealth <= 0.0f)
-        {
-            Die();
-        }
-    }
+    //    if (currentHealth <= 0.0f)
+    //    {
+    //        Die();
+    //    }
+    //}
 
     private void Knockback()
     {
         knockback = true;
-        knockbackStart = Time.time;     //Gia tri tuc thoi
+        knockbackStart = Time.time;
         rbAlive.velocity = new Vector2(knockbackSpeedX * playerFacingDirection, knockbackSpeedY);
     }
 
     private void CheckKnockback()
     {
-        if (Time.time >= knockbackStart + knockbackDuration && knockback) //Ktra ket thuc knockback
+        if (Time.time >= knockbackStart + knockbackDuration && knockback)
         {
             knockback = false;
             rbAlive.velocity = new Vector2(0.0f, rbAlive.velocity.y);

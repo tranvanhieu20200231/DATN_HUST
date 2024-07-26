@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class LookForPlayerState : State
 {
+    private Movement Movement => movement ? movement : core.GetCoreComponent<Movement>(ref movement);
+    private Movement movement;
+
     protected D_LookForPlayerData stateData;
 
     protected bool turnImmediately;
@@ -35,7 +38,7 @@ public class LookForPlayerState : State
         lastTurnTime = startTime;
         amountOfTurnsDone = 0;
 
-        core.Movement.SetVelocityX(0f);
+        Movement?.SetVelocityX(0f);
     }
 
     public override void Exit()
@@ -47,16 +50,18 @@ public class LookForPlayerState : State
     {
         base.LogicUpdate();
 
+        Movement?.SetVelocityX(0f);
+
         if (turnImmediately)
         {
-            core.Movement.Flip();
+            Movement?.Flip();
             lastTurnTime = Time.time;
             amountOfTurnsDone++;
             turnImmediately = false;
         }
         else if (Time.time >= lastTurnTime + stateData.timeBetweenTurns && !isAllTurnsDone)
         {
-            core.Movement.Flip();
+            Movement?.Flip();
             lastTurnTime = Time.time;
             amountOfTurnsDone++;
         }

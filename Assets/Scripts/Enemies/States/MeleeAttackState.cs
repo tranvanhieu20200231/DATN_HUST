@@ -2,9 +2,10 @@ using UnityEngine;
 
 public class MeleeAttackState : AttackState
 {
-    protected D_MeleeAttackState stateData;
+    private Movement Movement => movement ? movement : core.GetCoreComponent<Movement>(ref movement);
+    private Movement movement;
 
-    protected AttackDetails attackDetails;
+    protected D_MeleeAttackState stateData;
 
     public MeleeAttackState(FiniteStateMachine stateMachine, Entity entity, string animBoolName, Transform attackPosition, D_MeleeAttackState stateData) : base(stateMachine, entity, animBoolName, attackPosition)
     {
@@ -19,9 +20,6 @@ public class MeleeAttackState : AttackState
     public override void Enter()
     {
         base.Enter();
-
-        attackDetails.damageAmount = stateData.attackDamage;
-        attackDetails.position = entity.transform.position;
     }
 
     public override void Exit()
@@ -52,7 +50,19 @@ public class MeleeAttackState : AttackState
 
         foreach (Collider2D collider in detectedObject)
         {
-            collider.transform.SendMessage("Damage", attackDetails);
+            IDamageable damageable = collider.GetComponent<IDamageable>();
+
+            if (damageable != null)
+            {
+                damageable.Damage(stateData.attackDamage);
+            }
+
+            IKnockbackable knockbackable = collider.GetComponent<IKnockbackable>();
+
+            if (knockbackable != null)
+            {
+                knockbackable.Knockback(stateData.knockbackAngle, stateData.knockbackStrength, Movement.FacingDirection);
+            }
         }
     }
 }
