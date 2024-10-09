@@ -2,77 +2,29 @@ public class PlayerAttackState : PlayerAbilityState
 {
     private Weapon weapon;
 
-    private int xInput;
-
-    private float velocityToSet;
-
-    private bool setVelocity;
-    private bool shouldCheckFlip;
-
-    public PlayerAttackState(Player player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
+    public PlayerAttackState(
+        Player player,
+        PlayerStateMachine stateMachine,
+        PlayerData playerData,
+        string animBoolName,
+        Weapon weapon
+    ) : base(player, stateMachine, playerData, animBoolName)
     {
+        this.weapon = weapon;
+
+        weapon.OnExit += ExitHandler;
     }
 
     public override void Enter()
     {
         base.Enter();
 
-        setVelocity = false;
-
-        weapon.EnterWeapon();
+        weapon.Enter();
     }
 
-    public override void Exit()
+    private void ExitHandler()
     {
-        base.Exit();
-
-        weapon.ExitWaepon();
-    }
-
-    public override void LogicUpdate()
-    {
-        base.LogicUpdate();
-
-        xInput = player.InputHandler.NormInputX;
-
-        if (shouldCheckFlip)
-        {
-            Movement?.CheckIfShouldFlip(xInput);
-        }
-
-        if (setVelocity)
-        {
-            Movement?.SetVelocityX(velocityToSet * Movement.FacingDirection);
-        }
-    }
-
-    public void SetWeapon(Weapon weapon)
-    {
-        this.weapon = weapon;
-        weapon.InitializeWeapon(this, core);
-    }
-
-    public void SetPlayerVelocity(float velocity)
-    {
-        Movement?.SetVelocityX(velocity * Movement.FacingDirection);
-
-        velocityToSet = velocity;
-        setVelocity = true;
-    }
-
-    public void SetFlipCheck(bool value)
-    {
-        shouldCheckFlip = value;
-    }
-
-    #region Animation Trigger
-
-    public override void AnimationFinishTrigger()
-    {
-        base.AnimationFinishTrigger();
-
+        AnimationFinishTrigger();
         isAbilityDone = true;
     }
-
-    #endregion
 }
