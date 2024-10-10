@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ActionHitBox : WeaponComponent<ActionHitBoxData, AttackActionHitBox>
 {
-    private event Action<Collider2D[]> OnDetectedCollider2D;
+    public event Action<Collider2D[]> OnDetectedCollider2D;
 
     private CoreComp<Movement> movement;
 
@@ -24,11 +24,6 @@ public class ActionHitBox : WeaponComponent<ActionHitBoxData, AttackActionHitBox
             return;
 
         OnDetectedCollider2D?.Invoke(detected);
-
-        foreach (var item in detected)
-        {
-            Debug.Log(item.name);
-        }
     }
 
     protected override void Start()
@@ -36,18 +31,13 @@ public class ActionHitBox : WeaponComponent<ActionHitBoxData, AttackActionHitBox
         base.Start();
 
         movement = new CoreComp<Movement>(Core);
-    }
-
-    protected override void OnEnable()
-    {
-        base.OnEnable();
 
         eventHandler.OnAttackAction += HandleAttackAction;
     }
 
-    protected override void OnDisable()
+    protected override void OnDestroy()
     {
-        base.OnDisable();
+        base.OnDestroy();
 
         eventHandler.OnAttackAction -= HandleAttackAction;
     }

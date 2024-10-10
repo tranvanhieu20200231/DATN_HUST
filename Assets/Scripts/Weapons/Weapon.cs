@@ -4,13 +4,29 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-    [field: SerializeField] public WeaponDataSO Data { get; private set; }
+    public event Action<bool> OnCurrentInputChange;
+
     [SerializeField] private float attackCounterResetCoolDown;
+
+    public WeaponDataSO Data { get; private set; }
 
     public int CurrentAttackCounter
     {
         get => currentAttackCounter;
         private set => currentAttackCounter = value >= Data.NumberOfAttack ? 0 : value;
+    }
+
+    public bool CurrentInput
+    {
+        get => currentInput;
+        set
+        {
+            if (currentInput != value)
+            {
+                currentInput = value;
+                OnCurrentInputChange?.Invoke(currentInput);
+            }
+        }
     }
 
     public event Action OnEnter;
@@ -28,6 +44,8 @@ public class Weapon : MonoBehaviour
 
     private Timer attackCounterResetTimer;
 
+    private bool currentInput;
+
     public void Enter()
     {
         print($"{transform.name} enter");
@@ -43,6 +61,11 @@ public class Weapon : MonoBehaviour
     public void SetCore(Core core)
     {
         Core = core;
+    }
+
+    public void SetData(WeaponDataSO data)
+    {
+        Data = data;
     }
 
     private void Exit()

@@ -13,17 +13,17 @@ public class MovementAttack : WeaponComponent<MovementData, AttackMovement>
         CoreMovement.SetVelocityZero();
     }
 
-    protected override void OnEnable()
+    protected override void Start()
     {
-        base.OnEnable();
+        base.Start();
 
         eventHandler.OnStartMovement += HandleStartMovement;
         eventHandler.OnStopMovement += HandleStartMovement;
     }
 
-    protected override void OnDisable()
+    protected override void OnDestroy()
     {
-        base.OnDisable();
+        base.OnDestroy();
 
         eventHandler.OnStartMovement -= HandleStartMovement;
         eventHandler.OnStopMovement -= HandleStartMovement;
