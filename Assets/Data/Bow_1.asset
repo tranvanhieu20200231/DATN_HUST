@@ -16,6 +16,7 @@ MonoBehaviour:
   <NumberOfAttack>k__BackingField: 1
   <ComponentData>k__BackingField:
   - rid: 6559915306427351046
+  - rid: 6559915324341747712
   references:
     version: 2
     RefIds:
@@ -39,3 +40,7 @@ MonoBehaviour:
             - {fileID: -203339548, guid: 2c943510c75517e4cb06d82bb017138b, type: 3}
             - {fileID: 1307323156, guid: 2c943510c75517e4cb06d82bb017138b, type: 3}
             - {fileID: 1601147259, guid: 2c943510c75517e4cb06d82bb017138b, type: 3}
+    - rid: 6559915324341747712
+      type: {class: InputHoldData, ns: , asm: Assembly-CSharp}
+      data:
+        name: InputHoldData
