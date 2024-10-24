@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     private string sceneStart;
+    private string mainMenu;
 
     [SerializeField] private GameObject inputIsKeyboard;
     [SerializeField] private GameObject inputIsGamepad;
@@ -27,6 +28,18 @@ public class GameManager : MonoBehaviour
     private void StartGame()
     {
         SceneManager.LoadScene(sceneStart);
+    }
+
+    public void MainMenuWithDelay(string nameMainMenu)
+    {
+        mainMenu = nameMainMenu;
+
+        Invoke("MainMenu", 0.3f);
+    }
+
+    private void MainMenu()
+    {
+        SceneManager.LoadScene(mainMenu);
     }
 
     public void QuitGameWithDelay()
