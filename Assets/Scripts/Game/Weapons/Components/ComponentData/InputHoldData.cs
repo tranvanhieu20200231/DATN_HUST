@@ -1,4 +1,4 @@
-public class InputHoldData : ComponentData
+public class InputHoldData : ComponentData<AttackInputHold>
 {
     protected override void SetComponentDependency()
     {

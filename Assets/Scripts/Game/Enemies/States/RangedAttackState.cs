@@ -2,10 +2,13 @@ using UnityEngine;
 
 public class RangedAttackState : AttackState
 {
+    private Movement Movement => movement ? movement : core.GetCoreComponent<Movement>(ref movement);
+    private Movement movement;
+
     protected D_RangedAttackState stateData;
 
     protected GameObject projectile;
-    protected Projectiles projectileScript;
+    protected ProjectileObj projectileScript;
 
     public RangedAttackState(FiniteStateMachine stateMachine, Entity entity, string animBoolName, Transform attackPosition, D_RangedAttackState stateData) : base(stateMachine, entity, animBoolName, attackPosition)
     {
@@ -47,7 +50,8 @@ public class RangedAttackState : AttackState
         base.TriggerAttack();
 
         projectile = GameObject.Instantiate(stateData.projectile, attackPosition.position, attackPosition.rotation);
-        projectileScript = projectile.GetComponent<Projectiles>();
+        projectileScript = projectile.GetComponent<ProjectileObj>();
         projectileScript.FireProjectile(stateData.projectileSpeed, stateData.projectileTravelDistance, stateData.projectileDamage);
+        projectileScript.ProjectileKnockBack(stateData.projectileAngel, stateData.projectileStrength, Movement.FacingDirection);
     }
 }

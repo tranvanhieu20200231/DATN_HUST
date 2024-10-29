@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class InputHold : WeaponComponent
+public class InputHold : WeaponComponent<InputHoldData, AttackInputHold>
 {
     private Animator anim;
 
@@ -31,23 +31,21 @@ public class InputHold : WeaponComponent
 
     private void SetAnimatorParamater()
     {
-        if (input)
-        {
-            anim.SetBool("hold", input);
-            return;
-        }
-
-        if (minHoldPassed)
-        {
-            anim.SetBool("hold", false);
-        }
+        anim.SetBool("hold", input);
     }
+
+    public float GetMultiplier() => minHoldPassed ? currentAttackData.Multiplier : 1f;
 
     protected override void Awake()
     {
         base.Awake();
 
         anim = GetComponentInChildren<Animator>();
+    }
+
+    protected override void Start()
+    {
+        base.Start();
 
         weapon.OnCurrentInputChange += HandleCurrentInputChange;
         eventHandler.OnMinHoldPassed += HandleMinHoldPassed;

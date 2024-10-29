@@ -1,11 +1,15 @@
 using UnityEngine;
 
-public class Projectiles : MonoBehaviour
+public class ProjectileObj : MonoBehaviour
 {
-    //private AttackDetails attackDetails;
-
     private float speed;
     private float travelDistance;
+    private float damage;
+
+    private Vector2 angle;
+    private float strength;
+    private int direction;
+
     private float xStartPos;
 
     [SerializeField]
@@ -23,7 +27,7 @@ public class Projectiles : MonoBehaviour
     [SerializeField]
     private LayerMask whatIsGround;
     [SerializeField]
-    private LayerMask whatIsPlayer;
+    private LayerMask whatIsDamage;
     [SerializeField]
     private Transform damagePosition;
 
@@ -45,8 +49,6 @@ public class Projectiles : MonoBehaviour
     {
         if (!hasHitGround)
         {
-            //attackDetails.position = transform.position;
-
             if (isGravityOn)
             {
                 float angle = Mathf.Atan2(rb.velocity.y, rb.velocity.x) * Mathf.Rad2Deg;
@@ -61,12 +63,24 @@ public class Projectiles : MonoBehaviour
     {
         if (!hasHitGround)
         {
-            Collider2D damageHit = Physics2D.OverlapCircle(damagePosition.position, damageRadius, whatIsPlayer);
+            Collider2D damageHit = Physics2D.OverlapCircle(damagePosition.position, damageRadius, whatIsDamage);
             Collider2D groundHit = Physics2D.OverlapCircle(damagePosition.position, damageRadius, whatIsGround);
 
             if (damageHit)
             {
-                //damageHit.transform.SendMessage("Damage", attackDetails);
+                DamageReceiver target = damageHit.GetComponentInChildren<DamageReceiver>();
+                KnockBackReceiver targetKB = damageHit.GetComponentInChildren<KnockBackReceiver>();
+
+                if (target != null)
+                {
+                    target.Damage(damage);
+                }
+
+                if (targetKB != null)
+                {
+                    targetKB.KnockBack(angle, strength, direction);
+                }
+
                 Destroy(gameObject);
             }
 
@@ -90,7 +104,14 @@ public class Projectiles : MonoBehaviour
     {
         this.speed = speed;
         this.travelDistance = travelDistance;
-        //attackDetails.damageAmount = damage;
+        this.damage = damage;
+    }
+
+    public void ProjectileKnockBack(Vector2 angle, float strength, int direction)
+    {
+        this.angle = angle;
+        this.strength = strength;
+        this.direction = direction;
     }
 
     private void OnDrawGizmos()

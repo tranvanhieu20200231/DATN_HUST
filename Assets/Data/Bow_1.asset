@@ -17,6 +17,7 @@ MonoBehaviour:
   <ComponentData>k__BackingField:
   - rid: 6559915306427351046
   - rid: 6559915324341747712
+  - rid: 6559915735308304384
   references:
     version: 2
     RefIds:
@@ -44,3 +45,22 @@ MonoBehaviour:
       type: {class: InputHoldData, ns: , asm: Assembly-CSharp}
       data:
         name: InputHoldData
+        attackData:
+        - name: Attack 1
+          <Multiplier>k__BackingField: 1.5
+    - rid: 6559915735308304384
+      type: {class: ProjectileData, ns: , asm: Assembly-CSharp}
+      data:
+        name: ProjectileData
+        attackData:
+        - name: Attack 1
+          projectile: {fileID: 2572578570504221898, guid: 4c3329197a2155142b8bdbb14917d2f0, type: 3}
+          <DamageData>k__BackingField:
+            name: 
+            <Amount>k__BackingField: 10
+          <Speed>k__BackingField: 12
+          <TravelDistance>k__BackingField: 8
+          <KnockBackData>k__BackingField:
+            name: 
+            <Angle>k__BackingField: {x: 1, y: 1}
+            <Strength>k__BackingField: 12
