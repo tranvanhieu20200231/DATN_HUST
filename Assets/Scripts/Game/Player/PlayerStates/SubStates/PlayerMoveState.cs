@@ -25,7 +25,10 @@ public class PlayerMoveState : PlayerGroundedState
 
         Movement?.CheckIfShouldFlip(xInput);
 
-        Movement?.SetVelocityX(playerData.movementVelocity * xInput);
+        if (!(player.StateMachine.CurrentState is PlayerRollState))
+        {
+            Movement?.SetVelocityX(playerData.movementVelocity * xInput);
+        }
 
         if (!isExitingState)
         {

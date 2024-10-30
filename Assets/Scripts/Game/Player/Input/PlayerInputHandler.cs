@@ -17,6 +17,8 @@ public class PlayerInputHandler : MonoBehaviour
     public bool GrabInput { get; private set; }
     public bool DashInput { get; private set; }
     public bool DashInputStop { get; private set; }
+    public bool RollInput { get; private set; }
+    public bool RollInputStop { get; private set; }
     public bool[] AttackInputs { get; private set; }
 
     [SerializeField]
@@ -24,6 +26,7 @@ public class PlayerInputHandler : MonoBehaviour
 
     private float jumpInputStartTime;
     private float dashInputStartTime;
+    private float rollInputStartTime;
 
     private void Start()
     {
@@ -39,6 +42,7 @@ public class PlayerInputHandler : MonoBehaviour
     {
         CheckJumpInputHoldTime();
         CheckDashInputHoldTime();
+        CheckRollInputHoldTime();
     }
 
     public void OnPrimaryAttackInput(InputAction.CallbackContext context)
@@ -129,9 +133,26 @@ public class PlayerInputHandler : MonoBehaviour
         DashDirectionInput = Vector2Int.RoundToInt(RawDashDirectionInput.normalized);
     }
 
+    public void OnRollInput(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            RollInput = true;
+            RollInputStop = false;
+            rollInputStartTime = Time.time;
+        }
+
+        if (context.canceled)
+        {
+            RollInputStop = true;
+        }
+    }
+
     public void UseJumpInput() => JumpInput = false;
 
     public void UseDashInput() => DashInput = false;
+
+    public void UseRollInput() => RollInput = false;
 
     private void CheckJumpInputHoldTime()
     {
@@ -146,6 +167,14 @@ public class PlayerInputHandler : MonoBehaviour
         if (Time.time >= dashInputStartTime + inputHoldTime)
         {
             DashInput = false;
+        }
+    }
+
+    private void CheckRollInputHoldTime()
+    {
+        if (Time.time >= rollInputStartTime + inputHoldTime)
+        {
+            RollInput = false;
         }
     }
 }

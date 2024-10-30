@@ -23,11 +23,16 @@ public class Projectiles : WeaponComponent<ProjectileData, AttackProjectile>
 
         if (currentAttackData.Projectile != null)
         {
-            GameObject projectile = Instantiate(currentAttackData.Projectile, transform.position, transform.rotation);
+            GameObject projectile = Instantiate(currentAttackData.Projectile,
+                transform.position + new Vector3(currentAttackData.firePos.x * movement.FacingDirection, currentAttackData.firePos.y, 0),
+                transform.rotation);
+
             projectileObjScript = projectile.GetComponent<ProjectileObj>();
+
             projectileObjScript.FireProjectile(currentAttackData.Speed * multiplier
                 , currentAttackData.TravelDistance * multiplier
                 , currentAttackData.DamageData.Amount * multiplier);
+
             if (currentAttackData.KnockBackData != null)
             {
                 projectileObjScript.ProjectileKnockBack(currentAttackData.KnockBackData.Angle * multiplier
@@ -58,6 +63,22 @@ public class Projectiles : WeaponComponent<ProjectileData, AttackProjectile>
         base.OnDestroy();
 
         eventHandler.OnInstanceProjectile -= HanlderInstanceProjectile;
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (currentAttackData == null)
+            return;
+
+        foreach (var item in data.AttackData)
+        {
+            if (!item.Debug)
+                continue;
+
+            Gizmos.color = Color.red;
+            Vector2 firePosWorld = transform.position + (Vector3)currentAttackData.firePos;
+            Gizmos.DrawWireSphere(firePosWorld, 0.1f);
+        }
     }
 }
 

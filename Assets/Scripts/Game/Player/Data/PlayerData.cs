@@ -43,4 +43,9 @@ public class PlayerData : ScriptableObject
     public float drag = 10f;
     public float dashEndYMultiplier = 0.2f;
     public float distBetweenAfterImages = 0.5f;
+
+    [Header("Roll State")]
+    public float rollCooldown = 0.5f;
+    public float rollTime = 0.3f;
+    public float rollVelocity = 20f;
 }

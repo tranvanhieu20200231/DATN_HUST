@@ -18,7 +18,7 @@ public class MovementAttack : WeaponComponent<MovementData, AttackMovement>
         base.Start();
 
         eventHandler.OnStartMovement += HandleStartMovement;
-        eventHandler.OnStopMovement += HandleStartMovement;
+        eventHandler.OnStopMovement += HandleStopMovement;
     }
 
     protected override void OnDestroy()
@@ -26,6 +26,6 @@ public class MovementAttack : WeaponComponent<MovementData, AttackMovement>
         base.OnDestroy();
 
         eventHandler.OnStartMovement -= HandleStartMovement;
-        eventHandler.OnStopMovement -= HandleStartMovement;
+        eventHandler.OnStopMovement -= HandleStopMovement;
     }
 }
