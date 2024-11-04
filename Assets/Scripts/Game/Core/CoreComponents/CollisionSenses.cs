@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CollisionSenses : CoreComponent
 {
@@ -21,6 +21,7 @@ public class CollisionSenses : CoreComponent
     [SerializeField] private Transform ceilingCheck;
 
     [SerializeField] private float groundCheckRadius;
+    [SerializeField] private float wallCheckRadius;
     [SerializeField] private float wallCheckDistance;
 
     [SerializeField] private LayerMask whatIsGround;
@@ -28,6 +29,8 @@ public class CollisionSenses : CoreComponent
     public bool Ceiling { get => Physics2D.OverlapCircle(CeilingCheck.position, groundCheckRadius, whatIsGround); }
 
     public bool Ground { get => Physics2D.OverlapCircle(GroundCheck.position, groundCheckRadius, whatIsGround); }
+
+    public bool WallFrontEnemy { get => Physics2D.OverlapCircle(WallCheck.position, wallCheckRadius, whatIsGround); }
 
     public bool WallFront { get => Physics2D.Raycast(WallCheck.position, Vector2.right * Movement.FacingDirection, wallCheckDistance, whatIsGround); }
 

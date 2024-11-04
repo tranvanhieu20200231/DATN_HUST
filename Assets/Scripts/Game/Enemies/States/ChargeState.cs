@@ -29,7 +29,7 @@ public class ChargeState : State
         if (CollisionSenses)
         {
             isDectectingLedge = CollisionSenses.LedgeVertical;
-            isDectectingWall = CollisionSenses.WallFront;
+            isDectectingWall = CollisionSenses.WallFrontEnemy;
         }
 
         performCloseRangeAction = entity.CheckPlayerInCloseRangeAction();

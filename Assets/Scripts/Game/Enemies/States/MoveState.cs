@@ -22,7 +22,7 @@ public class MoveState : State
 
         if (CollisionSenses)
         {
-            isDetectingWall = CollisionSenses.WallFront;
+            isDetectingWall = CollisionSenses.WallFrontEnemy;
             isDetectingLedge = CollisionSenses.LedgeVertical;
         }
 
