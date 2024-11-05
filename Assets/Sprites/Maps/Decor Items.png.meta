@@ -227,6 +227,27 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Decor Items_0
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 240
+        width: 31
+        height: 16
+      alignment: 9
+      pivot: {x: 0.5132258, y: 0.50640583}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b1c9723fbe8f3fc4985d465ece505a0e
+      internalID: 1238033445
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -239,6 +260,7 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       Closed Door: -1530084363
+      Decor Items_0: 1238033445
       Light Post: -1257691807
       Open Door: -1330158273
       Tree: -1911540352

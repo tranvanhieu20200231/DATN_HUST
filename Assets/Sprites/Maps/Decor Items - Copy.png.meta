@@ -227,6 +227,27 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Light Wall
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 240
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ab145c9a5fa3d1145b3291e23092193b
+      internalID: -618353387
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -240,6 +261,7 @@ TextureImporter:
     nameFileIdTable:
       Closed Door: -1530084363
       Light Post: -1257691807
+      Light Wall: -618353387
       Open Door: -1330158273
       Tree: -1911540352
       Wall Light: 1955245254
