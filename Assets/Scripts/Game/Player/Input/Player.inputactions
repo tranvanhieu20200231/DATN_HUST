@@ -85,6 +85,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Choice",
+                    "type": "Button",
+                    "id": "9af810aa-a0a1-4a77-884f-4aca979298aa",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -212,7 +221,7 @@
                 {
                     "name": "",
                     "id": "02a8971a-f29b-4f0b-aa29-e36135a14b09",
-                    "path": "<Keyboard>/leftShift",
+                    "path": "<Keyboard>/r",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
@@ -223,7 +232,7 @@
                 {
                     "name": "",
                     "id": "5d1b7772-f290-4603-bbca-9055c35a2cd1",
-                    "path": "<Gamepad>/rightShoulder",
+                    "path": "<Gamepad>/leftTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
@@ -322,7 +331,7 @@
                 {
                     "name": "",
                     "id": "fdb7c504-26ba-48c4-b898-9228be2dfb77",
-                    "path": "<Keyboard>/r",
+                    "path": "<Keyboard>/leftShift",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -333,11 +342,33 @@
                 {
                     "name": "",
                     "id": "87d7bd1c-bead-452e-be58-0f6ee4c941cb",
-                    "path": "<Gamepad>/leftTrigger",
+                    "path": "<Gamepad>/buttonEast",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Roll",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5f1a7613-fee5-4e7e-b691-ca3ef985ffba",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Choice",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "39da704a-4d55-4af9-8a1e-c4fc38c2d024",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Choice",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

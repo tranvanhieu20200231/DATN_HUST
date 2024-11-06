@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 1635944418136917941}
   - component: {fileID: 4973499274137902679}
   - component: {fileID: 248762403203616738}
+  - component: {fileID: 6041645963683126781}
   m_Layer: 7
   m_Name: Enemy2
   m_TagString: Enemy
@@ -223,6 +224,39 @@ MonoBehaviour:
   rangedAttackStateData: {fileID: 11400000, guid: 63f0d709571a5634b9eaa5d26bfdbab9, type: 2}
   meleeAttackPosition: {fileID: 5643409025641150248}
   rangedAttackPosition: {fileID: 5820818979394695810}
+--- !u!114 &6041645963683126781
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7442675124435499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShadowGroup: 0
+  m_ComponentVersion: 1
+  m_HasRenderer: 1
+  m_UseRendererSilhouette: 1
+  m_CastsShadows: 1
+  m_SelfShadows: 0
+  m_ApplyToSortingLayers: 000000009126931153bdb601b75a7b11eb105b66f52775b651504521
+  m_ShapePath:
+  - {x: -0.35663033, y: -1.0001192, z: 0}
+  - {x: -0.2373581, y: 0.4091997, z: 0}
+  - {x: 0.1549797, y: 0.41131783, z: 0}
+  - {x: 0.22793198, y: -0.9902191, z: 0}
+  - {x: 0.03142357, y: -0.67824936, z: 0}
+  - {x: -0.12474823, y: -0.67824936, z: 0}
+  - {x: -0.20595741, y: -0.8843956, z: 0}
+  m_ShapePathHash: 1702957575
+  m_Mesh: {fileID: 0}
+  m_InstanceId: -39128
+  m_LocalBounds:
+    m_Center: {x: -0.064349174, y: -0.2944007, z: 0}
+    m_Extent: {x: 0.29228115, y: 0.7057185, z: 0}
 --- !u!1 &35048633242963804
 GameObject:
   m_ObjectHideFlags: 0

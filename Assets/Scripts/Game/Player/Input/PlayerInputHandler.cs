@@ -7,6 +7,8 @@ public class PlayerInputHandler : MonoBehaviour
     private PlayerInput playerInput;
     private Camera cam;
 
+    public static bool isChoice;
+
     public Vector2 RawMovementInput { get; private set; }
     public Vector2 RawDashDirectionInput { get; private set; }
     public Vector2Int DashDirectionInput { get; private set; }
@@ -145,6 +147,19 @@ public class PlayerInputHandler : MonoBehaviour
         if (context.canceled)
         {
             RollInputStop = true;
+        }
+    }
+
+    public void OnChoice(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            isChoice = true;
+        }
+
+        if (context.canceled)
+        {
+            isChoice = false;
         }
     }
 
