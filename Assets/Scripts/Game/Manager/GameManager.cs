@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -6,16 +7,22 @@ public class GameManager : MonoBehaviour
     private string sceneStart;
     private string mainMenu;
 
-    [SerializeField] private GameObject inputIsKeyboard;
-    [SerializeField] private GameObject inputIsGamepad;
-
-    public static GameObject staticInputIsKeyboard;
-    public static GameObject staticInputIsGamepad;
+    [SerializeField] private List<GameObject> inputIsKeyboard;
+    [SerializeField] private List<GameObject> inputIsGamepad;
 
     private void Start()
     {
-        staticInputIsKeyboard = inputIsKeyboard;
-        staticInputIsGamepad = inputIsGamepad;
+        SetActiveObjects(inputIsKeyboard, false);
+        SetActiveObjects(inputIsGamepad, false);
+    }
+
+    private void SetActiveObjects(List<GameObject> objects, bool isActive)
+    {
+        foreach (var obj in objects)
+        {
+            if (obj != null)
+                obj.SetActive(isActive);
+        }
     }
 
     public void StartGameWithDelay(string nameSceneStart)
@@ -54,5 +61,17 @@ public class GameManager : MonoBehaviour
 #else
             Application.Quit();
 #endif
+    }
+
+    public void ActivateInputKeyboard()
+    {
+        SetActiveObjects(inputIsKeyboard, true);
+        SetActiveObjects(inputIsGamepad, false);
+    }
+
+    public void ActivateInputGamepad()
+    {
+        SetActiveObjects(inputIsKeyboard, false);
+        SetActiveObjects(inputIsGamepad, true);
     }
 }

@@ -4,10 +4,13 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ButtonMenuManager : MonoBehaviour
 {
+    private GameManager GM;
+
     private PlayerInput playerInput;
 
     [System.Serializable]
@@ -25,15 +28,27 @@ public class ButtonMenuManager : MonoBehaviour
     private Color highlightColor = new Color(1, 1, 1, 255f / 255f);
     private Color pressedColor = new Color(1, 0, 0, 255f / 255f);
 
-    private int currentIndex = 0; // Dùng để theo dõi button hiện tại
+    private int currentIndex = 0;
 
     private void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
+
+        if (SceneManager.GetActiveScene().buildIndex == 0)
+        {
+            playerInput.enabled = false;
+        }
     }
 
     private void Start()
     {
+        GM = FindAnyObjectByType<GameManager>();
+
+        if (SceneManager.GetActiveScene().buildIndex == 0)
+        {
+            playerInput.enabled = true;
+        }
+
         Initialization();
     }
 
@@ -51,24 +66,20 @@ public class ButtonMenuManager : MonoBehaviour
 
             EventTrigger trigger = btn.gameObject.AddComponent<EventTrigger>();
 
-            // Highlight khi con trỏ chuột di chuyển vào
             EventTrigger.Entry highlightEntry = new EventTrigger.Entry();
             highlightEntry.eventID = EventTriggerType.PointerEnter;
             highlightEntry.callback.AddListener((eventData) => OnButtonHighlight(pair));
             trigger.triggers.Add(highlightEntry);
 
-            // Đừng thay đổi trạng thái khi con trỏ chuột rời khỏi nút
             EventTrigger.Entry exitEntry = new EventTrigger.Entry();
             exitEntry.eventID = EventTriggerType.PointerExit;
-            exitEntry.callback.AddListener((eventData) => OnPointerExit(pair)); // Không thay đổi trạng thái về normal
+            exitEntry.callback.AddListener((eventData) => OnPointerExit(pair));
             trigger.triggers.Add(exitEntry);
         }
 
-        // Khởi tạo button đầu tiên ở trạng thái highlight
         OnButtonHighlight(buttonTextPairs[currentIndex]);
     }
 
-    // Khi nút được nhấn
     void OnButtonPress(ButtonTextPair selectedPair)
     {
         TextMeshProUGUI txt = selectedPair.text;
@@ -80,7 +91,6 @@ public class ButtonMenuManager : MonoBehaviour
             txt.color = highlightColor;
         });
 
-        // Cập nhật trạng thái cho các nút khác về normal
         foreach (var pair in buttonTextPairs)
         {
             if (pair != selectedPair)
@@ -90,7 +100,6 @@ public class ButtonMenuManager : MonoBehaviour
         }
     }
 
-    // Khi nút được highlight
     void OnButtonHighlight(ButtonTextPair highlightedPair)
     {
         CheckInput();
@@ -100,47 +109,37 @@ public class ButtonMenuManager : MonoBehaviour
             pair.text.color = pair == highlightedPair ? highlightColor : normalColor;
         }
 
-        // Cập nhật button hiện tại
         currentIndex = buttonTextPairs.IndexOf(highlightedPair);
     }
 
-    // Không thay đổi trạng thái khi con trỏ rời khỏi nút
     void OnPointerExit(ButtonTextPair exitedPair)
     {
-        // Do nothing, giữ trạng thái hiện tại
     }
 
-    // Hàm di chuyển lên button phía trước
     public void OnMoveUp(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
-            // Di chuyển lên, nếu đang ở button đầu tiên thì quay vòng xuống cuối
             currentIndex = (currentIndex - 1 + buttonTextPairs.Count) % buttonTextPairs.Count;
             OnButtonHighlight(buttonTextPairs[currentIndex]);
         }
     }
 
-    // Hàm di chuyển xuống button phía sau
     public void OnMoveDown(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
-            // Di chuyển xuống, nếu đang ở button cuối cùng thì quay vòng lên đầu
             currentIndex = (currentIndex + 1) % buttonTextPairs.Count;
             OnButtonHighlight(buttonTextPairs[currentIndex]);
         }
     }
 
-    // Submit sự kiện với gamepad
     public void OnSubmit(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
-            // Gọi sự kiện onClick của button đang được highlight
             buttonTextPairs[currentIndex].button.onClick.Invoke();
 
-            // Xử lý hiển thị hiệu ứng nhấn nút
             OnButtonPress(buttonTextPairs[currentIndex]);
         }
     }
@@ -155,17 +154,16 @@ public class ButtonMenuManager : MonoBehaviour
 
     private void CheckInput()
     {
-        if (GameManager.staticInputIsKeyboard != null && GameManager.staticInputIsGamepad != null)
+        if (GM != null)
         {
             if (playerInput.currentControlScheme == "Gamepad")
             {
-                GameManager.staticInputIsKeyboard.SetActive(false);
-                GameManager.staticInputIsGamepad.SetActive(true);
+                GM.ActivateInputGamepad();
             }
-            else
+
+            if (playerInput.currentControlScheme == "Keyboard")
             {
-                GameManager.staticInputIsKeyboard.SetActive(true);
-                GameManager.staticInputIsGamepad.SetActive(false);
+                GM.ActivateInputKeyboard();
             }
         }
     }

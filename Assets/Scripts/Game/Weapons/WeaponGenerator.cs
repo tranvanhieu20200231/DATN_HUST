@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -6,29 +6,57 @@ using UnityEngine;
 public class WeaponGenerator : MonoBehaviour
 {
     [SerializeField] private Weapon weapon;
-    [SerializeField] private WeaponDataSO data;
+    [SerializeField] private List<WeaponDataPair> weaponDataPairs;
+
+    private string currentPrimaryWeaponName = "Null";
+    private string currentSecondaryWeaponName = "Null";
 
     private List<WeaponComponent> componentAlreadyOnWeapon = new List<WeaponComponent>();
-
     private List<WeaponComponent> componentsAddedToWeapon = new List<WeaponComponent>();
-
     private List<Type> componentDependencies = new List<Type>();
 
     private Animator anim;
 
+    public static bool isPrimaryWeapon;
+    public static bool isSecondaryWeapon;
+
     private void Start()
     {
         anim = GetComponentInChildren<Animator>();
-        GenerateWeapon(data);
+
+        if (weapon.gameObject.name == "PrimaryWeapon")
+        {
+            GenerateWeaponByName(currentPrimaryWeaponName);
+        }
+        if (weapon.gameObject.name == "SecondaryWeapon")
+        {
+            GenerateWeaponByName(currentSecondaryWeaponName);
+        }
     }
 
-    [ContextMenu("Test Generate")]
-    private void TestGenerate()
+    private void Update()
     {
-        GenerateWeapon(data);
+        isPrimaryWeapon = currentPrimaryWeaponName != "Null";
+        isSecondaryWeapon = currentSecondaryWeaponName != "Null";
     }
 
-    public void GenerateWeapon(WeaponDataSO data)
+    public void GenerateWeaponByName(string newWeaponName)
+    {
+        WeaponDataSO data = weaponDataPairs
+            .FirstOrDefault(pair => pair.weaponName == newWeaponName)?.data;
+
+        if (data != null)
+        {
+            GenerateWeapon(data);
+            currentPrimaryWeaponName = newWeaponName;
+        }
+        else
+        {
+            Debug.LogWarning($"No data weapon name: {newWeaponName}");
+        }
+    }
+
+    private void GenerateWeapon(WeaponDataSO data)
     {
         weapon.SetData(data);
 
@@ -37,16 +65,15 @@ public class WeaponGenerator : MonoBehaviour
         componentDependencies.Clear();
 
         componentAlreadyOnWeapon = GetComponents<WeaponComponent>().ToList();
-
         componentDependencies = data.GetAllDependencies();
 
         foreach (var dependency in componentDependencies)
         {
-            if (componentsAddedToWeapon.FirstOrDefault(component => component.GetType() == dependency))
+            if (componentsAddedToWeapon.Any(component => component.GetType() == dependency))
                 continue;
 
-            var weaponComponent =
-                componentAlreadyOnWeapon.FirstOrDefault(component => component.GetType() == dependency);
+            var weaponComponent = componentAlreadyOnWeapon
+                .FirstOrDefault(component => component.GetType() == dependency);
 
             if (weaponComponent == null)
             {
@@ -54,7 +81,6 @@ public class WeaponGenerator : MonoBehaviour
             }
 
             weaponComponent.Init();
-
             componentsAddedToWeapon.Add(weaponComponent);
         }
 
@@ -67,4 +93,29 @@ public class WeaponGenerator : MonoBehaviour
 
         anim.runtimeAnimatorController = data.AnimatorController;
     }
+
+    public void DropItem(Transform dropPos)
+    {
+        WeaponDataSO data = weaponDataPairs
+            .FirstOrDefault(pair => pair.weaponName == currentPrimaryWeaponName)?.data;
+
+        if (data != null && data.ItemDrop != null)
+        {
+            GameObject itemDrop = data.ItemDrop;
+
+            GameObject itemInstance = Instantiate(itemDrop, dropPos.position, Quaternion.identity);
+            itemInstance.name = itemDrop.name;
+        }
+        else
+        {
+            Debug.LogWarning($"No data or drop item weapon name: {currentPrimaryWeaponName}");
+        }
+    }
+}
+
+[Serializable]
+public class WeaponDataPair
+{
+    public string weaponName;
+    public WeaponDataSO data;
 }

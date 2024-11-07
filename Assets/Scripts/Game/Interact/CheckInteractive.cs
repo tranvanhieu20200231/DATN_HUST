@@ -2,22 +2,17 @@
 
 public class CheckInteractive : MonoBehaviour
 {
-    public GameObject buttonChoiceImage;
-    private bool isPlayerNearby = false;
+    public string objShowName;
 
-    private void Start()
-    {
-        if (buttonChoiceImage != null)
-            buttonChoiceImage.SetActive(isPlayerNearby);
-    }
+    private bool isPlayerNearby;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
             isPlayerNearby = true;
-            if (buttonChoiceImage != null)
-                buttonChoiceImage.SetActive(isPlayerNearby);
+            PlayerCheckInteractive playerCheckInteractive = other.GetComponentInChildren<PlayerCheckInteractive>();
+            playerCheckInteractive.ShowObject(objShowName);
         }
     }
 
@@ -26,22 +21,22 @@ public class CheckInteractive : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isPlayerNearby = false;
-            if (buttonChoiceImage != null)
-                buttonChoiceImage.SetActive(isPlayerNearby);
+            PlayerCheckInteractive playerCheckInteractive = other.GetComponentInChildren<PlayerCheckInteractive>();
+            playerCheckInteractive.HideObject(objShowName);
         }
     }
 
     private void Update()
     {
-        if (isPlayerNearby && PlayerInputHandler.isChoice)
+        if (isPlayerNearby && PlayerInputHandler.isChoice && objShowName == "ChoiceTutorial" && gameObject.tag != "Weapon")
         {
-            InteractWithNPC();
+            Interact();
 
             PlayerInputHandler.isChoice = false;
         }
     }
 
-    public virtual void InteractWithNPC()
+    public virtual void Interact()
     {
         Debug.Log("Tương tác với NPC!");
     }

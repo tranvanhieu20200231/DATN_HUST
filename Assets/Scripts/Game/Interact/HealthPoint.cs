@@ -1,8 +1,8 @@
 public class HealthPoint : CheckInteractive
 {
-    public override void InteractWithNPC()
+    public override void Interact()
     {
-        base.InteractWithNPC();
+        base.Interact();
 
         print("HealthPoint");
     }

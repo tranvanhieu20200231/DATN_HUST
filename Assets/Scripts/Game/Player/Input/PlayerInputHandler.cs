@@ -6,6 +6,7 @@ public class PlayerInputHandler : MonoBehaviour
 {
     private PlayerInput playerInput;
     private Camera cam;
+    private GameManager GM;
 
     public static bool isChoice;
 
@@ -33,6 +34,7 @@ public class PlayerInputHandler : MonoBehaviour
     private void Start()
     {
         playerInput = GetComponent<PlayerInput>();
+        GM = FindAnyObjectByType<GameManager>();
 
         int count = Enum.GetValues(typeof(CombatInputs)).Length;
         AttackInputs = new bool[count];
@@ -42,6 +44,7 @@ public class PlayerInputHandler : MonoBehaviour
 
     private void Update()
     {
+        CheckInput();
         CheckJumpInputHoldTime();
         CheckDashInputHoldTime();
         CheckRollInputHoldTime();
@@ -168,6 +171,19 @@ public class PlayerInputHandler : MonoBehaviour
     public void UseDashInput() => DashInput = false;
 
     public void UseRollInput() => RollInput = false;
+
+    private void CheckInput()
+    {
+        if (playerInput.currentControlScheme == "Keyboard")
+        {
+            GM.ActivateInputKeyboard();
+        }
+
+        if (playerInput.currentControlScheme == "Gamepad")
+        {
+            GM.ActivateInputGamepad();
+        }
+    }
 
     private void CheckJumpInputHoldTime()
     {

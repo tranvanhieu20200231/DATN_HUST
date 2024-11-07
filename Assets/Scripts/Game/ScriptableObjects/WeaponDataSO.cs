@@ -6,6 +6,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "newWeaponData", menuName = "Data/Weapon Data/Basic Weapon Data", order = 0)]
 public class WeaponDataSO : ScriptableObject
 {
+    [field: SerializeField] public GameObject ItemDrop { get; private set; }
     [field: SerializeField] public RuntimeAnimatorController AnimatorController { get; private set; }
     [field: SerializeField] public int NumberOfAttack { get; private set; }
 

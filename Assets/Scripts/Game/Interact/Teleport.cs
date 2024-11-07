@@ -2,9 +2,9 @@ using UnityEngine.SceneManagement;
 
 public class Teleport : CheckInteractive
 {
-    public override void InteractWithNPC()
+    public override void Interact()
     {
-        base.InteractWithNPC();
+        base.Interact();
 
         LoadScene();
     }
