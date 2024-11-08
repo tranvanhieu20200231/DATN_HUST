@@ -86,11 +86,11 @@ public class PlayerInAirState : PlayerState
 
         CheckJumpMultiplier();
 
-        if (player.InputHandler.AttackInputs[(int)CombatInputs.primary] && WeaponGenerator.isPrimaryWeapon)
+        if (player.InputHandler.AttackInputs[(int)CombatInputs.primary] && WeaponGeneratorPrimary.isPrimaryWeapon)
         {
             stateMachine.ChangeState(player.PrimaryAttackState);
         }
-        else if (player.InputHandler.AttackInputs[(int)CombatInputs.secondary] && WeaponGenerator.isSecondaryWeapon)
+        else if (player.InputHandler.AttackInputs[(int)CombatInputs.secondary] && WeaponGeneratorSecondary.isSecondaryWeapon)
         {
             stateMachine.ChangeState(player.SecondaryAttackState);
         }

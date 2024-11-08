@@ -60,11 +60,11 @@ public class PlayerGroundedState : PlayerState
         dashInput = player.InputHandler.DashInput;
         rollInput = player.InputHandler.RollInput;
 
-        if (player.InputHandler.AttackInputs[(int)CombatInputs.primary] && !isTouchingCeiling && WeaponGenerator.isPrimaryWeapon)
+        if (player.InputHandler.AttackInputs[(int)CombatInputs.primary] && !isTouchingCeiling && WeaponGeneratorPrimary.isPrimaryWeapon)
         {
             stateMachine.ChangeState(player.PrimaryAttackState);
         }
-        else if (player.InputHandler.AttackInputs[(int)CombatInputs.secondary] && !isTouchingCeiling && WeaponGenerator.isSecondaryWeapon)
+        else if (player.InputHandler.AttackInputs[(int)CombatInputs.secondary] && !isTouchingCeiling && WeaponGeneratorSecondary.isSecondaryWeapon)
         {
             stateMachine.ChangeState(player.SecondaryAttackState);
         }

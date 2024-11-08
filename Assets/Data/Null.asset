@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28d0a880f36ab464eb0b7e15a54b1c63, type: 3}
   m_Name: Null
   m_EditorClassIdentifier: 
-  <ItemDrop>k__BackingField: {fileID: 0}
+  <ItemDrop>k__BackingField: {fileID: 384134784594194502, guid: 368a89ac7ee4c87468d91940c54b8ede, type: 3}
   <AnimatorController>k__BackingField: {fileID: 9100000, guid: d7a6830e981d137499a253d647c68c95, type: 2}
   <NumberOfAttack>k__BackingField: 0
   <ComponentData>k__BackingField: []

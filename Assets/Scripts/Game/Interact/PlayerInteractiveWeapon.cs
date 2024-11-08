@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class PlayerInteractiveWeapon : MonoBehaviour
@@ -8,7 +8,13 @@ public class PlayerInteractiveWeapon : MonoBehaviour
     [SerializeField] private Image PrimaryWeaponUI;
     [SerializeField] private Image SecondaryWeaponUI;
 
-    private List<WeaponGenerator> weaponGenerators = new List<WeaponGenerator>();
+    [SerializeField] private GameObject weaponSwapUI;
+
+    private WeaponGeneratorPrimary weaponGeneratorPrimary;
+    private WeaponGeneratorSecondary weaponGeneratorSecondary;
+
+    private PlayerInput playerInput;
+    private PlayerInput weaponSwapPlayerInput;
 
     private string weaponName;
     private GameObject weaponEquip;
@@ -16,7 +22,12 @@ public class PlayerInteractiveWeapon : MonoBehaviour
 
     private void Start()
     {
-        weaponGenerators.AddRange(GetComponentsInChildren<WeaponGenerator>());
+        playerInput = GetComponent<PlayerInput>();
+
+        weaponGeneratorPrimary = GetComponentInChildren<WeaponGeneratorPrimary>();
+        weaponGeneratorSecondary = GetComponentInChildren<WeaponGeneratorSecondary>();
+
+        weaponSwapPlayerInput = weaponSwapUI.GetComponent<PlayerInput>();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -25,15 +36,17 @@ public class PlayerInteractiveWeapon : MonoBehaviour
         {
             weaponName = other.gameObject.name;
             weaponEquip = other.gameObject;
-            weaponSprite = weaponEquip.GetComponent<SpriteRenderer>().sprite;
+            weaponSprite = weaponEquip.GetComponent<SpriteRenderer>()?.sprite;
         }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("Weapon"))
+        if (other.gameObject == weaponEquip)
         {
             weaponName = null;
+            weaponEquip = null;
+            weaponSprite = null;
         }
     }
 
@@ -41,30 +54,36 @@ public class PlayerInteractiveWeapon : MonoBehaviour
     {
         if (PlayerInputHandler.isChoice && !string.IsNullOrEmpty(weaponName))
         {
-            foreach (var generator in weaponGenerators)
-            {
-                if (generator.name.Contains("Primary"))
-                {
-                    generator.DropItem(weaponEquip.transform);
-                    generator.GenerateWeaponByName(weaponName);
-
-                    PrimaryWeaponUI.sprite = weaponSprite;
-                    Destroy(weaponEquip);
-                    break;
-                }
-                else if (generator.name.Contains("Secondary"))
-                {
-                    generator.DropItem(weaponEquip.transform);
-                    generator.GenerateWeaponByName(weaponName);
-
-                    SecondaryWeaponUI.sprite = weaponSprite;
-                    Destroy(weaponEquip);
-                    break;
-                }
-            }
+            playerInput.enabled = false;
+            weaponSwapPlayerInput.enabled = true;
+            weaponSwapUI.SetActive(true);
 
             PlayerInputHandler.isChoice = false;
         }
+    }
+
+    public void AddWeaponPrimary()
+    {
+        weaponGeneratorPrimary.GenerateWeaponPrimaryByName(weaponName, weaponEquip.transform);
+
+        PrimaryWeaponUI.sprite = weaponSprite;
+        Destroy(weaponEquip);
+
+        weaponSwapUI.SetActive(false);
+        weaponSwapUI.GetComponent<PlayerInput>().enabled = false;
+        playerInput.enabled = true;
+    }
+
+    public void AddWeaponSecondary()
+    {
+        weaponGeneratorSecondary.GenerateWeaponSecondaryByName(weaponName, weaponEquip.transform);
+
+        SecondaryWeaponUI.sprite = weaponSprite;
+        Destroy(weaponEquip);
+
+        weaponSwapUI.SetActive(false);
+        weaponSwapUI.GetComponent<PlayerInput>().enabled = false;
+        playerInput.enabled = true;
     }
 }
 

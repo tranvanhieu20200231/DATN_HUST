@@ -8,8 +8,8 @@ public class WeaponGenerator : MonoBehaviour
     [SerializeField] private Weapon weapon;
     [SerializeField] private List<WeaponDataPair> weaponDataPairs;
 
-    private string currentPrimaryWeaponName = "Null";
-    private string currentSecondaryWeaponName = "Null";
+    protected string currentPrimaryWeaponName;
+    protected string currentSecondaryWeaponName;
 
     private List<WeaponComponent> componentAlreadyOnWeapon = new List<WeaponComponent>();
     private List<WeaponComponent> componentsAddedToWeapon = new List<WeaponComponent>();
@@ -17,30 +17,27 @@ public class WeaponGenerator : MonoBehaviour
 
     private Animator anim;
 
-    public static bool isPrimaryWeapon;
-    public static bool isSecondaryWeapon;
-
     private void Start()
     {
         anim = GetComponentInChildren<Animator>();
 
-        if (weapon.gameObject.name == "PrimaryWeapon")
-        {
-            GenerateWeaponByName(currentPrimaryWeaponName);
-        }
-        if (weapon.gameObject.name == "SecondaryWeapon")
-        {
-            GenerateWeaponByName(currentSecondaryWeaponName);
-        }
+        currentPrimaryWeaponName = weaponDataPairs[0].weaponName;
+        currentSecondaryWeaponName = weaponDataPairs[0].weaponName;
     }
 
-    private void Update()
+    public void GenerateWeaponPrimaryByName(string newWeaponName, Transform dropPos)
     {
-        isPrimaryWeapon = currentPrimaryWeaponName != "Null";
-        isSecondaryWeapon = currentSecondaryWeaponName != "Null";
+        DropItem(currentPrimaryWeaponName, dropPos);
+        GenerateWeaponByName(newWeaponName, true);
     }
 
-    public void GenerateWeaponByName(string newWeaponName)
+    public void GenerateWeaponSecondaryByName(string newWeaponName, Transform dropPos)
+    {
+        DropItem(currentSecondaryWeaponName, dropPos);
+        GenerateWeaponByName(newWeaponName, false);
+    }
+
+    private void GenerateWeaponByName(string newWeaponName, bool isPrimary)
     {
         WeaponDataSO data = weaponDataPairs
             .FirstOrDefault(pair => pair.weaponName == newWeaponName)?.data;
@@ -48,7 +45,15 @@ public class WeaponGenerator : MonoBehaviour
         if (data != null)
         {
             GenerateWeapon(data);
-            currentPrimaryWeaponName = newWeaponName;
+
+            if (isPrimary)
+            {
+                currentPrimaryWeaponName = newWeaponName;
+            }
+            else
+            {
+                currentSecondaryWeaponName = newWeaponName;
+            }
         }
         else
         {
@@ -94,10 +99,10 @@ public class WeaponGenerator : MonoBehaviour
         anim.runtimeAnimatorController = data.AnimatorController;
     }
 
-    public void DropItem(Transform dropPos)
+    private void DropItem(string currentWeaponName, Transform dropPos)
     {
         WeaponDataSO data = weaponDataPairs
-            .FirstOrDefault(pair => pair.weaponName == currentPrimaryWeaponName)?.data;
+            .FirstOrDefault(pair => pair.weaponName == currentWeaponName)?.data;
 
         if (data != null && data.ItemDrop != null)
         {
@@ -108,7 +113,7 @@ public class WeaponGenerator : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning($"No data or drop item weapon name: {currentPrimaryWeaponName}");
+            Debug.LogWarning($"No data or drop item weapon name: {currentWeaponName}");
         }
     }
 }
