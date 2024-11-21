@@ -1,94 +1,109 @@
 ﻿using TMPro;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class AudioSettings : MonoBehaviour
 {
-    public TextMeshProUGUI musicVolumeText;  // TextMeshPro hiển thị âm lượng Music
-    public TextMeshProUGUI sfxVolumeText;    // TextMeshPro hiển thị âm lượng SFX
+    public TextMeshProUGUI musicVolumeText;
+    public TextMeshProUGUI sfxVolumeText;
 
-    private float musicVolume = 1.0f; // Âm lượng Music hiện tại (100%)
-    private float sfxVolume = 1.0f;   // Âm lượng SFX hiện tại (100%)
+    private float musicVolume = 1.0f;
+    private float sfxVolume = 1.0f;
 
-    private AudioSource musicSource;  // Nguồn phát âm thanh của Music
-    private AudioSource sfxSource;    // Nguồn phát âm thanh của SFX
+    [SerializeField] private AudioMixer myMixer;
 
-    void Start()
+    private const string MusicVolumeKey = "MusicVolume";
+    private const string SFXVolumeKey = "SFXVolume";
+
+    private void Start()
     {
-        // Lấy AudioSource cho Music và SFX (có thể set trong Inspector)
-        // musicSource = GameObject.Find("MusicSource").GetComponent<AudioSource>();
-        // sfxSource = GameObject.Find("SFXSource").GetComponent<AudioSource>();
-
+        LoadAudioSettings();
         UpdateMusicVolumeText();
         UpdateSFXVolumeText();
     }
 
-    // Hàm tăng âm lượng Music lên 5%
     public void IncreaseMusicVolume()
     {
         if (musicVolume < 1.0f)
         {
-            musicVolume = Mathf.Min(musicVolume + 0.05f, 1.0f); // Không vượt quá 100%
-            //SetMusicVolume();
+            musicVolume = Mathf.Min(musicVolume + 0.05f, 1.0f);
+            SetMusicVolume();
             UpdateMusicVolumeText();
+            SaveAudioSettings();
         }
     }
 
-    // Hàm giảm âm lượng Music xuống 5%
     public void DecreaseMusicVolume()
     {
         if (musicVolume > 0.0f)
         {
-            musicVolume = Mathf.Max(musicVolume - 0.05f, 0.0f); // Không xuống dưới 0%
-            //SetMusicVolume();
+            musicVolume = Mathf.Max(musicVolume - 0.05f, 0.0f);
+            SetMusicVolume();
             UpdateMusicVolumeText();
+            SaveAudioSettings();
         }
     }
 
-    // Hàm tăng âm lượng SFX lên 5%
     public void IncreaseSFXVolume()
     {
         if (sfxVolume < 1.0f)
         {
-            sfxVolume = Mathf.Min(sfxVolume + 0.05f, 1.0f); // Không vượt quá 100%
-            //SetSFXVolume();
+            sfxVolume = Mathf.Min(sfxVolume + 0.05f, 1.0f);
+            SetSFXVolume();
             UpdateSFXVolumeText();
+            SaveAudioSettings();
         }
     }
 
-    // Hàm giảm âm lượng SFX xuống 5%
     public void DecreaseSFXVolume()
     {
         if (sfxVolume > 0.0f)
         {
-            sfxVolume = Mathf.Max(sfxVolume - 0.05f, 0.0f); // Không xuống dưới 0%
-            //SetSFXVolume();
+            sfxVolume = Mathf.Max(sfxVolume - 0.05f, 0.0f);
+            SetSFXVolume();
             UpdateSFXVolumeText();
+            SaveAudioSettings();
         }
     }
 
-    // Hàm cài đặt âm lượng cho Music
     private void SetMusicVolume()
     {
-        musicSource.volume = musicVolume;
+        float volume = musicVolume > 0 ? Mathf.Log10(musicVolume) * 20 : -80;
+        myMixer.SetFloat("music", volume);
     }
 
-    // Hàm cài đặt âm lượng cho SFX
     private void SetSFXVolume()
     {
-        sfxSource.volume = sfxVolume;
+        float volume = sfxVolume > 0 ? Mathf.Log10(sfxVolume) * 20 : -80;
+        myMixer.SetFloat("vfx", volume);
     }
 
-    // Cập nhật TextMeshPro hiển thị âm lượng Music
     private void UpdateMusicVolumeText()
     {
         int musicPercentage = Mathf.RoundToInt(musicVolume * 100);
         musicVolumeText.text = $"{musicPercentage} %";
     }
 
-    // Cập nhật TextMeshPro hiển thị âm lượng SFX
     private void UpdateSFXVolumeText()
     {
         int sfxPercentage = Mathf.RoundToInt(sfxVolume * 100);
         sfxVolumeText.text = $"{sfxPercentage} %";
     }
+
+    private void SaveAudioSettings()
+    {
+        PlayerPrefs.SetFloat(MusicVolumeKey, musicVolume);
+        PlayerPrefs.SetFloat(SFXVolumeKey, sfxVolume);
+        PlayerPrefs.Save();
+    }
+
+    private void LoadAudioSettings()
+    {
+        musicVolume = PlayerPrefs.HasKey(MusicVolumeKey) ? PlayerPrefs.GetFloat(MusicVolumeKey) : 0.5f;
+        sfxVolume = PlayerPrefs.HasKey(SFXVolumeKey) ? PlayerPrefs.GetFloat(SFXVolumeKey) : 0.5f;
+
+        SetMusicVolume();
+        SetSFXVolume();
+    }
+
 }

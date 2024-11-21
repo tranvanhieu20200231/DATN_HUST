@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour
     public void NewGame()
     {
         isNewGame = true;
-        PlayerPrefsUtility.DeleteAll();
+        SaveLoadGame.DeleteData();
         SaveLoadGame.LoadGame();
         SceneManager.LoadScene(1);
     }

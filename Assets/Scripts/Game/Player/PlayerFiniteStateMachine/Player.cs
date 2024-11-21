@@ -30,6 +30,7 @@ public class Player : MonoBehaviour
     public Animator Anim { get; private set; }
     public Rigidbody2D RB { get; private set; }
     public PlayerInputHandler InputHandler { get; private set; }
+    public PlayerSoundManager PlayerSoundManager { get; private set; }
     public Transform DashDirectionIndicator { get; private set; }
     public BoxCollider2D MovementCollider { get; private set; }
     #endregion
@@ -79,6 +80,7 @@ public class Player : MonoBehaviour
         Anim = GetComponent<Animator>();
         RB = GetComponent<Rigidbody2D>();
         InputHandler = GetComponent<PlayerInputHandler>();
+        PlayerSoundManager = GetComponent<PlayerSoundManager>();
         DashDirectionIndicator = transform.Find("DashDirectionIndicator");
         MovementCollider = GetComponent<BoxCollider2D>();
 

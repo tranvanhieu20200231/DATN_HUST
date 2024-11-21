@@ -25,19 +25,34 @@ public class ButtonMenuManager : MonoBehaviour
 
     private Color normalColor = new Color(1, 1, 1, 100f / 255f);
     private Color highlightColor = new Color(1, 1, 1, 255f / 255f);
-    private Color pressedColor = new Color(1, 0, 0, 255f / 255f);
 
     private int currentIndex = 0;
+
+    private AudioSource highlightAudio;
+    private AudioSource pressedAudio;
 
     private void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
+
+        AudioSource[] audioSources = GetComponentsInParent<AudioSource>();
+
+        if (audioSources.Length >= 2)
+        {
+            highlightAudio = audioSources[0];
+            pressedAudio = audioSources[1];
+        }
+        else
+        {
+            Debug.LogWarning("Không đủ AudioSource được tìm thấy trong cha của ButtonMenuManager!");
+        }
 
         if (SceneManager.GetActiveScene().buildIndex == 0)
         {
             playerInput.enabled = false;
         }
     }
+
 
     private void Start()
     {
@@ -86,6 +101,7 @@ public class ButtonMenuManager : MonoBehaviour
             if (pair != selectedPair)
             {
                 pair.text.color = normalColor;
+                pressedAudio.Play();
             }
         }
     }
@@ -112,6 +128,8 @@ public class ButtonMenuManager : MonoBehaviour
         {
             currentIndex = (currentIndex - 1 + buttonTextPairs.Count) % buttonTextPairs.Count;
             OnButtonHighlight(buttonTextPairs[currentIndex]);
+
+            highlightAudio.Play();
         }
     }
 
@@ -121,6 +139,8 @@ public class ButtonMenuManager : MonoBehaviour
         {
             currentIndex = (currentIndex + 1) % buttonTextPairs.Count;
             OnButtonHighlight(buttonTextPairs[currentIndex]);
+
+            highlightAudio.Play();
         }
     }
 
@@ -139,6 +159,8 @@ public class ButtonMenuManager : MonoBehaviour
         if (context.performed && backButton != null)
         {
             backButton.onClick.Invoke();
+
+            pressedAudio.Play();
         }
     }
 

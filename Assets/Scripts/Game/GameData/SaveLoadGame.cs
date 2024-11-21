@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public static class SaveLoadGame
 {
     public static void SaveData()
@@ -28,5 +30,22 @@ public static class SaveLoadGame
         PlayerInteractiveChest.redPowerCurrent = PlayerPrefsUtility.LoadInt("PowerRed", 0);
         PlayerInteractiveChest.greenPowerCurrent = PlayerPrefsUtility.LoadInt("PowerGreen", 0);
         PlayerInteractiveChest.yellowPowerCurrent = PlayerPrefsUtility.LoadInt("PowerYellow", 0);
+    }
+
+    public static void DeleteData()
+    {
+        PlayerPrefsUtility.DeleteKey("Attack");
+        PlayerPrefsUtility.DeleteKey("Health");
+
+        PlayerPrefsUtility.DeleteKey("Primary");
+        PlayerPrefsUtility.DeleteKey("Secondary");
+
+        PlayerPrefsUtility.DeleteKey("CurrentLevelIndex");
+
+        PlayerPrefsUtility.DeleteKey("PowerRed");
+        PlayerPrefsUtility.DeleteKey("PowerGreen");
+        PlayerPrefsUtility.DeleteKey("PowerYellow");
+
+        PlayerPrefs.Save();
     }
 }

@@ -75,6 +75,8 @@ public class PlayerDashState : PlayerAbilityState
                     Movement?.SetVelocity(playerData.dashVelocity, dashDirection);
                     player.DashDirectionIndicator.gameObject.SetActive(false);
                     PlaceAfterImage();
+
+                    player.PlayerSoundManager.PlaySound("Dash");
                 }
             }
             else
