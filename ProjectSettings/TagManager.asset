@@ -7,6 +7,8 @@ TagManager:
   - Enemy
   - ParticleContainer
   - Weapon
+  - Chest
+  - Teleport
   layers:
   - Default
   - TransparentFX

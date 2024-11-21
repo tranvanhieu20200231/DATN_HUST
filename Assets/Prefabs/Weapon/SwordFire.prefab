@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4546565897986466686}
   - component: {fileID: 4342954515483301540}
   - component: {fileID: 5314741484284752877}
-  - component: {fileID: 3832823001624471170}
+  - component: {fileID: -5571798377734831232}
   m_Layer: 0
   m_Name: SwordFire
   m_TagString: Weapon
@@ -132,7 +132,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.5003891, y: 0.56156445}
   m_EdgeRadius: 0
---- !u!114 &3832823001624471170
+--- !u!114 &-5571798377734831232
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -141,7 +141,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3508207959019915825}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d85989148ec4654e87d19c82a67c26a, type: 3}
+  m_Script: {fileID: 11500000, guid: cef57366d5d7cad42b1780bb2a5113a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   objShowName: ChoiceTutorial

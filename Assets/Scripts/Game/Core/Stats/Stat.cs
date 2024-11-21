@@ -8,7 +8,7 @@ namespace Asset.Script.Core.StatsSystem
     {
         public event Action OnCurrentValueZero;
 
-        [field: SerializeField] public float MaxValue { get; private set; }
+        [field: SerializeField] public float MaxValue;
 
         public float CurrentValue
         {
@@ -27,6 +27,13 @@ namespace Asset.Script.Core.StatsSystem
         private float currentValue;
 
         public void Init() => CurrentValue = MaxValue;
+
+        public void InitPlayer()
+        {
+            MaxValue = PlayerData.health;
+
+            CurrentValue = MaxValue;
+        }
 
         public void Increase(float amount) => CurrentValue += amount;
 

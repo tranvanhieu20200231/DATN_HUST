@@ -10,7 +10,7 @@ public class Damage : WeaponComponent<DamageData, AttackDamage>
         {
             if (item.TryGetComponent(out IDamageable damageable))
             {
-                damageable.Damage(currentAttackData.Amount);
+                damageable.Damage(currentAttackData.Amount + PlayerData.attack);
             }
         }
     }

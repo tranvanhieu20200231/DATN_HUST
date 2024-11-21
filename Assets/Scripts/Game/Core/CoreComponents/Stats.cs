@@ -1,5 +1,6 @@
 using Asset.Script.Core.StatsSystem;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Stats : CoreComponent
 {
@@ -12,8 +13,37 @@ public class Stats : CoreComponent
     {
         base.Awake();
 
-        Health.Init();
-        Poise.Init();
+        if (LayerMask.LayerToName(gameObject.layer) == "Player")
+        {
+            Health.InitPlayer();
+            Poise.Init();
+        }
+        else
+        {
+            Health.Init();
+            Poise.Init();
+        }
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void InitializeStats()
+    {
+        if (LayerMask.LayerToName(gameObject.layer) == "Player")
+        {
+            Health.InitPlayer();
+            Poise.Init();
+        }
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        InitializeStats();
     }
 
     private void Update()

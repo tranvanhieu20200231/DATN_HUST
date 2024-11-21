@@ -1,5 +1,4 @@
-﻿using DG.Tweening;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -82,15 +81,6 @@ public class ButtonMenuManager : MonoBehaviour
 
     void OnButtonPress(ButtonTextPair selectedPair)
     {
-        TextMeshProUGUI txt = selectedPair.text;
-
-        txt.color = pressedColor;
-        txt.transform.DOScale(1.2f, 0.15f).OnComplete(() =>
-        {
-            txt.transform.DOScale(1f, 0.15f);
-            txt.color = highlightColor;
-        });
-
         foreach (var pair in buttonTextPairs)
         {
             if (pair != selectedPair)
@@ -171,5 +161,10 @@ public class ButtonMenuManager : MonoBehaviour
     private void OnEnable()
     {
         OnButtonHighlight(buttonTextPairs[0]);
+    }
+
+    public void StopPause()
+    {
+        Time.timeScale = 1.0f;
     }
 }

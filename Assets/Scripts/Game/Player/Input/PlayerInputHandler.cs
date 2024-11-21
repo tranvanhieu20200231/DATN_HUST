@@ -166,6 +166,11 @@ public class PlayerInputHandler : MonoBehaviour
         }
     }
 
+    public void OnPause()
+    {
+        Time.timeScale = 0f;
+    }
+
     public void UseJumpInput() => JumpInput = false;
 
     public void UseDashInput() => DashInput = false;

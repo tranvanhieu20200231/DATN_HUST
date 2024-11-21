@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -10,6 +11,8 @@ public class PlayerInteractiveWeapon : MonoBehaviour
 
     [SerializeField] private GameObject weaponSwapUI;
 
+    [SerializeField] private List<GameObject> weaponObjects;
+
     private WeaponGeneratorPrimary weaponGeneratorPrimary;
     private WeaponGeneratorSecondary weaponGeneratorSecondary;
 
@@ -19,6 +22,8 @@ public class PlayerInteractiveWeapon : MonoBehaviour
     private string weaponName;
     private GameObject weaponEquip;
     private Sprite weaponSprite;
+
+    public static bool isResetUIWeapon = false;
 
     private void Start()
     {
@@ -60,6 +65,13 @@ public class PlayerInteractiveWeapon : MonoBehaviour
 
             PlayerInputHandler.isChoice = false;
         }
+
+        if (GameManager.isNewGame)
+        {
+            LoadWeaponUI();
+            PlayerInteractiveTeleport.nextLevelIndex = 1;
+            GameManager.isNewGame = false;
+        }
     }
 
     public void AddWeaponPrimary()
@@ -85,5 +97,19 @@ public class PlayerInteractiveWeapon : MonoBehaviour
         weaponSwapUI.GetComponent<PlayerInput>().enabled = false;
         playerInput.enabled = true;
     }
-}
 
+    private void LoadWeaponUI()
+    {
+        GameObject primaryWeapon = weaponObjects.Find(obj => obj.name == WeaponGenerator.currentPrimaryWeaponName);
+        if (primaryWeapon != null)
+        {
+            PrimaryWeaponUI.sprite = primaryWeapon.GetComponent<SpriteRenderer>()?.sprite;
+        }
+
+        GameObject secondaryWeapon = weaponObjects.Find(obj => obj.name == WeaponGenerator.currentSecondaryWeaponName);
+        if (secondaryWeapon != null)
+        {
+            SecondaryWeaponUI.sprite = secondaryWeapon.GetComponent<SpriteRenderer>()?.sprite;
+        }
+    }
+}

@@ -3,6 +3,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "newPlayerData", menuName = "Data/Player Data/Base Data")]
 public class PlayerData : ScriptableObject
 {
+    [Header("Power")]
+    public static float attack = 10f;
+    public static float health = 100f;
+
     [Header("Move State")]
     public float movementVelocity = 10f;
 

@@ -8,8 +8,8 @@ public class WeaponGenerator : MonoBehaviour
     [SerializeField] private Weapon weapon;
     [SerializeField] private List<WeaponDataPair> weaponDataPairs;
 
-    protected string currentPrimaryWeaponName;
-    protected string currentSecondaryWeaponName;
+    public static string currentPrimaryWeaponName = "Null";
+    public static string currentSecondaryWeaponName = "Null";
 
     private List<WeaponComponent> componentAlreadyOnWeapon = new List<WeaponComponent>();
     private List<WeaponComponent> componentsAddedToWeapon = new List<WeaponComponent>();
@@ -17,28 +17,22 @@ public class WeaponGenerator : MonoBehaviour
 
     private Animator anim;
 
-    private void Start()
-    {
-        anim = GetComponentInChildren<Animator>();
-
-        currentPrimaryWeaponName = weaponDataPairs[0].weaponName;
-        currentSecondaryWeaponName = weaponDataPairs[0].weaponName;
-    }
-
     public void GenerateWeaponPrimaryByName(string newWeaponName, Transform dropPos)
     {
         DropItem(currentPrimaryWeaponName, dropPos);
-        GenerateWeaponByName(newWeaponName, true);
+        GenerateWeaponByName(newWeaponName, true, false);
     }
 
     public void GenerateWeaponSecondaryByName(string newWeaponName, Transform dropPos)
     {
         DropItem(currentSecondaryWeaponName, dropPos);
-        GenerateWeaponByName(newWeaponName, false);
+        GenerateWeaponByName(newWeaponName, false, false);
     }
 
-    private void GenerateWeaponByName(string newWeaponName, bool isPrimary)
+    protected void GenerateWeaponByName(string newWeaponName, bool isPrimary, bool isWeaponStart)
     {
+        anim = GetComponentInChildren<Animator>();
+
         WeaponDataSO data = weaponDataPairs
             .FirstOrDefault(pair => pair.weaponName == newWeaponName)?.data;
 
@@ -46,13 +40,16 @@ public class WeaponGenerator : MonoBehaviour
         {
             GenerateWeapon(data);
 
-            if (isPrimary)
+            if (!isWeaponStart)
             {
-                currentPrimaryWeaponName = newWeaponName;
-            }
-            else
-            {
-                currentSecondaryWeaponName = newWeaponName;
+                if (isPrimary)
+                {
+                    currentPrimaryWeaponName = newWeaponName;
+                }
+                else
+                {
+                    currentSecondaryWeaponName = newWeaponName;
+                }
             }
         }
         else

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8085939062520402696}
   - component: {fileID: 6551423406562659794}
   - component: {fileID: 5841796140417667098}
-  - component: {fileID: 8618700376670118696}
+  - component: {fileID: 4543465521323274774}
   m_Layer: 0
   m_Name: Bow
   m_TagString: Weapon
@@ -132,7 +132,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.5003891, y: 0.56156445}
   m_EdgeRadius: 0
---- !u!114 &8618700376670118696
+--- !u!114 &4543465521323274774
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -141,7 +141,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2639340613671357069}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d85989148ec4654e87d19c82a67c26a, type: 3}
+  m_Script: {fileID: 11500000, guid: cef57366d5d7cad42b1780bb2a5113a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   objShowName: ChoiceTutorial

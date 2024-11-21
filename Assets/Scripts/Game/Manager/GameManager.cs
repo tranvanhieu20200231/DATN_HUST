@@ -4,11 +4,15 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    private string sceneStart;
-    private string mainMenu;
-
     [SerializeField] private List<GameObject> inputIsKeyboard;
     [SerializeField] private List<GameObject> inputIsGamepad;
+
+    public static bool isNewGame = false;
+
+    private void Awake()
+    {
+        Time.timeScale = 1.0f;
+    }
 
     private void Start()
     {
@@ -25,36 +29,26 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void StartGameWithDelay(string nameSceneStart)
+    public void NewGame()
     {
-        sceneStart = nameSceneStart;
-
-        Invoke("StartGame", 0.3f);
+        isNewGame = true;
+        PlayerPrefsUtility.DeleteAll();
+        SaveLoadGame.LoadGame();
+        SceneManager.LoadScene(1);
     }
 
-    private void StartGame()
+    public void Continue()
     {
-        SceneManager.LoadScene(sceneStart);
+        SaveLoadGame.LoadGame();
+        SceneManager.LoadScene(PlayerInteractiveTeleport.currentLevelIndex);
     }
 
-    public void MainMenuWithDelay(string nameMainMenu)
+    public void MainMenu()
     {
-        mainMenu = nameMainMenu;
-
-        Invoke("MainMenu", 0.3f);
+        SceneManager.LoadScene(0);
     }
 
-    private void MainMenu()
-    {
-        SceneManager.LoadScene(mainMenu);
-    }
-
-    public void QuitGameWithDelay()
-    {
-        Invoke("QuitGame", 0.3f);
-    }
-
-    private void QuitGame()
+    public void QuitGame()
     {
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;

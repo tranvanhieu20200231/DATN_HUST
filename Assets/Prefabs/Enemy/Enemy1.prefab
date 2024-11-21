@@ -565,7 +565,7 @@ MonoBehaviour:
   - {x: -0.4575777, y: -0.99347687, z: 0.00000011920929}
   m_ShapePathHash: -46737645
   m_Mesh: {fileID: 0}
-  m_InstanceId: -36656
+  m_InstanceId: 227808
   m_LocalBounds:
     m_Center: {x: 0.079199076, y: -0.26568592, z: 0}
     m_Extent: {x: 0.8984468, y: 0.72779095, z: 0}
@@ -1252,7 +1252,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Health>k__BackingField:
-    <MaxValue>k__BackingField: 100
+    MaxValue: 300
   <Poise>k__BackingField:
-    <MaxValue>k__BackingField: 25
+    MaxValue: 0
   poiseRecoveryRate: 25

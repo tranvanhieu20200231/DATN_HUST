@@ -31,7 +31,7 @@ public class Projectiles : WeaponComponent<ProjectileData, AttackProjectile>
 
             projectileObjScript.FireProjectile(currentAttackData.Speed * multiplier
                 , currentAttackData.TravelDistance * multiplier
-                , currentAttackData.DamageData.Amount * multiplier);
+                , (currentAttackData.DamageData.Amount + PlayerData.attack / 5) * multiplier);
 
             if (currentAttackData.KnockBackData != null)
             {
