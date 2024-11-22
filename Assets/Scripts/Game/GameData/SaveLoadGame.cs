@@ -46,6 +46,8 @@ public static class SaveLoadGame
         PlayerPrefsUtility.DeleteKey("PowerGreen");
         PlayerPrefsUtility.DeleteKey("PowerYellow");
 
+        PlayerPrefsUtility.DeleteKey("TelepointStart");
+
         PlayerPrefs.Save();
     }
 }
