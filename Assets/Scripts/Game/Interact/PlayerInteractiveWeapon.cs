@@ -70,6 +70,7 @@ public class PlayerInteractiveWeapon : MonoBehaviour
         {
             LoadWeaponUI();
             PlayerInteractiveTeleport.nextLevelIndex = 1;
+            PlayerInteractiveRecovery.currentUpgradeCost = 5;
             GameManager.isNewGame = false;
         }
     }

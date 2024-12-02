@@ -1,4 +1,4 @@
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -15,6 +15,8 @@ public class PlayerInteractiveRecovery : MonoBehaviour
     [SerializeField] private TextMeshProUGUI updateQuantityText;
     [SerializeField] private TextMeshProUGUI updateAmountText;
 
+    [SerializeField] private TextMeshProUGUI updateCoinText;
+
     private PlayerInput playerInput;
     private PlayerInput recoveryInput;
 
@@ -24,10 +26,14 @@ public class PlayerInteractiveRecovery : MonoBehaviour
     private int currentHealCount;
     public static float amountRecovered = 50f;
 
+    private int baseUpgradeCost = 5;
+    public static int currentUpgradeCost;
+
     private void Start()
     {
         playerInput = GetComponent<PlayerInput>();
         recoveryInput = recoveryUI.GetComponent<PlayerInput>();
+        currentUpgradeCost = baseUpgradeCost;
     }
 
     private void OnEnable()
@@ -91,6 +97,8 @@ public class PlayerInteractiveRecovery : MonoBehaviour
         updateQuantityText.text = maxHealCount.ToString() + " --> " + (maxHealCount + 1).ToString();
         updateAmountText.text = ((int)amountRecovered).ToString() + " --> " + ((int)(amountRecovered + 20f)).ToString();
 
+        updateCoinText.text = "Need " + currentUpgradeCost.ToString() + " coins to upgrade";
+
         if (currentHealCount > maxHealCount)
         {
             currentHealCount = maxHealCount;
@@ -99,20 +107,32 @@ public class PlayerInteractiveRecovery : MonoBehaviour
 
     public void UpdateQuantity()
     {
-        maxHealCount++;
-        currentHealCount++;
+        if (CoinUI.currentCoin >= currentUpgradeCost)
+        {
+            CoinUI.currentCoin -= currentUpgradeCost;
+            maxHealCount++;
+            currentHealCount = maxHealCount;
 
-        recoveryUI.SetActive(false);
-        recoveryInput.enabled = false;
-        playerInput.enabled = true;
+            currentUpgradeCost += baseUpgradeCost;
+
+            recoveryUI.SetActive(false);
+            recoveryInput.enabled = false;
+            playerInput.enabled = true;
+        }
     }
 
     public void UpdateAmount()
     {
-        amountRecovered = amountRecovered + 20f;
+        if (CoinUI.currentCoin >= currentUpgradeCost)
+        {
+            CoinUI.currentCoin -= currentUpgradeCost;
+            amountRecovered = amountRecovered + 20f;
 
-        recoveryUI.SetActive(false);
-        recoveryInput.enabled = false;
-        playerInput.enabled = true;
+            currentUpgradeCost += baseUpgradeCost;
+
+            recoveryUI.SetActive(false);
+            recoveryInput.enabled = false;
+            playerInput.enabled = true;
+        }
     }
 }

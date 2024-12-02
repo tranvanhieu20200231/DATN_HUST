@@ -26,5 +26,4 @@ public class HealthBarEnemy : MonoBehaviour
 
         slider.fillRect.GetComponentInChildren<Image>().color = Color.Lerp(low, high, slider.normalizedValue);
     }
-
 }

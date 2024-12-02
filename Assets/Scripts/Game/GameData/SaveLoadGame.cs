@@ -18,6 +18,8 @@ public static class SaveLoadGame
 
         PlayerPrefsUtility.SaveInt("MaxHealCount", PlayerInteractiveRecovery.maxHealCount);
         PlayerPrefsUtility.SaveFloat("AmountRecovered", PlayerInteractiveRecovery.amountRecovered);
+
+        PlayerPrefsUtility.SaveInt("CurrentCoin", CoinUI.currentCoin);
     }
 
     public static void LoadGame()
@@ -36,6 +38,8 @@ public static class SaveLoadGame
 
         PlayerInteractiveRecovery.maxHealCount = PlayerPrefsUtility.LoadInt("MaxHealCount", 1);
         PlayerInteractiveRecovery.amountRecovered = PlayerPrefsUtility.LoadFloat("AmountRecovered", 50f);
+
+        CoinUI.currentCoin = PlayerPrefsUtility.LoadInt("CurrentCoin", 0);
     }
 
     public static void DeleteData()
@@ -57,6 +61,31 @@ public static class SaveLoadGame
         PlayerPrefsUtility.DeleteKey("AmountRecovered");
 
         PlayerPrefsUtility.DeleteKey("TelepointStart");
+
+        PlayerPrefsUtility.DeleteKey("CurrentCoin");
+
+        PlayerPrefs.Save();
+    }
+
+    public static void DeleteDataDie()
+    {
+        PlayerPrefsUtility.DeleteKey("Attack");
+        PlayerPrefsUtility.DeleteKey("Health");
+
+        PlayerPrefsUtility.DeleteKey("Primary");
+        PlayerPrefsUtility.DeleteKey("Secondary");
+
+        PlayerPrefsUtility.DeleteKey("CurrentLevelIndex");
+
+        PlayerPrefsUtility.DeleteKey("PowerRed");
+        PlayerPrefsUtility.DeleteKey("PowerGreen");
+        PlayerPrefsUtility.DeleteKey("PowerYellow");
+
+        PlayerPrefsUtility.DeleteKey("MaxHealCount");
+        PlayerPrefsUtility.DeleteKey("CurrentHealCount");
+        PlayerPrefsUtility.DeleteKey("AmountRecovered");
+
+        PlayerPrefsUtility.DeleteKey("CurrentCoin");
 
         PlayerPrefs.Save();
     }
