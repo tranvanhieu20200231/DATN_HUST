@@ -9,6 +9,7 @@ public class PlayerInputHandler : MonoBehaviour
     private GameManager GM;
 
     public static bool isChoice;
+    public static bool isHealth;
 
     public Vector2 RawMovementInput { get; private set; }
     public Vector2 RawDashDirectionInput { get; private set; }
@@ -163,6 +164,19 @@ public class PlayerInputHandler : MonoBehaviour
         if (context.canceled)
         {
             isChoice = false;
+        }
+    }
+
+    public void OnHealth(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            isHealth = true;
+        }
+
+        if (context.canceled)
+        {
+            isHealth = false;
         }
     }
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -34,12 +35,28 @@ public class GameManager : MonoBehaviour
         isNewGame = true;
         SaveLoadGame.DeleteData();
         SaveLoadGame.LoadGame();
+
+        StartCoroutine(HandleNewGame());
+    }
+
+    private IEnumerator HandleNewGame()
+    {
+        yield return new WaitForSeconds(0.3f);
+
         SceneManager.LoadScene(1);
     }
 
     public void Continue()
     {
         SaveLoadGame.LoadGame();
+
+        StartCoroutine(HandleContinue());
+    }
+
+    private IEnumerator HandleContinue()
+    {
+        yield return new WaitForSeconds(0.3f);
+
         SceneManager.LoadScene(PlayerInteractiveTeleport.currentLevelIndex);
     }
 
@@ -53,7 +70,7 @@ public class GameManager : MonoBehaviour
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #else
-            Application.Quit();
+        Application.Quit();
 #endif
     }
 

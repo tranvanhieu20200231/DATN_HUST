@@ -9,6 +9,7 @@ TagManager:
   - Weapon
   - Chest
   - Teleport
+  - Recovery
   layers:
   - Default
   - TransparentFX

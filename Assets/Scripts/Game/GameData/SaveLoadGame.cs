@@ -15,6 +15,9 @@ public static class SaveLoadGame
         PlayerPrefsUtility.SaveInt("PowerRed", PlayerInteractiveChest.redPowerCurrent);
         PlayerPrefsUtility.SaveInt("PowerGreen", PlayerInteractiveChest.greenPowerCurrent);
         PlayerPrefsUtility.SaveInt("PowerYellow", PlayerInteractiveChest.yellowPowerCurrent);
+
+        PlayerPrefsUtility.SaveInt("MaxHealCount", PlayerInteractiveRecovery.maxHealCount);
+        PlayerPrefsUtility.SaveFloat("AmountRecovered", PlayerInteractiveRecovery.amountRecovered);
     }
 
     public static void LoadGame()
@@ -30,6 +33,9 @@ public static class SaveLoadGame
         PlayerInteractiveChest.redPowerCurrent = PlayerPrefsUtility.LoadInt("PowerRed", 0);
         PlayerInteractiveChest.greenPowerCurrent = PlayerPrefsUtility.LoadInt("PowerGreen", 0);
         PlayerInteractiveChest.yellowPowerCurrent = PlayerPrefsUtility.LoadInt("PowerYellow", 0);
+
+        PlayerInteractiveRecovery.maxHealCount = PlayerPrefsUtility.LoadInt("MaxHealCount", 1);
+        PlayerInteractiveRecovery.amountRecovered = PlayerPrefsUtility.LoadFloat("AmountRecovered", 50f);
     }
 
     public static void DeleteData()
@@ -45,6 +51,10 @@ public static class SaveLoadGame
         PlayerPrefsUtility.DeleteKey("PowerRed");
         PlayerPrefsUtility.DeleteKey("PowerGreen");
         PlayerPrefsUtility.DeleteKey("PowerYellow");
+
+        PlayerPrefsUtility.DeleteKey("MaxHealCount");
+        PlayerPrefsUtility.DeleteKey("CurrentHealCount");
+        PlayerPrefsUtility.DeleteKey("AmountRecovered");
 
         PlayerPrefsUtility.DeleteKey("TelepointStart");
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using TMPro;
 using UnityEngine;
 
 namespace Asset.Script.Core.StatsSystem
@@ -26,6 +27,10 @@ namespace Asset.Script.Core.StatsSystem
 
         private float currentValue;
 
+        [SerializeField] private GameObject damagePopup;
+
+        [SerializeField] private ParticleManager particleManager;
+
         public void Init() => CurrentValue = MaxValue;
 
         public void InitPlayer()
@@ -35,8 +40,24 @@ namespace Asset.Script.Core.StatsSystem
             CurrentValue = MaxValue;
         }
 
-        public void Increase(float amount) => CurrentValue += amount;
+        public void Increase(float amount)
+        {
+            CurrentValue += amount;
 
-        public void Decrease(float amount) => CurrentValue -= amount;
+            TextMeshProUGUI textPopup = damagePopup.GetComponentInChildren<TextMeshProUGUI>();
+            textPopup.text = "+" + ((int)amount).ToString();
+
+            particleManager.StartParticles(damagePopup);
+        }
+
+        public void Decrease(float amount)
+        {
+            CurrentValue -= amount;
+
+            TextMeshProUGUI textPopup = damagePopup.GetComponentInChildren<TextMeshProUGUI>();
+            textPopup.text = (-(int)amount).ToString();
+
+            particleManager.StartParticles(damagePopup);
+        }
     }
 }

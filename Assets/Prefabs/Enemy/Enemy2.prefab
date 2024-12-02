@@ -253,7 +253,7 @@ MonoBehaviour:
   - {x: -0.20595741, y: -0.8843956, z: 0}
   m_ShapePathHash: 1702957575
   m_Mesh: {fileID: 0}
-  m_InstanceId: 228160
+  m_InstanceId: 72312
   m_LocalBounds:
     m_Center: {x: -0.064349174, y: -0.2944007, z: 0}
     m_Extent: {x: 0.29228115, y: 0.7057185, z: 0}
@@ -702,8 +702,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Health>k__BackingField:
     MaxValue: 100
+    damagePopup: {fileID: 609948020626128152, guid: ba1406bd3e996e146b80cc4684217b06, type: 3}
+    particleManager: {fileID: 424961363878036092}
   <Poise>k__BackingField:
     MaxValue: 0
+    damagePopup: {fileID: 0}
+    particleManager: {fileID: 0}
   poiseRecoveryRate: 25
 --- !u!1 &2430888090933643995
 GameObject:
@@ -1148,7 +1152,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageParticles: {fileID: 305765267832958630, guid: d46c36047a3b0ad4d8c99b66f5044ea5, type: 3}
-  damagePopup: {fileID: 609948020626128152, guid: ba1406bd3e996e146b80cc4684217b06, type: 3}
 --- !u!114 &4518824382879697686
 MonoBehaviour:
   m_ObjectHideFlags: 0
