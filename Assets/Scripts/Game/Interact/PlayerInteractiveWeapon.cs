@@ -71,6 +71,11 @@ public class PlayerInteractiveWeapon : MonoBehaviour
             LoadWeaponUI();
             PlayerInteractiveTeleport.nextLevelIndex = 1;
             PlayerInteractiveRecovery.currentUpgradeCost = 5;
+
+            ShopManager.indexWeapon_1 = 0;
+            ShopManager.indexWeapon_2 = 1;
+            ShopManager.indexWeapon_3 = 2;
+
             GameManager.isNewGame = false;
         }
     }

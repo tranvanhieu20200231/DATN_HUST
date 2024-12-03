@@ -20,6 +20,10 @@ public static class SaveLoadGame
         PlayerPrefsUtility.SaveFloat("AmountRecovered", PlayerInteractiveRecovery.amountRecovered);
 
         PlayerPrefsUtility.SaveInt("CurrentCoin", CoinUI.currentCoin);
+
+        PlayerPrefsUtility.SaveInt("ShopWeapon_1", ShopManager.indexWeapon_1);
+        PlayerPrefsUtility.SaveInt("ShopWeapon_2", ShopManager.indexWeapon_2);
+        PlayerPrefsUtility.SaveInt("ShopWeapon_3", ShopManager.indexWeapon_3);
     }
 
     public static void LoadGame()
@@ -39,7 +43,11 @@ public static class SaveLoadGame
         PlayerInteractiveRecovery.maxHealCount = PlayerPrefsUtility.LoadInt("MaxHealCount", 1);
         PlayerInteractiveRecovery.amountRecovered = PlayerPrefsUtility.LoadFloat("AmountRecovered", 50f);
 
-        CoinUI.currentCoin = PlayerPrefsUtility.LoadInt("CurrentCoin", 0);
+        CoinUI.currentCoin = PlayerPrefsUtility.LoadInt("CurrentCoin", 1000);
+
+        ShopManager.indexWeapon_1 = PlayerPrefsUtility.LoadInt("ShopWeapon_1", 0);
+        ShopManager.indexWeapon_2 = PlayerPrefsUtility.LoadInt("ShopWeapon_2", 1);
+        ShopManager.indexWeapon_3 = PlayerPrefsUtility.LoadInt("ShopWeapon_3", 2);
     }
 
     public static void DeleteData()
@@ -64,6 +72,10 @@ public static class SaveLoadGame
 
         PlayerPrefsUtility.DeleteKey("CurrentCoin");
 
+        PlayerPrefsUtility.DeleteKey("ShopWeapon_1");
+        PlayerPrefsUtility.DeleteKey("ShopWeapon_2");
+        PlayerPrefsUtility.DeleteKey("ShopWeapon_3");
+
         PlayerPrefs.Save();
     }
 
@@ -86,6 +98,10 @@ public static class SaveLoadGame
         PlayerPrefsUtility.DeleteKey("AmountRecovered");
 
         PlayerPrefsUtility.DeleteKey("CurrentCoin");
+
+        PlayerPrefsUtility.DeleteKey("ShopWeapon_1");
+        PlayerPrefsUtility.DeleteKey("ShopWeapon_2");
+        PlayerPrefsUtility.DeleteKey("ShopWeapon_3");
 
         PlayerPrefs.Save();
     }

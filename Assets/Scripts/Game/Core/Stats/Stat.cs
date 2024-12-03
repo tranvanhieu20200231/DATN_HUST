@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 
@@ -30,6 +31,8 @@ namespace Asset.Script.Core.StatsSystem
         [SerializeField] private GameObject damagePopup;
 
         [SerializeField] private ParticleManager particleManager;
+
+        [SerializeField] private SpriteRenderer SR;
 
         public void Init() => CurrentValue = MaxValue;
 
@@ -64,6 +67,23 @@ namespace Asset.Script.Core.StatsSystem
             }
 
             particleManager.StartParticles(damagePopup);
+
+            if (SR != null)
+            {
+                particleManager.StartCoroutine(Blink(SR, 0.1f, 5));
+            }
+        }
+
+        private IEnumerator Blink(SpriteRenderer spriteRenderer, float blinkDuration, int blinkCount)
+        {
+            for (int i = 0; i < blinkCount; i++)
+            {
+                spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 0.2f);
+                yield return new WaitForSeconds(blinkDuration);
+
+                spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 1f);
+                yield return new WaitForSeconds(blinkDuration);
+            }
         }
     }
 }
