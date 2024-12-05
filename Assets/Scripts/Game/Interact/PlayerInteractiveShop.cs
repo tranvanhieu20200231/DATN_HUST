@@ -47,9 +47,9 @@ public class PlayerInteractiveShop : MonoBehaviour
 
     public void ResetShop()
     {
-        if (CoinUI.currentCoin >= 20)
+        if (CoinUI.currentCoin >= 50)
         {
-            CoinUI.currentCoin -= 20;
+            CoinUI.currentCoin -= 50;
             shopEquip.GetComponent<ShopManager>().ResetShopItems();
 
             shopUI.SetActive(false);

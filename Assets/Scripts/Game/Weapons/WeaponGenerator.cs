@@ -96,7 +96,7 @@ public class WeaponGenerator : MonoBehaviour
         anim.runtimeAnimatorController = data.AnimatorController;
     }
 
-    private void DropItem(string currentWeaponName, Transform dropPos)
+    private void DropItem(string currentWeaponName, Transform dropParent)
     {
         WeaponDataSO data = weaponDataPairs
             .FirstOrDefault(pair => pair.weaponName == currentWeaponName)?.data;
@@ -105,7 +105,7 @@ public class WeaponGenerator : MonoBehaviour
         {
             GameObject itemDrop = data.ItemDrop;
 
-            GameObject itemInstance = Instantiate(itemDrop, dropPos.position, Quaternion.identity);
+            GameObject itemInstance = Instantiate(itemDrop, dropParent.position, Quaternion.identity, dropParent.parent);
             itemInstance.name = itemDrop.name;
         }
         else
