@@ -9,6 +9,8 @@ public class RangedAttackState : AttackState
 
     protected GameObject projectile;
     protected ProjectileObj projectileScript;
+    protected BoomGoblin boomGoblin;
+    protected TornadoFlyingEye tornadoFlyingEye;
 
     public RangedAttackState(FiniteStateMachine stateMachine, Entity entity, string animBoolName, Transform attackPosition, D_RangedAttackState stateData) : base(stateMachine, entity, animBoolName, attackPosition)
     {
@@ -51,7 +53,24 @@ public class RangedAttackState : AttackState
 
         projectile = GameObject.Instantiate(stateData.projectile, attackPosition.position, attackPosition.rotation);
         projectileScript = projectile.GetComponent<ProjectileObj>();
-        projectileScript.FireProjectile(stateData.projectileSpeed, stateData.projectileTravelDistance, stateData.projectileDamage);
-        projectileScript.ProjectileKnockBack(stateData.projectileAngel, stateData.projectileStrength, Movement.FacingDirection);
+        if (projectileScript != null)
+        {
+            projectileScript.FireProjectile(stateData.projectileSpeed, stateData.projectileTravelDistance, stateData.projectileDamage);
+            projectileScript.ProjectileKnockBack(stateData.projectileAngel, stateData.projectileStrength, Movement.FacingDirection);
+        }
+
+        boomGoblin = projectile.GetComponent<BoomGoblin>();
+        if (boomGoblin != null)
+        {
+            boomGoblin.FireProjectile(stateData.projectileSpeed, stateData.projectileDamage);
+            boomGoblin.ProjectileKnockBack(stateData.projectileAngel, stateData.projectileStrength, Movement.FacingDirection);
+        }
+
+        tornadoFlyingEye = projectile.GetComponent<TornadoFlyingEye>();
+        if (tornadoFlyingEye != null)
+        {
+            tornadoFlyingEye.FireProjectile(stateData.projectileSpeed, stateData.projectileTravelDistance, stateData.projectileDamage);
+            tornadoFlyingEye.ProjectileKnockBack(stateData.projectileAngel, stateData.projectileStrength, Movement.FacingDirection);
+        }
     }
 }

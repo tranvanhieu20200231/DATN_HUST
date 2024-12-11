@@ -1,96 +1,96 @@
 ﻿using TMPro;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class DisplaySettings : MonoBehaviour
 {
     public TextMeshProUGUI resolutionText;
     public TextMeshProUGUI brightnessText;
+    public Light2D globalLight;
 
     private Resolution[] availableResolutions;
     private int currentResolutionIndex;
-    private float brightness = 1.0f;
+    private float brightness = 0.25f;
 
     void Start()
     {
-        // Lấy danh sách các độ phân giải khả dụng
         availableResolutions = Screen.resolutions;
         currentResolutionIndex = GetCurrentResolutionIndex();
         UpdateResolutionText();
         UpdateBrightnessText();
+        LoadSettings();
+        SetBrightness();
     }
 
-    // Hàm để tăng độ phân giải
     public void IncreaseResolution()
     {
         if (currentResolutionIndex < availableResolutions.Length - 1)
         {
             currentResolutionIndex++;
             ApplyResolution();
+            SaveSettings();
         }
     }
 
-    // Hàm để giảm độ phân giải
     public void DecreaseResolution()
     {
         if (currentResolutionIndex > 0)
         {
             currentResolutionIndex--;
             ApplyResolution();
+            SaveSettings();
         }
     }
 
-    // Hàm để tăng độ sáng lên 5%
     public void IncreaseBrightness()
     {
         if (brightness < 1.0f)
         {
-            brightness = Mathf.Min(brightness + 0.05f, 1.0f); // Không vượt quá 100%
+            brightness = Mathf.Min(brightness + 0.05f, 1.0f);
             UpdateBrightnessText();
             SetBrightness();
+            SaveSettings();
         }
     }
 
-    // Hàm để giảm độ sáng xuống 5%
     public void DecreaseBrightness()
     {
         if (brightness > 0.05f)
         {
-            brightness = Mathf.Max(brightness - 0.05f, 0.05f); // Không xuống dưới 5%
+            brightness = Mathf.Max(brightness - 0.05f, 0.05f);
             UpdateBrightnessText();
             SetBrightness();
+            SaveSettings();
         }
     }
 
-    // Hàm cài đặt độ phân giải
     private void ApplyResolution()
     {
         Resolution resolution = availableResolutions[currentResolutionIndex];
-        Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
+        bool isFullScreen = resolution.width >= Screen.currentResolution.width && resolution.height >= Screen.currentResolution.height;
+        Screen.SetResolution(resolution.width, resolution.height, isFullScreen);
         UpdateResolutionText();
+        SaveSettings();
     }
 
-    // Hàm để cập nhật TextMeshPro hiển thị độ phân giải
     private void UpdateResolutionText()
     {
         Resolution resolution = availableResolutions[currentResolutionIndex];
         resolutionText.text = $"{resolution.width}x{resolution.height}";
     }
 
-    // Hàm để cập nhật TextMeshPro hiển thị % độ sáng
     private void UpdateBrightnessText()
     {
         int brightnessPercentage = Mathf.RoundToInt(brightness * 100);
         brightnessText.text = $"{brightnessPercentage} %";
     }
 
-    // Hàm cài đặt độ sáng
     private void SetBrightness()
     {
-        // Ở đây bạn có thể sử dụng độ sáng để điều chỉnh các cài đặt khác, ví dụ shader hoặc post-processing
-        RenderSettings.ambientLight = Color.white * brightness; // Ví dụ thay đổi ánh sáng môi trường
+        globalLight.intensity = brightness;
+        RenderSettings.ambientLight = Color.white * brightness;
     }
 
-    // Lấy chỉ số của độ phân giải hiện tại
     private int GetCurrentResolutionIndex()
     {
         Resolution currentResolution = Screen.currentResolution;
@@ -101,6 +101,24 @@ public class DisplaySettings : MonoBehaviour
                 return i;
             }
         }
-        return 0; // Trả về độ phân giải mặc định nếu không tìm thấy
+        return 0;
+    }
+
+    private void SaveSettings()
+    {
+        PlayerPrefs.SetInt("ResolutionIndex", currentResolutionIndex);
+        PlayerPrefs.SetFloat("Brightness", brightness);
+        PlayerPrefs.Save();
+    }
+
+    private void LoadSettings()
+    {
+        if (PlayerPrefs.HasKey("ResolutionIndex"))
+        {
+            currentResolutionIndex = PlayerPrefs.GetInt("ResolutionIndex");
+        }
+        brightness = PlayerPrefs.GetFloat("Brightness", 0.25f);
+        UpdateBrightnessText();
+        SetBrightness();
     }
 }

@@ -43,7 +43,7 @@ public static class SaveLoadGame
         PlayerInteractiveRecovery.maxHealCount = PlayerPrefsUtility.LoadInt("MaxHealCount", 1);
         PlayerInteractiveRecovery.amountRecovered = PlayerPrefsUtility.LoadFloat("AmountRecovered", 50f);
 
-        CoinUI.currentCoin = PlayerPrefsUtility.LoadInt("CurrentCoin", 1000);
+        CoinUI.currentCoin = PlayerPrefsUtility.LoadInt("CurrentCoin", 0);
 
         ShopManager.indexWeapon_1 = PlayerPrefsUtility.LoadInt("ShopWeapon_1", 0);
         ShopManager.indexWeapon_2 = PlayerPrefsUtility.LoadInt("ShopWeapon_2", 1);
