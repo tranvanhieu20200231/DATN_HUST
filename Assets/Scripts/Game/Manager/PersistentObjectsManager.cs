@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class PersistentObjectsManager : MonoBehaviour
 {
     public GameObject player;
+    private GameObject teleportDoor;
     public List<GameObject> persistentObjects;
 
     private static PersistentObjectsManager instance;
@@ -37,6 +38,10 @@ public class PersistentObjectsManager : MonoBehaviour
             if (teleportPoint != null && player != null)
             {
                 player.transform.position = teleportPoint.position + new Vector3(0, 2, 0);
+
+                teleportDoor = persistentObjects[5];
+                teleportDoor.SetActive(true);
+                teleportDoor.transform.position = player.transform.position;
             }
             else if (teleportPoint == null)
             {
