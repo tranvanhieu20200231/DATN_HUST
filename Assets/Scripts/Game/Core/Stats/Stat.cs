@@ -30,6 +30,8 @@ namespace Asset.Script.Core.StatsSystem
 
         [SerializeField] private GameObject damagePopup;
 
+        [SerializeField] private GameObject healthParticle;
+
         [SerializeField] private ParticleManager particleManager;
 
         [SerializeField] private SpriteRenderer SR;
@@ -47,22 +49,27 @@ namespace Asset.Script.Core.StatsSystem
         {
             CurrentValue += amount;
 
-            TextMeshProUGUI textPopup = damagePopup.GetComponentInChildren<TextMeshProUGUI>();
-            if (textPopup != null)
+            if (damagePopup != null)
             {
+                TextMeshProUGUI textPopup = damagePopup.GetComponentInChildren<TextMeshProUGUI>();
                 textPopup.text = "+" + ((int)amount).ToString();
             }
 
             particleManager.StartParticles(damagePopup);
+
+            if (healthParticle != null)
+            {
+                particleManager.StartParticles(healthParticle);
+            }
         }
 
         public void Decrease(float amount)
         {
             CurrentValue -= amount;
 
-            TextMeshProUGUI textPopup = damagePopup.GetComponentInChildren<TextMeshProUGUI>();
-            if (textPopup != null)
+            if (damagePopup != null)
             {
+                TextMeshProUGUI textPopup = damagePopup.GetComponentInChildren<TextMeshProUGUI>();
                 textPopup.text = (-(int)amount).ToString();
             }
 

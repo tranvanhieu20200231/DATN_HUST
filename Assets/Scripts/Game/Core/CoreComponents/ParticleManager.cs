@@ -4,10 +4,8 @@ public class ParticleManager : CoreComponent
 {
     private Transform particleContainer;
 
-    protected override void Awake()
+    protected void Start()
     {
-        base.Awake();
-
         particleContainer = GameObject.FindGameObjectWithTag("ParticleContainer").transform;
     }
 

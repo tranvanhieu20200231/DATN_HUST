@@ -63,7 +63,7 @@ MonoBehaviour:
           <firePos>k__BackingField: {x: 1.5, y: 0.2}
           <DamageData>k__BackingField:
             name: 
-            <Amount>k__BackingField: 30
+            <Amount>k__BackingField: 50
           <Speed>k__BackingField: 10
           <TravelDistance>k__BackingField: 0
           <KnockBackData>k__BackingField:

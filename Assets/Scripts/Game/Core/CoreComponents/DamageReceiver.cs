@@ -3,6 +3,7 @@
 public class DamageReceiver : CoreComponent, IDamageable
 {
     [SerializeField] private GameObject damageParticles;
+    [SerializeField] private GameObject reductionParticle;
 
     private float Reduction = 0;
 
@@ -15,9 +16,14 @@ public class DamageReceiver : CoreComponent, IDamageable
 
         if (LayerMask.LayerToName(gameObject.layer) == "Player")
         {
-            if (Reduction <= 100)
+            if (Reduction == 0)
+            {
+                stats.Health.Decrease(amount);
+            }
+            else if (Reduction < 100)
             {
                 stats.Health.Decrease(amount * (100 - Reduction) / 100);
+                particleManager.StartParticlesWithRandomRotation(reductionParticle);
             }
             else
             {
@@ -27,9 +33,8 @@ public class DamageReceiver : CoreComponent, IDamageable
         else
         {
             stats.Health.Decrease(amount);
+            particleManager.StartParticlesWithRandomRotation(damageParticles);
         }
-
-        particleManager.StartParticlesWithRandomRotation(damageParticles);
     }
 
     public void GetReduction(float reduction) => Reduction = reduction;

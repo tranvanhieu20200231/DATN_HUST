@@ -21,6 +21,7 @@ public class ProjectileObj : MonoBehaviour
 
     private bool isGravityOn;
     private bool hasHitGround;
+    private bool isDamage;
 
     [SerializeField] private bool isDestroy = false;
     [SerializeField] private bool isThrough = false;
@@ -69,15 +70,17 @@ public class ProjectileObj : MonoBehaviour
                 DamageReceiver target = damageHit.GetComponentInChildren<DamageReceiver>();
                 KnockBackReceiver targetKB = damageHit.GetComponentInChildren<KnockBackReceiver>();
 
-                if (target != null)
+                if (target != null && !isDamage)
                 {
                     target.Damage(damage);
                 }
 
-                if (targetKB != null)
+                if (targetKB != null && !isDamage)
                 {
                     targetKB.KnockBack(angle, strength, direction);
                 }
+
+                isDamage = true;
 
                 if (!isThrough)
                 {
@@ -90,6 +93,8 @@ public class ProjectileObj : MonoBehaviour
                 hasHitGround = true;
                 rb.gravityScale = 0f;
                 rb.velocity = Vector2.zero;
+
+                isDamage = true;
 
                 if (isDestroy)
                 {
