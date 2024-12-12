@@ -323,7 +323,7 @@ GameObject:
   - component: {fileID: 2438975053546638268}
   - component: {fileID: 8386608307481859667}
   m_Layer: 7
-  m_Name: Enemy1
+  m_Name: MonsterRed
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -565,7 +565,7 @@ MonoBehaviour:
   - {x: -0.4575777, y: -0.99347687, z: 0.00000011920929}
   m_ShapePathHash: -46737645
   m_Mesh: {fileID: 0}
-  m_InstanceId: 191434
+  m_InstanceId: 121326
   m_LocalBounds:
     m_Center: {x: 0.079199076, y: -0.26568592, z: 0}
     m_Extent: {x: 0.8984468, y: 0.72779095, z: 0}
@@ -1257,12 +1257,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Health>k__BackingField:
-    MaxValue: 300
+    MaxValue: 200
     damagePopup: {fileID: 609948020626128152, guid: ba1406bd3e996e146b80cc4684217b06, type: 3}
     particleManager: {fileID: 2015242465842753701}
     SR: {fileID: 5229177908136660570}
   <Poise>k__BackingField:
-    MaxValue: 50
+    MaxValue: 100
     damagePopup: {fileID: 0}
     particleManager: {fileID: 0}
     SR: {fileID: 0}

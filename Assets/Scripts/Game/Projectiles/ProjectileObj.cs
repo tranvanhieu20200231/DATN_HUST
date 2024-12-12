@@ -24,6 +24,9 @@ public class ProjectileObj : MonoBehaviour
     private bool hasHitGround;
     private bool isFly;
 
+    [SerializeField] private bool isDestroy = false;
+    [SerializeField] GameObject destroyInstance;
+
     [SerializeField]
     private LayerMask whatIsGround;
     [SerializeField]
@@ -56,7 +59,10 @@ public class ProjectileObj : MonoBehaviour
             }
         }
 
-        anim.SetBool("fly", isFly);
+        if (!isDestroy)
+        {
+            anim.SetBool("fly", isFly);
+        }
     }
 
     private void FixedUpdate()
@@ -90,6 +96,11 @@ public class ProjectileObj : MonoBehaviour
                 hasHitGround = true;
                 rb.gravityScale = 0f;
                 rb.velocity = Vector2.zero;
+
+                if (isDestroy)
+                {
+                    Destroy(gameObject);
+                }
             }
 
             if (Mathf.Abs(xStartPos - transform.position.x) >= travelDistance && !isGravityOn)
@@ -117,5 +128,13 @@ public class ProjectileObj : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(damagePosition.position, damageRadius);
+    }
+
+    private void OnDestroy()
+    {
+        if (isDestroy)
+        {
+            Instantiate(destroyInstance, transform.position, Quaternion.identity);
+        }
     }
 }

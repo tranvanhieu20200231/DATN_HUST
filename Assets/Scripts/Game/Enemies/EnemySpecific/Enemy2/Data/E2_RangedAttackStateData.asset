@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: E2_RangedAttackStateData
   m_EditorClassIdentifier: 
   projectile: {fileID: 2572578570504221898, guid: 857da8ec94288ad45aff4bce8297f0d9, type: 3}
-  projectileDamage: 10
-  projectileSpeed: 12
+  projectileDamage: 15
+  projectileSpeed: 15
   projectileTravelDistance: 8
+  projectileAngel: {x: 1, y: 1}
+  projectileStrength: 10

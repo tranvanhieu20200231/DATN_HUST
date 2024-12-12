@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Goblin_RangeAttackData
   m_EditorClassIdentifier: 
   projectile: {fileID: 4001253363594620101, guid: d43f3c22503e9474aa3c33cae9430c68, type: 3}
-  projectileDamage: 20
+  projectileDamage: 25
   projectileSpeed: 8
   projectileTravelDistance: 8
   projectileAngel: {x: 1, y: 1}

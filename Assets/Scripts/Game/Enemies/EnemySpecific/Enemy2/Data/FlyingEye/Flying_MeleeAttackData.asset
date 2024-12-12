@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Flying_MeleeAttackData
   m_EditorClassIdentifier: 
   attackRadius: 0.5
-  attackDamage: 15
+  attackDamage: 30
   knockbackAngle: {x: 1, y: 0}
   knockbackStrength: 15
   whatIsPlayer:

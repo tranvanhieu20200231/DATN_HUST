@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Flying_RangeAttackData
   m_EditorClassIdentifier: 
   projectile: {fileID: 2249463440464573628, guid: c22c6e6528721a44cb2642a33c62c7bc, type: 3}
-  projectileDamage: 15
-  projectileSpeed: 12
+  projectileDamage: 35
+  projectileSpeed: 15
   projectileTravelDistance: 8
   projectileAngel: {x: 1, y: 1}
   projectileStrength: 10

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Mushroom_MeleeAttackData
   m_EditorClassIdentifier: 
   attackRadius: 0.8
-  attackDamage: 25
+  attackDamage: 30
   knockbackAngle: {x: 2, y: 1}
   knockbackStrength: 15
   whatIsPlayer:

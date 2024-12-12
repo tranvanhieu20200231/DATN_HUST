@@ -254,7 +254,7 @@ MonoBehaviour:
   - {x: -0.2666527, y: -0.7933521, z: 0}
   m_ShapePathHash: -962956031
   m_Mesh: {fileID: 0}
-  m_InstanceId: -621818
+  m_InstanceId: 124970
   m_LocalBounds:
     m_Center: {x: -0.0553039, y: -0.33688736, z: 0}
     m_Extent: {x: 0.3377439, y: 0.47507572, z: 0}
@@ -952,8 +952,8 @@ MonoBehaviour:
   - {fileID: 4808217214536582849, guid: 1dcf45ea3c080904690a2b56275c0912, type: 3}
   - {fileID: 5888272071519165949, guid: 99528309f8afc764ba9fc8a249b2c6c0, type: 3}
   coinPrefab: {fileID: 8380015640776127285, guid: 1139fe631a00f67478aa85838726ccc0, type: 3}
-  minCoins: 3
-  maxCoins: 5
+  minCoins: 10
+  maxCoins: 15
   forceMin: 3
   forceMax: 6
   spreadAngle: 30

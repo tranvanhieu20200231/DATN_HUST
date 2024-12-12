@@ -133,7 +133,7 @@ MonoBehaviour:
   - {fileID: 5888272071519165949, guid: 99528309f8afc764ba9fc8a249b2c6c0, type: 3}
   coinPrefab: {fileID: 8380015640776127285, guid: 1139fe631a00f67478aa85838726ccc0, type: 3}
   minCoins: 5
-  maxCoins: 10
+  maxCoins: 8
   forceMin: 3
   forceMax: 6
   spreadAngle: 30
@@ -269,11 +269,11 @@ MonoBehaviour:
     particleManager: {fileID: 7557506452314697850}
     SR: {fileID: 5326409505929836017}
   <Poise>k__BackingField:
-    MaxValue: 150
+    MaxValue: 200
     damagePopup: {fileID: 0}
     particleManager: {fileID: 0}
     SR: {fileID: 0}
-  poiseRecoveryRate: 25
+  poiseRecoveryRate: 50
 --- !u!1 &3200422702607350188
 GameObject:
   m_ObjectHideFlags: 0
@@ -609,7 +609,7 @@ MonoBehaviour:
   - {x: -0.1772995, y: 0.108950615, z: 0.00000011920929}
   m_ShapePathHash: -905700745
   m_Mesh: {fileID: 0}
-  m_InstanceId: 193418
+  m_InstanceId: 122284
   m_LocalBounds:
     m_Center: {x: 0.11234665, y: 0.0054558516, z: 0}
     m_Extent: {x: 0.3876915, y: 0.8119303, z: 0}

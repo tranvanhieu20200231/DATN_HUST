@@ -489,7 +489,7 @@ MonoBehaviour:
     particleManager: {fileID: 375073431845761868}
     SR: {fileID: 1747973671748820650}
   <Poise>k__BackingField:
-    MaxValue: 200
+    MaxValue: 250
     damagePopup: {fileID: 0}
     particleManager: {fileID: 0}
     SR: {fileID: 0}
@@ -1295,7 +1295,7 @@ MonoBehaviour:
   - {x: -0.5221863, y: -0.6462207, z: 0.00000011920929}
   m_ShapePathHash: 1233557287
   m_Mesh: {fileID: 0}
-  m_InstanceId: -529380
+  m_InstanceId: 123022
   m_LocalBounds:
     m_Center: {x: 0.053245544, y: -0.46926403, z: 0}
     m_Extent: {x: 0.6737976, y: 1.1439404, z: 0}
@@ -1347,8 +1347,8 @@ MonoBehaviour:
   - {fileID: 4808217214536582849, guid: 1dcf45ea3c080904690a2b56275c0912, type: 3}
   - {fileID: 5888272071519165949, guid: 99528309f8afc764ba9fc8a249b2c6c0, type: 3}
   coinPrefab: {fileID: 8380015640776127285, guid: 1139fe631a00f67478aa85838726ccc0, type: 3}
-  minCoins: 5
-  maxCoins: 10
+  minCoins: 10
+  maxCoins: 15
   forceMin: 3
   forceMax: 6
   spreadAngle: 30
