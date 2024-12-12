@@ -18,13 +18,12 @@ public class ProjectileObj : MonoBehaviour
     private float damageRadius;
 
     private Rigidbody2D rb;
-    private Animator anim;
 
     private bool isGravityOn;
     private bool hasHitGround;
-    private bool isFly;
 
     [SerializeField] private bool isDestroy = false;
+    [SerializeField] private bool isThrough = false;
     [SerializeField] GameObject destroyInstance;
 
     [SerializeField]
@@ -37,12 +36,10 @@ public class ProjectileObj : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        anim = GetComponent<Animator>();
 
         rb.gravityScale = 0.0f;
         rb.velocity = transform.right * speed;
 
-        isFly = true;
         isGravityOn = false;
 
         xStartPos = transform.position.x;
@@ -57,11 +54,6 @@ public class ProjectileObj : MonoBehaviour
                 float angle = Mathf.Atan2(rb.velocity.y, rb.velocity.x) * Mathf.Rad2Deg;
                 transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
             }
-        }
-
-        if (!isDestroy)
-        {
-            anim.SetBool("fly", isFly);
         }
     }
 
@@ -87,12 +79,14 @@ public class ProjectileObj : MonoBehaviour
                     targetKB.KnockBack(angle, strength, direction);
                 }
 
-                Destroy(gameObject);
+                if (!isThrough)
+                {
+                    Destroy(gameObject);
+                }
             }
 
             if (groundHit)
             {
-                isFly = false;
                 hasHitGround = true;
                 rb.gravityScale = 0f;
                 rb.velocity = Vector2.zero;

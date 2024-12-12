@@ -131,7 +131,7 @@ TextureImporter:
         width: 2
         height: 2
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -139,6 +139,27 @@ TextureImporter:
       bones: []
       spriteID: 00cce63947dcfb447b9f39f0fbc8cad6
       internalID: 1508169992
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Particles_1
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 13
+        width: 3
+        height: 3
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7af4b32d42c434b4e9b3464b136c19b7
+      internalID: -1944752552
       vertices: []
       indices: 
       edges: []
@@ -155,6 +176,7 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       Particles_0: 1508169992
+      Particles_1: -1944752552
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

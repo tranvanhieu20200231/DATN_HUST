@@ -1,0 +1,78 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28d0a880f36ab464eb0b7e15a54b1c63, type: 3}
+  m_Name: IceBow
+  m_EditorClassIdentifier: 
+  <ItemDrop>k__BackingField: {fileID: 4410353601548695425, guid: 39f3957e7ec01b24a85d01e15ae9bc0c, type: 3}
+  <AnimatorController>k__BackingField: {fileID: 9100000, guid: 6b9e412e59f22ac468c49a75f3d247f0, type: 2}
+  <NumberOfAttack>k__BackingField: 1
+  <ComponentData>k__BackingField:
+  - rid: 6559915306427351046
+  - rid: 6559915324341747712
+  - rid: 6559915735308304384
+  - rid: 6559915757426966528
+  references:
+    version: 2
+    RefIds:
+    - rid: 6559915306427351046
+      type: {class: WeaponSpriteData, ns: , asm: Assembly-CSharp}
+      data:
+        name: WeaponSpriteData
+        attackData:
+        - name: Attack 1
+          <PhaseSprites>k__BackingField:
+          - <Phase>k__BackingField: 0
+            <Sprites>k__BackingField:
+            - {fileID: 1972877917, guid: 8d76bcad38e92eb40954e400f5e94188, type: 3}
+            - {fileID: 200983682, guid: 8d76bcad38e92eb40954e400f5e94188, type: 3}
+          - <Phase>k__BackingField: 1
+            <Sprites>k__BackingField:
+            - {fileID: 200983682, guid: 8d76bcad38e92eb40954e400f5e94188, type: 3}
+          - <Phase>k__BackingField: 2
+            <Sprites>k__BackingField:
+            - {fileID: -1214445060, guid: 8d76bcad38e92eb40954e400f5e94188, type: 3}
+            - {fileID: -391690909, guid: 8d76bcad38e92eb40954e400f5e94188, type: 3}
+            - {fileID: 20528812, guid: 8d76bcad38e92eb40954e400f5e94188, type: 3}
+            - {fileID: -829792558, guid: 8d76bcad38e92eb40954e400f5e94188, type: 3}
+    - rid: 6559915324341747712
+      type: {class: InputHoldData, ns: , asm: Assembly-CSharp}
+      data:
+        name: InputHoldData
+        attackData:
+        - name: Attack 1
+          <Multiplier>k__BackingField: 2
+    - rid: 6559915735308304384
+      type: {class: ProjectileData, ns: , asm: Assembly-CSharp}
+      data:
+        name: ProjectileData
+        attackData:
+        - name: Attack 1
+          projectile: {fileID: 8914422027543060441, guid: 397557153ac5b544781d7da2ef74dbc1, type: 3}
+          Debug: 0
+          <firePos>k__BackingField: {x: 1, y: 0.2}
+          <DamageData>k__BackingField:
+            name: 
+            <Amount>k__BackingField: 15
+          <Speed>k__BackingField: 12
+          <TravelDistance>k__BackingField: 6
+          <KnockBackData>k__BackingField:
+            name: 
+            <Angle>k__BackingField: {x: 1, y: 1}
+            <Strength>k__BackingField: 12
+    - rid: 6559915757426966528
+      type: {class: MovementData, ns: , asm: Assembly-CSharp}
+      data:
+        name: MovementData
+        attackData:
+        - name: Attack 1
+          <Direction>k__BackingField: {x: 0, y: 0}
+          <Velocity>k__BackingField: 0
