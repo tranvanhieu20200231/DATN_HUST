@@ -4,6 +4,8 @@ public class InputHold : WeaponComponent<InputHoldData, AttackInputHold>
 {
     private Animator anim;
 
+    private Rigidbody2D rb;
+
     private bool input;
 
     private bool minHoldPassed;
@@ -26,6 +28,8 @@ public class InputHold : WeaponComponent<InputHoldData, AttackInputHold>
     {
         minHoldPassed = true;
 
+        rb.velocity = Vector3.zero;
+
         SetAnimatorParamater();
     }
 
@@ -41,6 +45,8 @@ public class InputHold : WeaponComponent<InputHoldData, AttackInputHold>
         base.Awake();
 
         anim = GetComponentInChildren<Animator>();
+
+        rb = GetComponentInParent<Rigidbody2D>();
     }
 
     protected override void Start()

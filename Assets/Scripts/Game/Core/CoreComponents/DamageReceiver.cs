@@ -3,7 +3,8 @@
 public class DamageReceiver : CoreComponent, IDamageable
 {
     [SerializeField] private GameObject damageParticles;
-    //[SerializeField] private GameObject damagePopup;
+
+    private float Reduction = 0;
 
     private Stats stats;
     private ParticleManager particleManager;
@@ -11,14 +12,27 @@ public class DamageReceiver : CoreComponent, IDamageable
     public void Damage(float amount)
     {
         Debug.Log(core.transform.parent.name + " Damaged!");
-        stats.Health.Decrease(amount);
 
-        //TextMeshProUGUI textPopup = damagePopup.GetComponentInChildren<TextMeshProUGUI>();
-        //textPopup.text = (-(int)amount).ToString();
+        if (LayerMask.LayerToName(gameObject.layer) == "Player")
+        {
+            if (Reduction <= 100)
+            {
+                stats.Health.Decrease(amount * (100 - Reduction) / 100);
+            }
+            else
+            {
+                stats.Health.Increase(amount * (Reduction - 100) / 100);
+            }
+        }
+        else
+        {
+            stats.Health.Decrease(amount);
+        }
 
-        //particleManager.StartParticles(damagePopup);
         particleManager.StartParticlesWithRandomRotation(damageParticles);
     }
+
+    public void GetReduction(float reduction) => Reduction = reduction;
 
     protected override void Awake()
     {

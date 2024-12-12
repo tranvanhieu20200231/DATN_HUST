@@ -26,7 +26,7 @@ public class PlayerInteractiveRecovery : MonoBehaviour
     private int currentHealCount;
     public static float amountRecovered = 50f;
 
-    private int baseUpgradeCost = 5;
+    private int baseUpgradeCost = 50;
     public static int currentUpgradeCost;
 
     private void Start()

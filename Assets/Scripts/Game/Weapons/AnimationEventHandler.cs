@@ -9,6 +9,8 @@ public class AnimationEventHandler : MonoBehaviour
     public event Action OnAttackAction;
     public event Action OnMinHoldPassed;
     public event Action OnInstanceProjectile;
+    public event Action OnStartReduction;
+    public event Action OnStopReduction;
 
     public event Action<AttackPhases> OnEnterAttackPhase;
 
@@ -18,6 +20,8 @@ public class AnimationEventHandler : MonoBehaviour
     private void AttackActionTrigger() => OnAttackAction?.Invoke();
     private void MinHoldPassedTrigger() => OnMinHoldPassed?.Invoke();
     private void InstanceProjectile() => OnInstanceProjectile?.Invoke();
+    private void StartReduction() => OnStartReduction?.Invoke();
+    private void StopReduction() => OnStopReduction?.Invoke();
 
     private void EnterAttackPhase(AttackPhases phase) => OnEnterAttackPhase?.Invoke(phase);
 }
