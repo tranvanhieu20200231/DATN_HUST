@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 418068234edf313438d1fab6a9310da1, type: 3}
+  m_Name: Wizard_RangeAttack
+  m_EditorClassIdentifier: 
+  projectile: {fileID: 6295427269809898275, guid: 81b2979642f068e4e84595dbe44f7b2e, type: 3}
+  projectileDamage: 20
+  projectileSpeed: 5
+  projectileTravelDistance: 8
+  projectileAngel: {x: 1, y: 1}
+  projectileStrength: 20

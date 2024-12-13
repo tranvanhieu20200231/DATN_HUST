@@ -6,9 +6,11 @@ using UnityEngine.SceneManagement;
 public class PlayerInteractiveTeleport : MonoBehaviour
 {
     [SerializeField] private GameObject teleportUI;
+    [SerializeField] private GameObject winGameUI;
 
     private PlayerInput playerInput;
     private PlayerInput teleportInput;
+    private PlayerInput winGameInput;
 
     private GameObject teleportEquip;
 
@@ -21,6 +23,7 @@ public class PlayerInteractiveTeleport : MonoBehaviour
     {
         playerInput = GetComponent<PlayerInput>();
         teleportInput = teleportUI.GetComponent<PlayerInput>();
+        winGameInput = winGameUI.GetComponent<PlayerInput>();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -34,6 +37,13 @@ public class PlayerInteractiveTeleport : MonoBehaviour
                 triggeredTeleports.Add(other.gameObject);
                 nextLevelIndex++;
             }
+        }
+
+        if (other.CompareTag("WinGame"))
+        {
+            playerInput.enabled = false;
+            winGameInput.enabled = true;
+            winGameUI.SetActive(true);
         }
     }
 

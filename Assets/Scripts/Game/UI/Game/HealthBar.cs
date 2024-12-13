@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -39,8 +40,16 @@ public class HealthBar : MonoBehaviour
 
     private void HandleHealthZero()
     {
-        youDiePopup.SetActive(true);
         GameManager.isNewGame = true;
         SaveLoadGame.DeleteDataDie();
+
+        StartCoroutine(HandleNewGame());
+    }
+
+    private IEnumerator HandleNewGame()
+    {
+        yield return new WaitForSeconds(3f);
+
+        youDiePopup.SetActive(true);
     }
 }

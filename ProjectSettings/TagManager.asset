@@ -12,6 +12,7 @@ TagManager:
   - Recovery
   - Shop
   - Instructions
+  - WinGame
   layers:
   - Default
   - TransparentFX
