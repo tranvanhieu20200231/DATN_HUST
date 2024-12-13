@@ -8,8 +8,8 @@ public class WeaponGenerator : MonoBehaviour
     [SerializeField] private Weapon weapon;
     [SerializeField] private List<WeaponDataPair> weaponDataPairs;
 
-    public static string currentPrimaryWeaponName = "Null";
-    public static string currentSecondaryWeaponName = "Null";
+    public static string currentPrimaryWeaponName;
+    public static string currentSecondaryWeaponName;
 
     private List<WeaponComponent> componentAlreadyOnWeapon = new List<WeaponComponent>();
     private List<WeaponComponent> componentsAddedToWeapon = new List<WeaponComponent>();

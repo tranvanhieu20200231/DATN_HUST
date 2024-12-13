@@ -1,15 +1,14 @@
-﻿using System.Collections;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class HealthBar : MonoBehaviour
 {
-    [SerializeField] private GameObject player;
     [SerializeField] private Stats stats;
     [SerializeField] private TextMeshProUGUI healthText;
     [SerializeField] private Image healthFill;
+
+    [SerializeField] private GameObject youDiePopup;
 
     private void OnEnable()
     {
@@ -40,18 +39,8 @@ public class HealthBar : MonoBehaviour
 
     private void HandleHealthZero()
     {
+        youDiePopup.SetActive(true);
         GameManager.isNewGame = true;
         SaveLoadGame.DeleteDataDie();
-        SaveLoadGame.LoadGame();
-
-        StartCoroutine(HandleNewGame());
-    }
-
-    private IEnumerator HandleNewGame()
-    {
-        yield return new WaitForSeconds(3f);
-
-        SceneManager.LoadScene(1);
-        player.SetActive(true);
     }
 }

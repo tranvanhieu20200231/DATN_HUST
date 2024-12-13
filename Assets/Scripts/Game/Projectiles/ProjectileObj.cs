@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ProjectileObj : MonoBehaviour
@@ -21,7 +22,6 @@ public class ProjectileObj : MonoBehaviour
 
     private bool isGravityOn;
     private bool hasHitGround;
-    private bool isDamage;
 
     [SerializeField] private bool isDestroy = false;
     [SerializeField] private bool isThrough = false;
@@ -33,6 +33,8 @@ public class ProjectileObj : MonoBehaviour
     private LayerMask whatIsDamage;
     [SerializeField]
     private Transform damagePosition;
+
+    private HashSet<GameObject> damagedObjects = new HashSet<GameObject>();
 
     private void Start()
     {
@@ -62,39 +64,43 @@ public class ProjectileObj : MonoBehaviour
     {
         if (!hasHitGround)
         {
-            Collider2D damageHit = Physics2D.OverlapCircle(damagePosition.position, damageRadius, whatIsDamage);
+            Collider2D[] damageHits = Physics2D.OverlapCircleAll(damagePosition.position, damageRadius, whatIsDamage);
             Collider2D groundHit = Physics2D.OverlapCircle(damagePosition.position, damageRadius, whatIsGround);
 
-            if (damageHit)
+            foreach (Collider2D damageHit in damageHits)
             {
-                DamageReceiver target = damageHit.GetComponentInChildren<DamageReceiver>();
-                KnockBackReceiver targetKB = damageHit.GetComponentInChildren<KnockBackReceiver>();
+                GameObject hitObject = damageHit.gameObject;
 
-                if (target != null && !isDamage)
+                if (!damagedObjects.Contains(hitObject))
                 {
-                    target.Damage(damage);
-                }
+                    damagedObjects.Add(hitObject);
 
-                if (targetKB != null && !isDamage)
-                {
-                    targetKB.KnockBack(angle, strength, direction);
-                }
+                    DamageReceiver target = damageHit.GetComponentInChildren<DamageReceiver>();
+                    KnockBackReceiver targetKB = damageHit.GetComponentInChildren<KnockBackReceiver>();
 
-                isDamage = true;
+                    if (target != null)
+                    {
+                        target.Damage(damage);
+                    }
 
-                if (!isThrough)
-                {
-                    Destroy(gameObject);
+                    if (targetKB != null && !isThrough)
+                    {
+                        targetKB.KnockBack(angle, strength, direction);
+                    }
+
+                    if (!isThrough)
+                    {
+                        Destroy(gameObject);
+                        return;
+                    }
                 }
             }
 
             if (groundHit)
             {
                 hasHitGround = true;
-                rb.gravityScale = 0f;
                 rb.velocity = Vector2.zero;
-
-                isDamage = true;
+                rb.isKinematic = true;
 
                 if (isDestroy)
                 {

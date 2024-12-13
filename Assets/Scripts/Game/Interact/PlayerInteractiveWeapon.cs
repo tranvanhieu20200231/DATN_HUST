@@ -16,6 +16,9 @@ public class PlayerInteractiveWeapon : MonoBehaviour
     private WeaponGeneratorPrimary weaponGeneratorPrimary;
     private WeaponGeneratorSecondary weaponGeneratorSecondary;
 
+    private string lastPrimaryWeaponName;
+    private string lastSecondaryWeaponName;
+
     private PlayerInput playerInput;
     private PlayerInput weaponSwapPlayerInput;
 
@@ -68,9 +71,8 @@ public class PlayerInteractiveWeapon : MonoBehaviour
 
         if (GameManager.isNewGame)
         {
-            LoadWeaponUI();
             PlayerInteractiveTeleport.nextLevelIndex = 1;
-            PlayerInteractiveRecovery.currentUpgradeCost = 5;
+            PlayerInteractiveRecovery.currentUpgradeCost = 50;
 
             ShopManager.indexWeapon_1 = 0;
             ShopManager.indexWeapon_2 = 1;
@@ -78,6 +80,8 @@ public class PlayerInteractiveWeapon : MonoBehaviour
 
             GameManager.isNewGame = false;
         }
+
+        LoadWeaponUI();
     }
 
     public void AddWeaponPrimary()
@@ -106,16 +110,25 @@ public class PlayerInteractiveWeapon : MonoBehaviour
 
     private void LoadWeaponUI()
     {
-        GameObject primaryWeapon = weaponObjects.Find(obj => obj.name == WeaponGenerator.currentPrimaryWeaponName);
-        if (primaryWeapon != null)
+        if (lastPrimaryWeaponName != WeaponGenerator.currentPrimaryWeaponName)
         {
-            PrimaryWeaponUI.sprite = primaryWeapon.GetComponent<SpriteRenderer>()?.sprite;
+            GameObject primaryWeapon = weaponObjects.Find(obj => obj.name == WeaponGenerator.currentPrimaryWeaponName);
+            if (primaryWeapon != null)
+            {
+                PrimaryWeaponUI.sprite = primaryWeapon.GetComponent<SpriteRenderer>()?.sprite;
+            }
+            lastPrimaryWeaponName = WeaponGenerator.currentPrimaryWeaponName;
         }
 
-        GameObject secondaryWeapon = weaponObjects.Find(obj => obj.name == WeaponGenerator.currentSecondaryWeaponName);
-        if (secondaryWeapon != null)
+        if (lastSecondaryWeaponName != WeaponGenerator.currentSecondaryWeaponName)
         {
-            SecondaryWeaponUI.sprite = secondaryWeapon.GetComponent<SpriteRenderer>()?.sprite;
+            GameObject secondaryWeapon = weaponObjects.Find(obj => obj.name == WeaponGenerator.currentSecondaryWeaponName);
+            if (secondaryWeapon != null)
+            {
+                SecondaryWeaponUI.sprite = secondaryWeapon.GetComponent<SpriteRenderer>()?.sprite;
+            }
+            lastSecondaryWeaponName = WeaponGenerator.currentSecondaryWeaponName;
         }
     }
+
 }

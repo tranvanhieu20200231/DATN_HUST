@@ -254,7 +254,7 @@ MonoBehaviour:
   - {x: -0.2666527, y: -0.7933521, z: 0}
   m_ShapePathHash: -962956031
   m_Mesh: {fileID: 0}
-  m_InstanceId: 124970
+  m_InstanceId: -151740
   m_LocalBounds:
     m_Center: {x: -0.0553039, y: -0.33688736, z: 0}
     m_Extent: {x: 0.3377439, y: 0.47507572, z: 0}
@@ -680,11 +680,13 @@ MonoBehaviour:
   <Health>k__BackingField:
     MaxValue: 300
     damagePopup: {fileID: 609948020626128152, guid: ba1406bd3e996e146b80cc4684217b06, type: 3}
+    healthParticle: {fileID: 0}
     particleManager: {fileID: 7239673771689634019}
     SR: {fileID: 8003770612911199664}
   <Poise>k__BackingField:
     MaxValue: 100
     damagePopup: {fileID: 0}
+    healthParticle: {fileID: 0}
     particleManager: {fileID: 0}
     SR: {fileID: 0}
   poiseRecoveryRate: 25
@@ -798,7 +800,7 @@ GameObject:
   - component: {fileID: 5096601304212619971}
   - component: {fileID: 2945297741204399581}
   - component: {fileID: 5047067520208695283}
-  - component: {fileID: 2134583495599968066}
+  - component: {fileID: 1939214300624424807}
   m_Layer: 7
   m_Name: Combat
   m_TagString: Untagged
@@ -847,6 +849,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageParticles: {fileID: 305765267832958630, guid: d46c36047a3b0ad4d8c99b66f5044ea5, type: 3}
+  reductionParticle: {fileID: 0}
 --- !u!114 &5047067520208695283
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -859,7 +862,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22e1761f5e321604a89258d9ae4ae982, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!61 &2134583495599968066
+--- !u!61 &1939214300624424807
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -891,7 +894,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.014694631, y: -0.29987192}
+  m_Offset: {x: -0.0070233345, y: -0.21772337}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -902,7 +905,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.47681725, y: 0.92569065}
+  m_Size: {x: 0.6207408, y: 1.4635401}
   m_EdgeRadius: 0
 --- !u!1 &5034181645089104692
 GameObject:

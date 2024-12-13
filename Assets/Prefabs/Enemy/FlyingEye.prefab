@@ -48,11 +48,13 @@ MonoBehaviour:
   <Health>k__BackingField:
     MaxValue: 500
     damagePopup: {fileID: 609948020626128152, guid: ba1406bd3e996e146b80cc4684217b06, type: 3}
+    healthParticle: {fileID: 0}
     particleManager: {fileID: 7572223874122497709}
     SR: {fileID: 210605932669751690}
   <Poise>k__BackingField:
     MaxValue: 250
     damagePopup: {fileID: 0}
+    healthParticle: {fileID: 0}
     particleManager: {fileID: 0}
     SR: {fileID: 0}
   poiseRecoveryRate: 50
@@ -421,7 +423,7 @@ MonoBehaviour:
   - {x: -0.11193848, y: 0.032295823, z: 0}
   m_ShapePathHash: -845352609
   m_Mesh: {fileID: 0}
-  m_InstanceId: 125594
+  m_InstanceId: -151600
   m_LocalBounds:
     m_Center: {x: 0.14989471, y: 0.0702433, z: 0}
     m_Extent: {x: 1.0863113, y: 0.654473, z: 0}
@@ -437,7 +439,7 @@ GameObject:
   - component: {fileID: 8015940002701742121}
   - component: {fileID: 2069048033413607559}
   - component: {fileID: 4882698375868150980}
-  - component: {fileID: 3963524286923708601}
+  - component: {fileID: 7040772185405239546}
   m_Layer: 7
   m_Name: Combat
   m_TagString: Untagged
@@ -486,6 +488,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageParticles: {fileID: 305765267832958630, guid: d46c36047a3b0ad4d8c99b66f5044ea5, type: 3}
+  reductionParticle: {fileID: 0}
 --- !u!114 &4882698375868150980
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -498,7 +501,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22e1761f5e321604a89258d9ae4ae982, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!61 &3963524286923708601
+--- !u!61 &7040772185405239546
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -530,7 +533,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.5151634, y: -0.45918012}
+  m_Offset: {x: 0.36436653, y: -0.12752914}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -541,7 +544,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.80265045, y: 1.3332262}
+  m_Size: {x: 0.76929855, y: 0.96481705}
   m_EdgeRadius: 0
 --- !u!1 &2835762481338212922
 GameObject:

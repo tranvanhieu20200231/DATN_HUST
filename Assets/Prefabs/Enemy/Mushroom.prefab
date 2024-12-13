@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 8319647290894862679}
   - component: {fileID: 2437603874679972490}
   - component: {fileID: 4926892215782154608}
-  - component: {fileID: 5899243641514103893}
+  - component: {fileID: 7856383613609446070}
   m_Layer: 7
   m_Name: Combat
   m_TagString: Untagged
@@ -181,6 +181,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageParticles: {fileID: 305765267832958630, guid: d46c36047a3b0ad4d8c99b66f5044ea5, type: 3}
+  reductionParticle: {fileID: 0}
 --- !u!114 &4926892215782154608
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -193,7 +194,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22e1761f5e321604a89258d9ae4ae982, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!61 &5899243641514103893
+--- !u!61 &7856383613609446070
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -225,7 +226,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.02678299, y: -0.697368}
+  m_Offset: {x: 0.03725028, y: -0.48336506}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -236,7 +237,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.88440704, y: 1.7973149}
+  m_Size: {x: 0.8702831, y: 1.9948235}
   m_EdgeRadius: 0
 --- !u!1 &1379143507237083683
 GameObject:
@@ -486,11 +487,13 @@ MonoBehaviour:
   <Health>k__BackingField:
     MaxValue: 1000
     damagePopup: {fileID: 609948020626128152, guid: ba1406bd3e996e146b80cc4684217b06, type: 3}
+    healthParticle: {fileID: 0}
     particleManager: {fileID: 375073431845761868}
     SR: {fileID: 1747973671748820650}
   <Poise>k__BackingField:
     MaxValue: 250
     damagePopup: {fileID: 0}
+    healthParticle: {fileID: 0}
     particleManager: {fileID: 0}
     SR: {fileID: 0}
   poiseRecoveryRate: 50
@@ -1295,7 +1298,7 @@ MonoBehaviour:
   - {x: -0.5221863, y: -0.6462207, z: 0.00000011920929}
   m_ShapePathHash: 1233557287
   m_Mesh: {fileID: 0}
-  m_InstanceId: 123022
+  m_InstanceId: -151880
   m_LocalBounds:
     m_Center: {x: 0.053245544, y: -0.46926403, z: 0}
     m_Extent: {x: 0.6737976, y: 1.1439404, z: 0}
