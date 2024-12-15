@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
@@ -17,8 +16,6 @@ public class PlayerInteractiveTeleport : MonoBehaviour
     public static int currentLevelIndex = 1;
     public static int nextLevelIndex = 2;
 
-    private HashSet<GameObject> triggeredTeleports = new HashSet<GameObject>();
-
     private void Start()
     {
         playerInput = GetComponent<PlayerInput>();
@@ -32,14 +29,9 @@ public class PlayerInteractiveTeleport : MonoBehaviour
         {
             teleportEquip = other.gameObject;
 
-            if (!triggeredTeleports.Contains(other.gameObject))
+            if (currentLevelIndex > 1)
             {
-                triggeredTeleports.Add(other.gameObject);
-
-                if (currentLevelIndex > 1)
-                {
-                    nextLevelIndex = currentLevelIndex + 1;
-                }
+                nextLevelIndex = currentLevelIndex + 1;
             }
         }
 
@@ -49,8 +41,6 @@ public class PlayerInteractiveTeleport : MonoBehaviour
             winGameInput.enabled = true;
             winGameUI.SetActive(true);
         }
-
-        print(nextLevelIndex);
     }
 
     private void OnTriggerExit2D(Collider2D other)
