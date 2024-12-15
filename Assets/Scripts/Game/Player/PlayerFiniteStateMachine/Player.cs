@@ -98,6 +98,12 @@ public class Player : MonoBehaviour
     {
         StateMachine.CurrentState.PhysicsUpdate();
     }
+
+    private void OnDisable()
+    {
+        SpriteRenderer SR = GetComponent<SpriteRenderer>();
+        SR.color = new Color(1f, 1f, 1f, 1f);
+    }
     #endregion
 
     #region Other Functions

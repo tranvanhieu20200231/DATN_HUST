@@ -11,6 +11,7 @@ public static class SaveLoadGame
         PlayerPrefsUtility.SaveString("Secondary", WeaponGenerator.currentSecondaryWeaponName);
 
         PlayerPrefsUtility.SaveInt("CurrentLevelIndex", PlayerInteractiveTeleport.currentLevelIndex);
+        PlayerPrefsUtility.SaveInt("NextLevelIndex", PlayerInteractiveTeleport.nextLevelIndex);
 
         PlayerPrefsUtility.SaveInt("PowerRed", PlayerInteractiveChest.redPowerCurrent);
         PlayerPrefsUtility.SaveInt("PowerGreen", PlayerInteractiveChest.greenPowerCurrent);
@@ -35,6 +36,7 @@ public static class SaveLoadGame
         WeaponGenerator.currentSecondaryWeaponName = PlayerPrefsUtility.LoadString("Secondary", "Null");
 
         PlayerInteractiveTeleport.currentLevelIndex = PlayerPrefsUtility.LoadInt("CurrentLevelIndex", 1);
+        PlayerInteractiveTeleport.nextLevelIndex = PlayerPrefsUtility.LoadInt("NextLevelIndex", 2);
 
         PlayerInteractiveChest.redPowerCurrent = PlayerPrefsUtility.LoadInt("PowerRed", 0);
         PlayerInteractiveChest.greenPowerCurrent = PlayerPrefsUtility.LoadInt("PowerGreen", 0);
@@ -59,6 +61,7 @@ public static class SaveLoadGame
         PlayerPrefsUtility.DeleteKey("Secondary");
 
         PlayerPrefsUtility.DeleteKey("CurrentLevelIndex");
+        PlayerPrefsUtility.DeleteKey("NextLevelIndex");
 
         PlayerPrefsUtility.DeleteKey("PowerRed");
         PlayerPrefsUtility.DeleteKey("PowerGreen");
@@ -88,6 +91,7 @@ public static class SaveLoadGame
         PlayerPrefsUtility.DeleteKey("Secondary");
 
         PlayerPrefsUtility.DeleteKey("CurrentLevelIndex");
+        PlayerPrefsUtility.DeleteKey("NextLevelIndex");
 
         PlayerPrefsUtility.DeleteKey("PowerRed");
         PlayerPrefsUtility.DeleteKey("PowerGreen");

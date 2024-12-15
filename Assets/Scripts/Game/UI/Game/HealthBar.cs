@@ -40,9 +40,6 @@ public class HealthBar : MonoBehaviour
 
     private void HandleHealthZero()
     {
-        GameManager.isNewGame = true;
-        SaveLoadGame.DeleteDataDie();
-
         StartCoroutine(HandleNewGame());
     }
 

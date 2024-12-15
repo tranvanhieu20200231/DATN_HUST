@@ -71,7 +71,7 @@ public class PlayerInteractiveWeapon : MonoBehaviour
 
         if (GameManager.isNewGame)
         {
-            PlayerInteractiveTeleport.nextLevelIndex = 1;
+            PlayerInteractiveTeleport.nextLevelIndex = 2;
             PlayerInteractiveRecovery.currentUpgradeCost = 50;
 
             ShopManager.indexWeapon_1 = 0;

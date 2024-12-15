@@ -53,9 +53,8 @@ namespace Asset.Script.Core.StatsSystem
             {
                 TextMeshProUGUI textPopup = damagePopup.GetComponentInChildren<TextMeshProUGUI>();
                 textPopup.text = "+" + ((int)amount).ToString();
+                particleManager.StartParticles(damagePopup);
             }
-
-            particleManager.StartParticles(damagePopup);
 
             if (healthParticle != null)
             {
@@ -71,9 +70,8 @@ namespace Asset.Script.Core.StatsSystem
             {
                 TextMeshProUGUI textPopup = damagePopup.GetComponentInChildren<TextMeshProUGUI>();
                 textPopup.text = (-(int)amount).ToString();
+                particleManager.StartParticles(damagePopup);
             }
-
-            particleManager.StartParticles(damagePopup);
 
             if (SR != null)
             {

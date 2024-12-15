@@ -15,7 +15,7 @@ public class PlayerInteractiveTeleport : MonoBehaviour
     private GameObject teleportEquip;
 
     public static int currentLevelIndex = 1;
-    public static int nextLevelIndex = 1;
+    public static int nextLevelIndex = 2;
 
     private HashSet<GameObject> triggeredTeleports = new HashSet<GameObject>();
 
@@ -35,7 +35,11 @@ public class PlayerInteractiveTeleport : MonoBehaviour
             if (!triggeredTeleports.Contains(other.gameObject))
             {
                 triggeredTeleports.Add(other.gameObject);
-                nextLevelIndex++;
+
+                if (currentLevelIndex > 1)
+                {
+                    nextLevelIndex = currentLevelIndex + 1;
+                }
             }
         }
 
@@ -45,6 +49,8 @@ public class PlayerInteractiveTeleport : MonoBehaviour
             winGameInput.enabled = true;
             winGameUI.SetActive(true);
         }
+
+        print(nextLevelIndex);
     }
 
     private void OnTriggerExit2D(Collider2D other)
@@ -84,7 +90,7 @@ public class PlayerInteractiveTeleport : MonoBehaviour
     public void NextLevel()
     {
         SceneManager.LoadScene(nextLevelIndex);
-        currentLevelIndex = SceneManager.GetActiveScene().buildIndex + 1;
+        currentLevelIndex = nextLevelIndex;
 
         SaveLoadGame.SaveData();
 
