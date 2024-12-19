@@ -160,6 +160,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   damagePosition: {fileID: 9158158728908817399}
+  destroyGameObj: {fileID: 1434748670982500064, guid: 9dd2017951ad68942b21077b00893895, type: 3}
 --- !u!114 &5094965374793656929
 MonoBehaviour:
   m_ObjectHideFlags: 0

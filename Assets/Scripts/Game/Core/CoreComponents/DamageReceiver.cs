@@ -9,6 +9,7 @@ public class DamageReceiver : CoreComponent, IDamageable
 
     private Stats stats;
     private ParticleManager particleManager;
+    private PlayerSoundManager playerSoundManager;
 
     public void Damage(float amount)
     {
@@ -18,10 +19,24 @@ public class DamageReceiver : CoreComponent, IDamageable
         {
             if (Reduction == 0)
             {
+                playerSoundManager = GetComponent<PlayerSoundManager>();
+
+                if (playerSoundManager != null)
+                {
+                    playerSoundManager.PlaySound("Hurt");
+                }
+
                 stats.Health.Decrease(amount);
             }
             else if (Reduction < 100)
             {
+                playerSoundManager = GetComponent<PlayerSoundManager>();
+
+                if (playerSoundManager != null)
+                {
+                    playerSoundManager.PlaySound("ShieldBlock");
+                }
+
                 stats.Health.Decrease(amount * (100 - Reduction) / 100);
                 particleManager.StartParticlesWithRandomRotation(reductionParticle);
             }

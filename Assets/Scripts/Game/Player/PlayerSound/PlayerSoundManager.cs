@@ -3,10 +3,10 @@ using UnityEngine;
 
 public class PlayerSoundManager : MonoBehaviour
 {
-    [SerializeField] private List<GameObject> soundObjects;
+    [SerializeField] protected List<GameObject> soundObjects;
     private Dictionary<string, AudioSource> audioSourceDictionary;
 
-    private void Awake()
+    public virtual void Awake()
     {
         audioSourceDictionary = new Dictionary<string, AudioSource>();
 
@@ -23,7 +23,7 @@ public class PlayerSoundManager : MonoBehaviour
         }
     }
 
-    public void PlaySound(string objectName)
+    public virtual void PlaySound(string objectName)
     {
         if (audioSourceDictionary.TryGetValue(objectName, out AudioSource audioSource))
         {

@@ -24,6 +24,8 @@ public class BoomGoblin : MonoBehaviour
     [SerializeField]
     private Transform damagePosition;
 
+    [SerializeField] private GameObject destroyGameObj;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
