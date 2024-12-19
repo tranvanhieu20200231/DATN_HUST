@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 5408441539663685876}
   - component: {fileID: 2744501828533340418}
   - component: {fileID: 185559810010463332}
+  - component: {fileID: 8918502474295397998}
+  - component: {fileID: 5239573650859582925}
   m_Layer: 0
   m_Name: Chest
   m_TagString: Chest
@@ -131,6 +133,45 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objShowName: ChoiceTutorial
   weaponInformation: {fileID: 0}
+--- !u!50 &8918502474295397998
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 322853620669633973}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 8
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!114 &5239573650859582925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 322853620669633973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6bb802cc30d8d34bb4ae623d1a61e61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &417854110877394638
 GameObject:
   m_ObjectHideFlags: 0

@@ -12,6 +12,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Village.unity
     guid: 947f326df1416294ba5a86797f2cb8ad
   - enabled: 1
+    path: Assets/Scenes/Test.unity
+    guid: ae7c9cdd37b9cd449923684dd9e2bede
+  - enabled: 1
     path: Assets/Scenes/Level 1.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
