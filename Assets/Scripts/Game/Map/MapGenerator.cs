@@ -159,7 +159,7 @@ public class MapGenerator : MonoBehaviour
         if (startX > 0)
         {
             int connectYStart = startY + chunkSize / 2 - Random.Range(4, 7);
-            int connectYEnd = connectYStart + Random.Range(2, 8); // Door size between 8 and 12
+            int connectYEnd = connectYStart + Random.Range(2, 12); // Door size between 8 and 12
             for (int y = connectYStart; y < connectYEnd && y < mapHeight - 1; y++)
             {
                 // Floating wall (step) without blocking the connection
@@ -168,14 +168,13 @@ public class MapGenerator : MonoBehaviour
             }
 
             // Add random steps (floating platforms) along the connection
-            AddRandomStepsAtConnection(startX, connectYStart, floatingWallHeight);
+            AddPlatfomInChunk(startX, connectYStart);
         }
 
-        // Vertical connection (for vertically connected chunks)
         if (startY > 0)
         {
             int connectXStart = startX + chunkSize / 2 - Random.Range(4, 7);
-            int connectXEnd = connectXStart + Random.Range(2, 8); // Door size between 8 and 12
+            int connectXEnd = connectXStart + Random.Range(2, 12); // Door size between 8 and 12
             for (int x = connectXStart; x < connectXEnd && x < mapWidth - 1; x++)
             {
                 tilemap.SetTile(new Vector3Int(x + floatingWallHeight, startY, 0), wallTile); // Floating wall (step)
@@ -183,35 +182,49 @@ public class MapGenerator : MonoBehaviour
             }
 
             // Add random steps (floating platforms) along the connection
-            AddRandomStepsAtConnection(connectXStart, startY, floatingWallHeight);
+            AddPlatfomInChunk(connectXStart, startY);
         }
     }
 
-    private void AddRandomStepsAtConnection(int startX, int startY, int floatingWallHeight)
+    private void AddPlatfomInChunk(int startX, int startY)
     {
-        // Ensure at least one step is placed between 2 to 4 blocks above the connection area
-        int stepBaseHeight = Random.Range(8, 12); // Random base height for the first step
+        int yRandom = Random.Range(2, 4);  // A: khoảng cách ngẫu nhiên giữa các platform, có thể là 2 hoặc 3
+    int wallCount = Random.Range(4, 7); // B: số lượng tường ngẫu nhiên từ 4 đến 6
 
-        // Add the first step at a random height between 2 to 4 blocks above the connection
-        int firstStepHeight = startY + Random.Range(8, 12); // At least 2 blocks above the connection
-        tilemap.SetTile(new Vector3Int(startX, firstStepHeight, 0), wallTile); // First step
-        tilemap.SetTile(new Vector3Int(startX - 1, firstStepHeight, 0), wallTile); // First step
+    // Tạo các bước (platforms) với khoảng cách yRandom
+    for (int i = yRandom; i < chunkSize - 1; i += yRandom)  // Tăng y theo A (2 hoặc 3)
+    {
+        List<int> usedXPositions = new List<int>();
 
-        // Randomly add more steps after the first one, ensuring they are spaced out
-        int numberOfSteps = Random.Range(1, 3); // Randomize the number of steps (1 or 2 steps)
-        for (int i = 0; i < numberOfSteps; i++)
+        // Tạo ra wallCount tường ngẫu nhiên trên trục hoành tại mỗi giá trị y
+        for (int j = 0; j < wallCount; j++)
         {
-            // Add subsequent steps at random heights (ensuring they are spaced out)
-            int additionalStepHeight = firstStepHeight + Random.Range(2, 4); // Add at least 2 blocks in height
+            // Chọn ngẫu nhiên một vị trí x trong phạm vi của chunk, tránh biên giới
+            int offsetX = Random.Range(1, chunkSize - 2); // Tránh biên trái và phải
+            int xPos = startX + offsetX;
 
-            if (additionalStepHeight < mapHeight - 1)
+            // Đảm bảo xPos không trùng lặp
+            while (usedXPositions.Contains(xPos))
             {
-                tilemap.SetTile(new Vector3Int(startX, additionalStepHeight, 0), wallTile); // Add additional step
-                tilemap.SetTile(new Vector3Int(startX - 1, additionalStepHeight, 0), wallTile); // Add additional step
+                offsetX = Random.Range(1, chunkSize - 2);  // Chọn lại nếu trùng
+                xPos = startX + offsetX;
+            }
+
+            // Lưu trữ xPos đã được sử dụng
+            usedXPositions.Add(xPos);
+
+            // Tạo tường tại (xPos, yPos) với yPos là startY + i
+            int yPos = startY + i;
+
+            // Đảm bảo yPos không vượt quá phạm vi của chunk (chắc chắn tường nằm trong phạm vi của chunk)
+            if (yPos >= startY && yPos < startY + chunkSize)
+            {
+                // Đặt tile tại vị trí (xPos, yPos)
+                tilemap.SetTile(new Vector3Int(xPos, yPos - 3, 0), wallTile);
             }
         }
     }
-
+    }
 
     private void ConnectChunksHorizontally(int startX, int startY)
     {
@@ -258,11 +271,13 @@ public class MapGenerator : MonoBehaviour
     {
         // Calculate the middle position of the first chunk (start)
         Vector3 startPosition = new Vector3((chunkSize / 2), (chunkSize / 2), 0);
-        Instantiate(start, startPosition, Quaternion.identity);
+        GameObject startPoint = Instantiate(start, startPosition, Quaternion.identity);
+        startPoint.name = start.name;
 
         // Calculate the middle position of the last chunk (end)
         Vector3 endPosition = new Vector3(mapWidth - (chunkSize / 2) - 1, mapHeight - (chunkSize / 2) - 1, 0);
-        Instantiate(end, endPosition, Quaternion.identity);
+        GameObject endPoint = Instantiate(end, endPosition, Quaternion.identity);
+        endPoint.name = end.name;
     }
 
     private void Awake()
