@@ -156,7 +156,7 @@ public class MapGenerator : MonoBehaviour
 
         // Create floating walls at connections between chunks
         // Horizontal connection (for horizontally connected chunks)
-        if (startX > 0)
+        if (startX > 0 && !(startX == mapWidth - chunkSize && startY == mapHeight - chunkSize))
         {
             int connectYStart = startY + chunkSize / 2 - Random.Range(4, 7);
             int connectYEnd = connectYStart + Random.Range(2, 12); // Door size between 8 and 12
@@ -171,7 +171,7 @@ public class MapGenerator : MonoBehaviour
             AddPlatfomInChunk(startX, connectYStart);
         }
 
-        if (startY > 0)
+        if (startY > 0 && !(startX == mapWidth - chunkSize && startY == mapHeight - chunkSize))
         {
             int connectXStart = startX + chunkSize / 2 - Random.Range(4, 7);
             int connectXEnd = connectXStart + Random.Range(2, 12); // Door size between 8 and 12
@@ -188,42 +188,31 @@ public class MapGenerator : MonoBehaviour
 
     private void AddPlatfomInChunk(int startX, int startY)
     {
-        int yRandom = Random.Range(2, 4);  // A: khoảng cách ngẫu nhiên giữa các platform, có thể là 2 hoặc 3
-    int wallCount = Random.Range(4, 7); // B: số lượng tường ngẫu nhiên từ 4 đến 6
+        int yDistance = Random.Range(2, 4); // Khoảng cách y giữa các tường
+        int xWall = Random.Range(4, 8); // Số lượng tường ở mỗi hàng
 
-    // Tạo các bước (platforms) với khoảng cách yRandom
-    for (int i = yRandom; i < chunkSize - 1; i += yRandom)  // Tăng y theo A (2 hoặc 3)
-    {
-        List<int> usedXPositions = new List<int>();
+        HashSet<int> usedXPositions = new HashSet<int>();
 
-        // Tạo ra wallCount tường ngẫu nhiên trên trục hoành tại mỗi giá trị y
-        for (int j = 0; j < wallCount; j++)
+        // Đảm bảo khoảng cách giữa các hàng tường theo yDistance
+        for (int i = startY; i < startY + chunkSize - 2; i += yDistance)
         {
-            // Chọn ngẫu nhiên một vị trí x trong phạm vi của chunk, tránh biên giới
-            int offsetX = Random.Range(1, chunkSize - 2); // Tránh biên trái và phải
-            int xPos = startX + offsetX;
+            usedXPositions.Clear();
 
-            // Đảm bảo xPos không trùng lặp
-            while (usedXPositions.Contains(xPos))
+            for (int j = 0; j < xWall; j++)
             {
-                offsetX = Random.Range(1, chunkSize - 2);  // Chọn lại nếu trùng
-                xPos = startX + offsetX;
-            }
+                int xPos;
+                // Tìm một giá trị xPos mới không trùng với các giá trị đã chọn
+                do
+                {
+                    xPos = Random.Range(2, chunkSize - 2);
+                } while (usedXPositions.Contains(xPos));
 
-            // Lưu trữ xPos đã được sử dụng
-            usedXPositions.Add(xPos);
+                usedXPositions.Add(xPos); // Thêm xPos vào HashSet
 
-            // Tạo tường tại (xPos, yPos) với yPos là startY + i
-            int yPos = startY + i;
-
-            // Đảm bảo yPos không vượt quá phạm vi của chunk (chắc chắn tường nằm trong phạm vi của chunk)
-            if (yPos >= startY && yPos < startY + chunkSize)
-            {
-                // Đặt tile tại vị trí (xPos, yPos)
-                tilemap.SetTile(new Vector3Int(xPos, yPos - 3, 0), wallTile);
+                // Đặt tile cho các vị trí tường
+                tilemap.SetTile(new Vector3Int(startX + xPos, i, 0), wallTile);
             }
         }
-    }
     }
 
     private void ConnectChunksHorizontally(int startX, int startY)
@@ -271,12 +260,12 @@ public class MapGenerator : MonoBehaviour
     {
         // Calculate the middle position of the first chunk (start)
         Vector3 startPosition = new Vector3((chunkSize / 2), (chunkSize / 2), 0);
-        GameObject startPoint = Instantiate(start, startPosition, Quaternion.identity);
+        GameObject startPoint = Instantiate(start, startPosition - new Vector3(0, 6, 0), Quaternion.identity);
         startPoint.name = start.name;
 
         // Calculate the middle position of the last chunk (end)
         Vector3 endPosition = new Vector3(mapWidth - (chunkSize / 2) - 1, mapHeight - (chunkSize / 2) - 1, 0);
-        GameObject endPoint = Instantiate(end, endPosition, Quaternion.identity);
+        GameObject endPoint = Instantiate(end, endPosition + new Vector3(0, -6, 0), Quaternion.identity);
         endPoint.name = end.name;
     }
 

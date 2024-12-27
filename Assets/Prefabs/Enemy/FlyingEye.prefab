@@ -52,7 +52,7 @@ MonoBehaviour:
     particleManager: {fileID: 7572223874122497709}
     SR: {fileID: 210605932669751690}
   <Poise>k__BackingField:
-    MaxValue: 250
+    MaxValue: 500
     damagePopup: {fileID: 0}
     healthParticle: {fileID: 0}
     particleManager: {fileID: 0}
@@ -426,7 +426,7 @@ MonoBehaviour:
   - {x: -0.11193848, y: 0.032295823, z: 0}
   m_ShapePathHash: -845352609
   m_Mesh: {fileID: 0}
-  m_InstanceId: -128390
+  m_InstanceId: 121320
   m_LocalBounds:
     m_Center: {x: 0.14989471, y: 0.0702433, z: 0}
     m_Extent: {x: 1.0863113, y: 0.654473, z: 0}

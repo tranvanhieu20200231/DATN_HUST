@@ -291,12 +291,12 @@ MonoBehaviour:
     particleManager: {fileID: 1484826265344024011}
     SR: {fileID: 4065811505246578035}
   <Poise>k__BackingField:
-    MaxValue: 5000
+    MaxValue: 4000
     damagePopup: {fileID: 0}
     healthParticle: {fileID: 0}
     particleManager: {fileID: 0}
     SR: {fileID: 0}
-  poiseRecoveryRate: 500
+  poiseRecoveryRate: 400
 --- !u!1 &2104645079293477485
 GameObject:
   m_ObjectHideFlags: 0
@@ -1506,7 +1506,7 @@ MonoBehaviour:
   - {x: -0.4575777, y: -0.99347687, z: 0.00000011920929}
   m_ShapePathHash: -46737645
   m_Mesh: {fileID: 0}
-  m_InstanceId: -128214
+  m_InstanceId: 128846
   m_LocalBounds:
     m_Center: {x: 0.079199076, y: -0.26568592, z: 0}
     m_Extent: {x: 0.8984468, y: 0.72779095, z: 0}

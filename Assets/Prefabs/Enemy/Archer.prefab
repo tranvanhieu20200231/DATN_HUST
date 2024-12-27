@@ -256,7 +256,7 @@ MonoBehaviour:
   - {x: -0.20595741, y: -0.8843956, z: 0}
   m_ShapePathHash: 1702957575
   m_Mesh: {fileID: 0}
-  m_InstanceId: -127690
+  m_InstanceId: 118592
   m_LocalBounds:
     m_Center: {x: -0.064349174, y: -0.2944007, z: 0}
     m_Extent: {x: 0.29228115, y: 0.7057185, z: 0}
@@ -950,7 +950,7 @@ MonoBehaviour:
     healthParticle: {fileID: 0}
     particleManager: {fileID: 0}
     SR: {fileID: 0}
-  poiseRecoveryRate: 25
+  poiseRecoveryRate: 10
 --- !u!1 &2430888090933643995
 GameObject:
   m_ObjectHideFlags: 0
