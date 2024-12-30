@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.Tilemaps;
 
 public class MapGenerator : MonoBehaviour
@@ -8,20 +9,42 @@ public class MapGenerator : MonoBehaviour
     public Tile wallTile;
     public Tile emptyTile;
 
+    public Tile floorTile;
+    public Tile ceilTile;
+    public Tile leftTile;
+    public Tile rightTile;
+
+    public Tile floorRightTile;
+    public Tile floorLeftTile;
+    public Tile ceilRightTile;
+    public Tile ceilLeftTile;
+
     public int mapWidth;
     public int mapHeight;
 
+    [SerializeField] private GameObject PlatformEffector2D;
+
     [SerializeField] private GameObject start;
     [SerializeField] private GameObject end;
+    [SerializeField] private GameObject light;
+
+    [System.Serializable]
+    public class GameObjectEntry
+    {
+        public string name;
+        public GameObject prefab;
+        public int quantity;
+    }
+
+    [SerializeField] private List<GameObjectEntry> gameObjectEntries;
 
     private const int chunkSize = 16;
 
     public void GenerateMap()
     {
-        // Clear existing tiles
         tilemap.ClearAllTiles();
+        tilemap.RefreshAllTiles();
 
-        // Create the map grid
         for (int x = 0; x < mapWidth; x++)
         {
             for (int y = 0; y < mapHeight; y++)
@@ -30,56 +53,30 @@ public class MapGenerator : MonoBehaviour
             }
         }
 
-        // Ensure a path from the first to the last chunk
-        CreateMainPath();
-
-        // Divide the map into chunks and generate content
         for (int chunkX = 0; chunkX < mapWidth; chunkX += chunkSize)
         {
             for (int chunkY = 0; chunkY < mapHeight; chunkY += chunkSize)
             {
                 GenerateChunk(chunkX, chunkY);
-                EnsureAtLeastOneConnection(chunkX, chunkY);
+                EnsureChunkConnections(chunkX, chunkY);
+                AddPlatfomInChunk(chunkX, chunkY);
+                AddLightInChunk(chunkX, chunkY);
             }
         }
 
-        // Add border walls around the map
         AddBorders();
 
-        // Instantiate start and end objects at the middle of the first and last chunks
+        CreativeMiniMap();
+
         InstantiateStartAndEnd();
-    }
 
-    private void CreateMainPath()
-    {
-        int currentX = 0;
-        int currentY = 0;
+        UpdateWallTiles();
 
-        while (currentX < mapWidth && currentY < mapHeight)
-        {
-            // Create a path in the current chunk
-            int pathX = currentX + chunkSize / 2;
-            for (int y = currentY; y < currentY + chunkSize && y < mapHeight; y++)
-            {
-                tilemap.SetTile(new Vector3Int(pathX, y, 0), emptyTile);
-            }
-
-            // Move to the next chunk
-            currentX += chunkSize;
-            if (currentX < mapWidth)
-            {
-                int pathY = currentY + chunkSize / 2;
-                for (int x = currentX - chunkSize; x < currentX && x < mapWidth; x++)
-                {
-                    tilemap.SetTile(new Vector3Int(x, pathY, 0), emptyTile);
-                }
-            }
-        }
+        GenerateAdditionalObjects();
     }
 
     private void GenerateChunk(int startX, int startY)
     {
-        // Add border walls around the chunk
         for (int x = startX; x < startX + chunkSize && x < mapWidth; x++)
         {
             tilemap.SetTile(new Vector3Int(x, startY, 0), wallTile);
@@ -92,7 +89,6 @@ public class MapGenerator : MonoBehaviour
             tilemap.SetTile(new Vector3Int(startX + chunkSize - 1, y, 0), wallTile);
         }
 
-        // Ensure the interior of the chunk is empty
         for (int x = startX + 1; x < startX + chunkSize - 1 && x < mapWidth - 1; x++)
         {
             for (int y = startY + 1; y < startY + chunkSize - 1 && y < mapHeight - 1; y++)
@@ -102,153 +98,83 @@ public class MapGenerator : MonoBehaviour
         }
     }
 
-    private void EnsureAtLeastOneConnection(int startX, int startY)
+    private void EnsureChunkConnections(int startX, int startY)
     {
-        List<System.Action> connectionMethods = new List<System.Action>();
-
-        // Chunk-specific rules
-        if (startX == 0 && startY == 0)
+        if (startX + chunkSize < mapWidth)
         {
-            // Skip bottom connections for the first chunk
-            connectionMethods.Add(() => ConnectChunksHorizontally(startX, startY));
-        }
-        else if (startX == mapWidth - chunkSize && startY == mapHeight - chunkSize)
-        {
-            // Skip bottom connections for the last chunk
-            connectionMethods.Add(() => ConnectChunksHorizontally(startX, startY));
-        }
-        else
-        {
-            if (startX > 0) // Can connect horizontally to the previous chunk
-            {
-                connectionMethods.Add(() => ConnectChunksHorizontally(startX, startY));
-            }
-
-            if (startY > 0) // Can connect vertically to the previous chunk
-            {
-                connectionMethods.Add(() => ConnectChunksVertically(startX, startY));
-            }
+            ConnectChunksHorizontally(startX, startY);
         }
 
-        if (connectionMethods.Count > 0)
+        if (startX - chunkSize >= 0)
         {
-            // Ensure at least one connection
-            connectionMethods[Random.Range(0, connectionMethods.Count)]();
+            ConnectChunksHorizontally(startX - chunkSize, startY);
+        }
 
-            // Optionally add additional connections
-            foreach (var connectionMethod in connectionMethods)
-            {
-                if (Random.value > 0.5f)
-                {
-                    connectionMethod();
-                }
-            }
+        if (startY + chunkSize < mapHeight)
+        {
+            ConnectChunksVertically(startX, startY);
+        }
 
-            // Add floating walls at connections to ensure the character can jump
-            AddFloatingWallsAtConnections(startX, startY);
+        if (startY - chunkSize >= 0)
+        {
+            ConnectChunksVertically(startX, startY - chunkSize);
         }
     }
 
-    private void AddFloatingWallsAtConnections(int startX, int startY)
-    {
-        // Calculate the random height for floating walls (to ensure character can jump up)
-        int floatingWallHeight = Random.Range(2, 5); // Random height between 2 and 4 blocks
-
-        // Create floating walls at connections between chunks
-        // Horizontal connection (for horizontally connected chunks)
-        if (startX > 0 && !(startX == mapWidth - chunkSize && startY == mapHeight - chunkSize))
-        {
-            int connectYStart = startY + chunkSize / 2 - Random.Range(4, 7);
-            int connectYEnd = connectYStart + Random.Range(2, 12); // Door size between 8 and 12
-            for (int y = connectYStart; y < connectYEnd && y < mapHeight - 1; y++)
-            {
-                // Floating wall (step) without blocking the connection
-                tilemap.SetTile(new Vector3Int(startX, y + floatingWallHeight, 0), wallTile); // Floating wall (step)
-                tilemap.SetTile(new Vector3Int(startX - 1, y + floatingWallHeight, 0), wallTile); // Floating wall (step)
-            }
-
-            // Add random steps (floating platforms) along the connection
-            AddPlatfomInChunk(startX, connectYStart);
-        }
-
-        if (startY > 0 && !(startX == mapWidth - chunkSize && startY == mapHeight - chunkSize))
-        {
-            int connectXStart = startX + chunkSize / 2 - Random.Range(4, 7);
-            int connectXEnd = connectXStart + Random.Range(2, 12); // Door size between 8 and 12
-            for (int x = connectXStart; x < connectXEnd && x < mapWidth - 1; x++)
-            {
-                tilemap.SetTile(new Vector3Int(x + floatingWallHeight, startY, 0), wallTile); // Floating wall (step)
-                tilemap.SetTile(new Vector3Int(x + floatingWallHeight, startY - 1, 0), wallTile); // Floating wall (step)
-            }
-
-            // Add random steps (floating platforms) along the connection
-            AddPlatfomInChunk(connectXStart, startY);
-        }
-    }
-
-    private void AddPlatfomInChunk(int startX, int startY)
-    {
-        int yDistance = Random.Range(2, 4); // Khoảng cách y giữa các tường
-        int xWall = Random.Range(4, 8); // Số lượng tường ở mỗi hàng
-
-        HashSet<int> usedXPositions = new HashSet<int>();
-
-        // Đảm bảo khoảng cách giữa các hàng tường theo yDistance
-        for (int i = startY; i < startY + chunkSize - 2; i += yDistance)
-        {
-            usedXPositions.Clear();
-
-            for (int j = 0; j < xWall; j++)
-            {
-                int xPos;
-                // Tìm một giá trị xPos mới không trùng với các giá trị đã chọn
-                do
-                {
-                    xPos = Random.Range(2, chunkSize - 2);
-                } while (usedXPositions.Contains(xPos));
-
-                usedXPositions.Add(xPos); // Thêm xPos vào HashSet
-
-                // Đặt tile cho các vị trí tường
-                tilemap.SetTile(new Vector3Int(startX + xPos, i, 0), wallTile);
-            }
-        }
-    }
 
     private void ConnectChunksHorizontally(int startX, int startY)
     {
-        int connectYStart = startY + chunkSize / 2 - Random.Range(4, 7);
-        int connectYEnd = connectYStart + Random.Range(2, 14); // Door size between 8 and 12
-
-        for (int y = connectYStart; y < connectYEnd && y < mapHeight - 1; y++)
+        int connectY = startY + chunkSize / 2;
+        for (int y = connectY - 3; y <= connectY + 2; y++)
         {
-            tilemap.SetTile(new Vector3Int(startX, y, 0), emptyTile);
-            tilemap.SetTile(new Vector3Int(startX - 1, y, 0), emptyTile);
+            tilemap.SetTile(new Vector3Int(startX + chunkSize - 1, y, 0), emptyTile);
+            tilemap.SetTile(new Vector3Int(startX + chunkSize, y, 0), emptyTile);
         }
     }
 
     private void ConnectChunksVertically(int startX, int startY)
     {
-        int connectXStart = startX + chunkSize / 2 - Random.Range(4, 7);
-        int connectXEnd = connectXStart + Random.Range(2, 14); // Door size between 8 and 12
-
-        for (int x = connectXStart; x < connectXEnd && x < mapWidth - 1; x++)
+        int connectX = startX + chunkSize / 2;
+        for (int x = connectX - 3; x <= connectX + 2; x++)
         {
-            tilemap.SetTile(new Vector3Int(x, startY, 0), emptyTile);
-            tilemap.SetTile(new Vector3Int(x, startY - 1, 0), emptyTile);
+            tilemap.SetTile(new Vector3Int(x, startY + chunkSize - 1, 0), emptyTile);
+            tilemap.SetTile(new Vector3Int(x, startY + chunkSize, 0), emptyTile);
+        }
+    }
+
+    private void AddPlatfomInChunk(int startX, int startY)
+    {
+        int yDistance = Random.Range(3, 5);
+        int xWallCount = Random.Range(4, 12);
+
+        HashSet<int> usedXPositions = new HashSet<int>();
+
+        for (int y = startY + 1; y < startY + chunkSize - 1; y += yDistance)
+        {
+            usedXPositions.Clear();
+
+            for (int i = 0; i < xWallCount; i++)
+            {
+                int xPos;
+                do
+                {
+                    xPos = Random.Range(startX + 1, startX + chunkSize - 1);
+                } while (usedXPositions.Contains(xPos));
+
+                usedXPositions.Add(xPos);
+                tilemap.SetTile(new Vector3Int(xPos, y, 0), wallTile);
+            }
         }
     }
 
     private void AddBorders()
     {
-        // Add top and bottom borders
         for (int x = 0; x < mapWidth; x++)
         {
             tilemap.SetTile(new Vector3Int(x, 0, 0), wallTile);
             tilemap.SetTile(new Vector3Int(x, mapHeight - 1, 0), wallTile);
         }
 
-        // Add left and right borders
         for (int y = 0; y < mapHeight; y++)
         {
             tilemap.SetTile(new Vector3Int(0, y, 0), wallTile);
@@ -256,17 +182,173 @@ public class MapGenerator : MonoBehaviour
         }
     }
 
+    private void CreativeMiniMap()
+    {
+        GameObject miniMap = Instantiate(PlatformEffector2D, PlatformEffector2D.transform.position, PlatformEffector2D.transform.rotation, PlatformEffector2D.transform.parent);
+
+        miniMap.layer = LayerMask.NameToLayer("MiniMapIcon");
+
+        TilemapRenderer tilemapRendererMinimap = miniMap.GetComponent<TilemapRenderer>();
+
+        tilemapRendererMinimap.sortingLayerID = 0;
+
+        RemoveComponent<TilemapCollider2D>(miniMap);
+        RemoveComponent<Rigidbody2D>(miniMap);
+        RemoveComponent<CompositeCollider2D>(miniMap);
+        RemoveComponent<ShadowCaster2D>(miniMap);
+    }
+
+    private void RemoveComponent<T>(GameObject target) where T : Component
+    {
+        T component = target.GetComponent<T>();
+        if (component != null)
+        {
+            Destroy(component);
+        }
+    }
+
     private void InstantiateStartAndEnd()
     {
-        // Calculate the middle position of the first chunk (start)
-        Vector3 startPosition = new Vector3((chunkSize / 2), (chunkSize / 2), 0);
-        GameObject startPoint = Instantiate(start, startPosition - new Vector3(0, 6, 0), Quaternion.identity);
+        Vector3 mapCenter = new Vector3(mapWidth / 2, mapHeight / 2, 0);
+
+        int randomCorner = Random.Range(0, 4);
+
+        Vector3 startPosition = Vector3.zero;
+
+        switch (randomCorner)
+        {
+            case 0:
+                startPosition = new Vector3(chunkSize / 2, mapHeight - chunkSize / 2, 0);
+                break;
+            case 1:
+                startPosition = new Vector3(mapWidth - chunkSize / 2, mapHeight - chunkSize / 2, 0);
+                break;
+            case 2:
+                startPosition = new Vector3(chunkSize / 2, chunkSize / 2, 0);
+                break;
+            case 3:
+                startPosition = new Vector3(mapWidth - chunkSize / 2, chunkSize / 2, 0);
+                break;
+        }
+
+        GameObject startPoint = Instantiate(start, startPosition + new Vector3(-6, -7, 0), Quaternion.identity);
         startPoint.name = start.name;
 
-        // Calculate the middle position of the last chunk (end)
-        Vector3 endPosition = new Vector3(mapWidth - (chunkSize / 2) - 1, mapHeight - (chunkSize / 2) - 1, 0);
-        GameObject endPoint = Instantiate(end, endPosition + new Vector3(0, -6, 0), Quaternion.identity);
+        Vector3 endPosition = mapCenter * 2 - startPosition;
+
+        GameObject endPoint = Instantiate(end, endPosition + new Vector3(-6, -7, 0), Quaternion.identity);
         endPoint.name = end.name;
+    }
+
+    private void UpdateWallTiles()
+    {
+        for (int x = 0; x < mapWidth; x++)
+        {
+            for (int y = 0; y < mapHeight; y++)
+            {
+                Vector3Int position = new Vector3Int(x, y, 0);
+                TileBase currentTile = tilemap.GetTile(position);
+
+                if (currentTile == wallTile)
+                {
+                    bool topEmpty = IsEmpty(x, y + 1);
+                    bool bottomEmpty = IsEmpty(x, y - 1);
+                    bool leftEmpty = IsEmpty(x - 1, y);
+                    bool rightEmpty = IsEmpty(x + 1, y);
+
+                    if (leftEmpty && rightEmpty)
+                    {
+                        tilemap.SetTile(position, floorTile);
+                    }
+                    else if (topEmpty && rightEmpty)
+                    {
+                        tilemap.SetTile(position, floorRightTile);
+                    }
+                    else if (topEmpty && leftEmpty)
+                    {
+                        tilemap.SetTile(position, floorLeftTile);
+                    }
+                    else if (bottomEmpty && leftEmpty)
+                    {
+                        tilemap.SetTile(position, ceilLeftTile);
+                    }
+                    else if (bottomEmpty && rightEmpty)
+                    {
+                        tilemap.SetTile(position, ceilRightTile);
+                    }
+                    else if (topEmpty)
+                    {
+                        tilemap.SetTile(position, floorTile);
+                    }
+                    else if (bottomEmpty)
+                    {
+                        tilemap.SetTile(position, ceilTile);
+                    }
+                    else if (leftEmpty)
+                    {
+                        tilemap.SetTile(position, rightTile);
+                    }
+                    else if (rightEmpty)
+                    {
+                        tilemap.SetTile(position, leftTile);
+                    }
+                }
+            }
+        }
+    }
+
+    private bool IsEmpty(int x, int y)
+    {
+        if (x >= 0 && x < mapWidth && y >= 0 && y < mapHeight)
+        {
+            TileBase tile = tilemap.GetTile(new Vector3Int(x, y, 0));
+            return tile == emptyTile;
+        }
+        return false;
+    }
+
+    private void AddLightInChunk(int startX, int startY)
+    {
+        int x = Random.Range(startX + 1, startX + chunkSize - 1);
+        int y = Random.Range(startY + 1, startY + chunkSize - 1);
+
+        GameObject lightInstance = Instantiate(light, new Vector3(x, y, 0), Quaternion.identity, transform);
+        lightInstance.name = "Light_" + startX + "_" + startY;
+    }
+
+    private void GenerateAdditionalObjects()
+    {
+        List<Vector3Int> floorPositions = new List<Vector3Int>();
+        for (int x = 1; x < mapWidth - 1; x++)
+        {
+            for (int y = 1; y < mapHeight - 1; y++)
+            {
+                Vector3Int position = new Vector3Int(x, y, 0);
+                if (tilemap.GetTile(position) == floorTile)
+                {
+                    floorPositions.Add(position);
+                }
+            }
+        }
+
+        foreach (var entry in gameObjectEntries)
+        {
+            if (entry.quantity > floorPositions.Count)
+            {
+                Debug.LogWarning($"Not enough floor tiles for {entry.name}. Reduce quantity or increase map size.");
+                continue;
+            }
+
+            for (int i = 0; i < entry.quantity; i++)
+            {
+                int randomIndex = Random.Range(0, floorPositions.Count);
+                Vector3Int chosenPosition = floorPositions[randomIndex];
+                floorPositions.RemoveAt(randomIndex);
+
+                GameObject instance = Instantiate(entry.prefab, new Vector3(chosenPosition.x, chosenPosition.y + 1f, 0), Quaternion.identity, transform);
+                instance.name = entry.name + "_" + i;
+            }
+        }
     }
 
     private void Awake()

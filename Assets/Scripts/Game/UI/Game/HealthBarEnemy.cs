@@ -13,7 +13,10 @@ public class HealthBarEnemy : MonoBehaviour
 
     private void Update()
     {
-        slider.transform.position = Camera.main.WorldToScreenPoint(transform.parent.position + offset);
+        if (slider != null)
+        {
+            slider.transform.position = Camera.main.WorldToScreenPoint(transform.parent.position + offset);
+        }
 
         UpdateHealthBar();
     }
