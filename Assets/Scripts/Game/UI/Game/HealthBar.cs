@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class HealthBar : MonoBehaviour
@@ -48,5 +49,6 @@ public class HealthBar : MonoBehaviour
         yield return new WaitForSeconds(3f);
 
         youDiePopup.SetActive(true);
+        youDiePopup.GetComponent<PlayerInput>().enabled = true;
     }
 }
