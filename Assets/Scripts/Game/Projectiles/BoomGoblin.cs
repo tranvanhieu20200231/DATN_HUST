@@ -10,7 +10,6 @@ public class BoomGoblin : MonoBehaviour
     private int direction;
 
     private Rigidbody2D rb;
-    private Animator anim;
 
     [SerializeField]
     private float gravity;
@@ -29,7 +28,6 @@ public class BoomGoblin : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        anim = GetComponent<Animator>();
 
         Vector2 direction = transform.right + new Vector3(0, 1, 0);
         direction.Normalize();
@@ -54,6 +52,7 @@ public class BoomGoblin : MonoBehaviour
                 if (target != null)
                 {
                     target.Damage(damage);
+                    Destroy(gameObject);
                 }
 
                 if (targetKB != null)
@@ -64,7 +63,6 @@ public class BoomGoblin : MonoBehaviour
                 hasHitTarget = true;
                 rb.isKinematic = true;
                 rb.velocity = Vector2.zero;
-                anim.SetTrigger("isDestroy");
             }
         }
     }
@@ -87,8 +85,8 @@ public class BoomGoblin : MonoBehaviour
         Gizmos.DrawWireSphere(damagePosition.position, damageRadius);
     }
 
-    public void isDestroy()
+    public void OnDestroy()
     {
-        Destroy(gameObject);
+        Instantiate(destroyGameObj, transform.position, Quaternion.identity);
     }
 }
