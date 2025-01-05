@@ -1,4 +1,9 @@
-﻿using System.Collections.Generic;
+﻿// CHECK OUT COUNTRYBALLS THE HEIST ON STEAM PLS :D !! 
+// HERE IS THE LINK: https://store.steampowered.com/app/1986290/Countryballs_The_Heist/
+// MEANS A LOT!
+// CHEERS MATE
+
+using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
@@ -53,7 +58,6 @@ public class CountLinesOfCode : EditorWindow
         }
 
         int totalLines = 0;
-        int totalFiles = 0;
 
         foreach (string script in allScripts)
         {
@@ -72,11 +76,9 @@ public class CountLinesOfCode : EditorWindow
             {
                 string[] lines = File.ReadAllLines(script);
                 totalLines += lines.Length;
-                totalFiles++; // Đếm số lượng file .cs
             }
         }
 
         Debug.Log("Total lines of code: " + totalLines);
-        Debug.Log("Total .cs files: " + totalFiles); // Hiển thị số lượng file .cs
     }
 }

@@ -9,6 +9,7 @@ public class MapGenerator : MonoBehaviour
     public Tile wallTile;
     public Tile emptyTile;
 
+    [Header("Map Decor")]
     public Tile floorTile;
     public Tile ceilTile;
     public Tile leftTile;
@@ -19,13 +20,29 @@ public class MapGenerator : MonoBehaviour
     public Tile ceilRightTile;
     public Tile ceilLeftTile;
 
+    [Header("Map Size")]
     public int mapWidth;
     public int mapHeight;
 
+    [Header("Connect Size")]
+    public int connectSizeX = 5;
+    public int connectSizeY = 5;
+
+    [Header("Platform Distance")]
+    public int yDistanceMin = 3;
+    public int yDistanceMax = 5;
+
+    [Header("Tile Count")]
+    public int xWallCountMin = 4;
+    public int xWallCountMax = 12;
+
     [SerializeField] private GameObject PlatformEffector2D;
 
+    [Header("Spawn Point")]
     [SerializeField] private GameObject start;
     [SerializeField] private GameObject end;
+
+    [Header("Object Per Chunk")]
     [SerializeField] private GameObject light;
 
     [System.Serializable]
@@ -36,6 +53,7 @@ public class MapGenerator : MonoBehaviour
         public int quantity;
     }
 
+    [Header("List Object Spawn")]
     [SerializeField] private List<GameObjectEntry> gameObjectEntries;
 
     private const int chunkSize = 16;
@@ -125,7 +143,7 @@ public class MapGenerator : MonoBehaviour
     private void ConnectChunksHorizontally(int startX, int startY)
     {
         int connectY = startY + chunkSize / 2;
-        for (int y = connectY - 3; y <= connectY + 2; y++)
+        for (int y = connectY - Mathf.CeilToInt(connectSizeY / 2); y <= connectY + Mathf.FloorToInt(connectSizeY / 2); y++)
         {
             tilemap.SetTile(new Vector3Int(startX + chunkSize - 1, y, 0), emptyTile);
             tilemap.SetTile(new Vector3Int(startX + chunkSize, y, 0), emptyTile);
@@ -135,7 +153,7 @@ public class MapGenerator : MonoBehaviour
     private void ConnectChunksVertically(int startX, int startY)
     {
         int connectX = startX + chunkSize / 2;
-        for (int x = connectX - 3; x <= connectX + 2; x++)
+        for (int x = connectX - Mathf.CeilToInt(connectSizeX / 2); x <= connectX + Mathf.FloorToInt(connectSizeX / 2); x++)
         {
             tilemap.SetTile(new Vector3Int(x, startY + chunkSize - 1, 0), emptyTile);
             tilemap.SetTile(new Vector3Int(x, startY + chunkSize, 0), emptyTile);
@@ -144,8 +162,8 @@ public class MapGenerator : MonoBehaviour
 
     private void AddPlatfomInChunk(int startX, int startY)
     {
-        int yDistance = Random.Range(3, 5);
-        int xWallCount = Random.Range(4, 12);
+        int yDistance = Random.Range(yDistanceMin, yDistanceMax);
+        int xWallCount = Random.Range(xWallCountMin, xWallCountMax);
 
         HashSet<int> usedXPositions = new HashSet<int>();
 
